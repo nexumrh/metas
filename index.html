@@ -161,6 +161,32 @@
   .btn.full{width:100%;margin-top:16px;border-radius:14px;padding:14px}
   @media(min-width:760px){ #conteudo{padding:0 24px} .top{padding-left:28px;padding-right:28px} }
   body.gestor #app{max-width:1120px}
+  .filtros{display:flex;gap:8px;overflow-x:auto;padding:0 0 12px;margin-top:-4px;scrollbar-width:none}
+  .fchip{white-space:nowrap;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .fchip.on{background:#fff;color:#1D4ED8;border-color:#fff}
+  .btn-def{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;border-radius:12px;border:1px solid #CFE0FF;background:#F5F8FF;color:#1D4ED8;font-weight:600;font-size:14.5px;cursor:pointer}
+  .btn-def.grande{background:#1D4ED8;color:#fff;border-color:#1D4ED8;margin-top:16px;padding:14px;box-shadow:0 8px 20px rgba(29,78,216,.25)}
+  .dm{padding-bottom:0!important}
+  .dm-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}.dm-top>div{flex:1}.dm-top b{display:block;font-size:19px}.dm-top small{color:#64748B;font-size:13px}
+  .dm-x{width:36px;height:36px;border-radius:50%;border:0;background:#F1F5F9;font-size:22px;cursor:pointer;color:#0F172A}
+  .dm-sec{font-size:14px;font-weight:700;margin:20px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .dm-sec span{font-weight:500;font-size:12.5px;color:#94A3B8}
+  .dm-link{border:0;background:0;color:#1D4ED8;font-weight:600;font-size:12.5px;cursor:pointer;padding:0}
+  .dm-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .dm-chip{border:1px solid #D6DDEB;background:#fff;color:#475569;border-radius:99px;padding:8px 14px;font-size:13.5px;font-weight:600;cursor:pointer}
+  .dm-chip.on{background:#EAF0FF;border-color:#BFD3FF;color:#1D4ED8}
+  .dm-p{border:1px solid #E5E9F2;border-radius:16px;padding:14px;margin-bottom:10px;background:#fff}
+  .dm-pn{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}.dm-pn b{font-size:15px}.dm-pn small{color:#94A3B8;font-size:12px}
+  .dm-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+  .dm-g2{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+  .dm-g label small{display:block;font-size:12px;color:#64748B;margin-bottom:4px}
+  .dm-g input{width:100%;height:44px;border:1.5px solid #D7DEEC;border-radius:10px;padding:0 12px;font-size:16px;color:#0F172A;outline:0;background:#fff}
+  .dm-g input:focus{border-color:#1D4ED8;box-shadow:0 0 0 3px rgba(29,78,216,.12)}
+  .dm-nota{font-size:12.5px;color:#64748B;text-align:center;margin:14px 0 4px}
+  .dm-rod{position:sticky;bottom:0;background:#fff;display:grid;grid-template-columns:1fr 1.4fr;gap:10px;padding:14px 0 calc(16px + env(safe-area-inset-bottom));border-top:1px solid #EEF1F7;margin-top:10px}
+  .dm-rod .btn{border-radius:12px;font-size:15px}
+  .aviso{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#0F172A;color:#fff;border-radius:12px;padding:12px 16px;font-size:14px;z-index:80;transition:.2s;max-width:90vw;text-align:center;pointer-events:none}
+  .aviso.on{opacity:1;transform:translate(-50%,0)}
   @media(min-width:900px){ body.gestor .mtgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:32px} body.gestor .mtgrid .mt:nth-child(2){border-top:0;padding-top:2px} }
 </style>
 </head>
@@ -274,11 +300,16 @@ const MET_IND=[
 ];
 const METAS_BONUS_PADRAO={aparelhos:0,acessoriosSeguros:0,parcelas:0,integral:0};
 function metasDefAtivos(){ return {aparelhos:true,faturamento:true,acessorios:true,capinha:false,pelicula:false,seguros:true,parcelas:true}; }
-async function metasDoc(mes){
-  const d=await DB.get('metas',mes).catch(()=>null)||{};
+/* metas/{mes} = equipe Nexum (definida pelo Dono) · metas/{mes}_{lojaId} = metas da loja (definidas pelo Gerente).
+   Enquanto a loja não define as dela, vale a da Nexum. */
+const metasDocId=(mes,lojaId)=>lojaId?mes+'_'+lojaId:mes;
+async function metasDoc(mes,lojaId){
+  let d=null, propria=false;
+  if(lojaId){ d=await DB.get('metas',metasDocId(mes,lojaId)).catch(()=>null); propria=!!d; }
+  if(!d) d=await DB.get('metas',mes).catch(()=>null)||{};
   const metasV=JSON.parse(JSON.stringify(d.metasV||{}));
   if(d.vendedores) for(const u in d.vendedores){ metasV[u]=metasV[u]||{}; if(metasV[u].faturamento==null) metasV[u].faturamento=+d.vendedores[u]||0; }
-  return {ativos:d.ativos||metasDefAtivos(), metasV, bonus:{...METAS_BONUS_PADRAO,...(d.bonusRegras||{})}};
+  return {ativos:d.ativos||metasDefAtivos(), metasV, bonus:{...METAS_BONUS_PADRAO,...(d.bonusRegras||{})}, raw:d, propria, lojaId:lojaId||''};
 }
 function calcMetas(uid,mes,vendas){
   const ok=v=>['ATIVA','QUITADA','RETOMADA','INSTALANDO'].includes(v.status)&&v.entradaPaga;
@@ -389,31 +420,44 @@ async function htmlVendedor(uid,mes,vendas,doc,opts={}){
 /* ===== Visão da equipe (dono, gerente e financeiro) ===== */
 const ehGestor=()=>['DONO','GERENTE','FINANCEIRO'].includes(S.me?.role);
 async function dadosEquipe(mes){
-  const doc=await metasDoc(mes);
   let users=[]; try{ users=await DB.list('users'); }catch(e){ console.warn(e); }
-  const daLoja=u=>S.me.role!=='GERENTE'||u.lojaId===S.me.lojaId;
-  let equipe=users.filter(u=>u.ativo!==false&&daLoja(u)&&(u.role==='VENDEDOR'||doc.metasV[u.id]));
-  let vendas=[]; try{ vendas=S.me.role==='GERENTE'?await DB.list('vendas',[['lojaId','==',S.me.lojaId]]):await DB.list('vendas'); }catch(e){ console.warn(e); }
   let lojas={}; try{ (await DB.list('lojas')).forEach(l=>lojas[l.id]=l.nome||l.fantasia||l.id); }catch(e){}
-  return {doc,equipe,vendas,lojas};
+  const ger=S.me.role==='GERENTE';
+  const pessoas=users.filter(u=>u.ativo!==false&&u.role!=='DONO'&&(ger?u.lojaId===S.me.lojaId:true));
+  let vendas=[]; try{ vendas=ger?await DB.list('vendas',[['lojaId','==',S.me.lojaId]]):await DB.list('vendas'); }catch(e){ console.warn(e); }
+  const docs={}; for(const lid of new Set(pessoas.map(u=>u.lojaId||''))) docs[lid]=await metasDoc(mes,lid||null);
+  if(!docs[ger?S.me.lojaId:'']) docs[ger?S.me.lojaId:'']=await metasDoc(mes,ger?S.me.lojaId:null);
+  return {docs,pessoas,vendas,lojas};
 }
+const docDe=(eq,u)=>eq.docs[u.lojaId||'']||eq.docs[''];
+const escopoMeu=()=>S.me.role==='GERENTE'?S.me.lojaId:'';   // dono: equipe Nexum (sem loja)
 async function htmlEquipe(mes){
-  const {doc,equipe,vendas,lojas}=await dadosEquipe(mes); S._eq={doc,equipe,vendas,lojas};
-  const {ativos,metasV,bonus}=doc, du=diasUteis(mes);
-  const ind=MET_IND.filter(m=>ativos[m.k]);
-  const comMeta=equipe.filter(u=>ind.some(m=>(+metasV[u.id]?.[m.k]||0)>0));
-  if(!comMeta.length) return `<div class="card hero"><div class="empty"><b>Metas de ${esc(mesNome(mes))} ainda não definidas</b>${equipe.length?`Há ${equipe.length} ${equipe.length===1?'vendedor':'vendedores'} na equipe, mas nenhum com meta neste mês.`:'Nenhum vendedor encontrado.'}
-    ${S.me.role==='DONO'&&URLS.dono?`<a class="btn-ver" href="${esc(URLS.dono)}" target="_blank" rel="noopener" style="text-decoration:none;margin-top:16px">Definir metas no Painel do Dono</a>`:''}</div></div>`;
-  const linhas=comMeta.map(u=>{ const mv=metasV[u.id]||{}, f=calcMetas(u.id,mes,vendas), b=metasBonus(f,mv,ativos,bonus), bp=metasBonus(feitoProjetado(f,mes),mv,ativos,bonus);
+  const eq=await dadosEquipe(mes); S._eq=eq;
+  const {pessoas,vendas,lojas}=eq, du=diasUteis(mes), ger=S.me.role==='GERENTE';
+  // filtro: dono escolhe Equipe Nexum, uma loja ou todas
+  const f=ger?S.me.lojaId:(S.filtroEq??'');
+  const daVez=pessoas.filter(u=>f==='*'||(u.lojaId||'')===f);
+  const comMeta=daVez.filter(u=>{ const d=docDe(eq,u); return MET_IND.some(m=>d.ativos[m.k]&&(+d.metasV[u.id]?.[m.k]||0)>0); });
+  const podeDefinir=S.me.role==='DONO'||ger;
+  const filtro=ger?'':`<div class="filtros">${[['','Equipe Nexum'],...Object.entries(lojas).filter(([id])=>pessoas.some(u=>u.lojaId===id)),['*','Todas']].map(([id,n])=>`<button class="fchip ${f===id?'on':''}" data-feq="${esc(id)}">${esc(n)}</button>`).join('')}</div>`;
+  const definir=podeDefinir&&(ger||f==='')?`<button class="btn-def" data-act-def="1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>${ger?'Definir metas da loja':'Definir metas da equipe Nexum'}</button>`:'';
+  if(!comMeta.length){
+    const quem=ger?`da ${esc(lojas[S.me.lojaId]||'sua loja')}`:f===''?'da equipe Nexum':f==='*'?'':`da ${esc(lojas[f]||'loja')}`;
+    return filtro+`<div class="card hero"><div class="empty"><b>Metas ${quem} de ${esc(mesNome(mes))} ainda não definidas</b>${daVez.length?`Há ${daVez.length} ${daVez.length===1?'pessoa':'pessoas'} na equipe, mas nenhuma com meta neste mês.`:'Nenhuma pessoa encontrada nesta equipe.'}
+      ${definir?definir.replace('btn-def','btn-def grande'):!ger&&f!==''&&f!=='*'?'<div style="margin-top:10px;font-size:13px">As metas desta loja são definidas pelo gerente dela.</div>':''}</div></div>`;
+  }
+  const ind=MET_IND.filter(m=>comMeta.some(u=>docDe(eq,u).ativos[m.k]));
+  const linhas=comMeta.map(u=>{ const d=docDe(eq,u), mv=Object.fromEntries(Object.entries(d.metasV[u.id]||{}).filter(([k])=>d.ativos[k])), f=calcMetas(u.id,mes,vendas), b=metasBonus(f,mv,d.ativos,d.bonus), bp=metasBonus(feitoProjetado(f,mes),mv,d.ativos,d.bonus);
     const pcts=ind.filter(m=>(+mv[m.k]||0)>0).map(m=>Math.min(150,(+f[m.k]||0)/(+mv[m.k])*100));
     return {u,mv,f,b,bp,score:pcts.length?pcts.reduce((s,x)=>s+x,0)/pcts.length:0,bat:b.todos.filter(b.bate).length,alv:b.todos.length}; }).sort((x,y)=>y.score-x.score);
   const soma=k=>linhas.reduce((s,l)=>s+(+l.f[k]||0),0), somaM=k=>linhas.reduce((s,l)=>s+(+l.mv[k]||0),0);
   const bg=linhas.reduce((s,l)=>s+l.b.total,0), bpT=linhas.reduce((s,l)=>s+l.bp.total,0);
   const batendo=linhas.filter(l=>l.alv&&l.bat===l.alv).length;
-  let h=`<div class="card hero">
-    <div class="linha"><span class="chip c-a">${linhas.length} ${linhas.length===1?'vendedor':'vendedores'} com meta</span><span class="esp"></span><span class="lbl">${batendo} ${batendo===1?'bateu':'bateram'} tudo</span></div>
-    <div class="duo"><div style="background:#E7F7F0"><small>Bônus garantido da equipe</small><b style="color:#0E9F6E">${brl(bg)}</b></div>
+  let h=filtro+`<div class="card hero">
+    <div class="linha"><span class="chip c-a">${linhas.length} ${linhas.length===1?'pessoa':'pessoas'} com meta</span><span class="esp"></span><span class="lbl">${batendo} ${batendo===1?'bateu':'bateram'} tudo</span></div>
+    <div class="duo"><div style="background:#E7F7F0"><small>Bônus garantido</small><b style="color:#0E9F6E">${brl(bg)}</b></div>
       <div style="background:#EAF0FF"><small>${du.atual?'Projetado no ritmo atual':'Total do mês'}</small><b style="color:#1D4ED8">${brl(du.atual?bpT:bg)}</b></div></div>
+    ${definir?`<div style="margin-top:14px">${definir}</div>`:''}
     <div class="div"></div>
     <div class="tri"><div><small>Aparelhos</small><b>${soma('aparelhos')}${somaM('aparelhos')?`<span style="font-size:12px;color:#94A3B8"> /${somaM('aparelhos')}</span>`:''}</b></div><div><small>Faturamento</small><b>${mil(soma('faturamento'))}</b></div><div><small>Tendência aparelhos</small><b>${Math.floor(metasProj(soma("aparelhos"),mes))}</b></div></div>
   </div>`;
@@ -431,18 +475,66 @@ async function htmlEquipe(mes){
     const s=situacao(f,meta,mes), cor=s[0]==='c-v'?'#0E9F6E':s[0]==='c-a'?'#1D4ED8':s[0]==='c-l'?'#B45309':s[0]==='c-r'?'#DC2626':'#94A3B8';
     return `<td>${m.money?mil(f):f}<span style="color:#94A3B8">/${m.money?mil(meta):meta}</span><span class="p" style="color:${cor}">${Math.round(f/meta*100)}%</span></td>`; };
   h+=`<div class="sec">Ranking da equipe<small>Toque para ver o detalhe</small></div><div class="card"><div class="tabw"><table class="tab"><thead><tr><th>Vendedor</th>${cols.map(m=>`<th>${esc(m.lbl)}</th>`).join('')}<th>Bônus</th></tr></thead><tbody>
-    ${linhas.map((l,i)=>`<tr class="cl" data-uid="${esc(l.u.id)}"><td><span class="pos">${i+1}</span>${esc(String(l.u.nome||'Vendedor').split(' ').slice(0,2).join(' '))}${S.me.role==='DONO'&&lojas[l.u.lojaId]?`<span class="p" style="color:#94A3B8;font-weight:500;margin-left:30px">${esc(lojas[l.u.lojaId])}</span>`:''}</td>${cols.map(m=>cel(m,l)).join('')}
+    ${linhas.map((l,i)=>`<tr class="cl" data-uid="${esc(l.u.id)}"><td><span class="pos">${i+1}</span>${esc(String(l.u.nome||'Vendedor').split(' ').slice(0,2).join(' '))}${S.me.role==='DONO'?`<span class="p" style="color:#94A3B8;font-weight:500;margin-left:30px">${esc(l.u.lojaId?lojas[l.u.lojaId]||'Loja':'Equipe Nexum')}</span>`:''}</td>${cols.map(m=>cel(m,l)).join('')}
       <td><b style="color:#0E9F6E">${brl(l.b.total).replace(',00','')}</b>${du.atual?`<span class="p" style="color:#1D4ED8">ritmo ${brl(l.bp.total).replace(',00','')}</span>`:''}</td></tr>`).join('')}
     </tbody></table></div></div>`;
   h+=`<div class="sec">Metas da equipe<small>${du.atual?`Dia útil ${du.passados} de ${du.total}`:esc(mesNome(mes))}</small></div><div class="card mtgrid">${cats}</div>`;
   return h;
 }
 async function abrirVendedor(uid){
-  const eq=S._eq; if(!eq) return; const u=eq.equipe.find(x=>x.id===uid);
+  const eq=S._eq; if(!eq) return; const u=eq.pessoas.find(x=>x.id===uid);
   abrirModal('<div class="spin"></div>'); $('#modalBody').className='modal-card';
   const nome=u?.nome||'Vendedor';
-  $('#modalBody').innerHTML=`<div class="puxa"></div><div style="font-size:18px;font-weight:700;margin:0 4px 12px">${esc(nome)}</div>`+await htmlVendedor(uid,S.mes,eq.vendas,eq.doc,{nome})+`<button class="btn full" onclick="fecharModal()">Fechar</button>`;
+  $('#modalBody').innerHTML=`<div class="puxa"></div><div style="font-size:18px;font-weight:700;margin:0 4px 12px">${esc(nome)}</div>`+await htmlVendedor(uid,S.mes,eq.vendas,u?docDe(eq,u):eq.docs[''],{nome})+`<button class="btn full" onclick="fecharModal()">Fechar</button>`;
 }
+
+/* ===== Definir metas (dono: equipe Nexum · gerente: a própria loja) ===== */
+const BONUS_REG=[['aparelhos','Bater a meta de aparelhos'],['acessoriosSeguros','Bater acessórios + seguros'],['parcelas','Parcelas dos clientes em dia'],['integral','Bater TODAS as metas (bônus integral)']];
+async function abrirDefinir(){
+  const eq=S._eq; if(!eq) return;
+  const ger=S.me.role==='GERENTE', lid=ger?S.me.lojaId:'', mes=S.mes;
+  const doc=await metasDoc(mes,lid||null);
+  const pessoas=eq.pessoas.filter(u=>(u.lojaId||'')===lid).sort((a,b)=>String(a.nome).localeCompare(String(b.nome)));
+  const st={ativos:{...doc.ativos}, bonus:{...doc.bonus}, mv:Object.fromEntries(pessoas.map(u=>[u.id,{...(doc.metasV[u.id]||{})}]))};
+  const nomeEq=ger?(eq.lojas[lid]||'Sua loja'):'Equipe Nexum';
+  const desenhar=()=>{
+    const ind=MET_IND.filter(m=>st.ativos[m.k]);
+    $('#modalBody').innerHTML=`<div class="puxa"></div>
+      <div class="dm-top"><div><b>Definir metas</b><small>${esc(nomeEq)} · ${esc(mesNome(mes))}</small></div><button class="dm-x" data-dm="fechar" aria-label="Fechar">×</button></div>
+      <div class="dm-sec">1. O que vai ter meta</div>
+      <div class="dm-chips">${MET_IND.map(m=>`<button class="dm-chip ${st.ativos[m.k]?'on':''}" data-dmind="${m.k}">${st.ativos[m.k]?'✓ ':''}${esc(m.lbl)}</button>`).join('')}</div>
+      <div class="dm-sec">2. Meta de cada pessoa <span><button class="dm-link" data-dm="copiar">Copiar do mês anterior</button>${pessoas.length>1?' · <button class="dm-link" data-dm="todos">Repetir a 1ª para todos</button>':''}</span></div>
+      ${pessoas.length?pessoas.map(u=>`<div class="dm-p"><div class="dm-pn"><b>${esc(String(u.nome||'Sem nome').split(' ').slice(0,2).join(' '))}</b><small>${esc(ROLES[u.role]||u.role||'')}</small></div>
+        <div class="dm-g">${ind.map(m=>`<label><small>${esc(m.lbl)}${m.money?' (R$)':''}</small><input type="number" inputmode="numeric" min="0" step="${m.money?'100':'1'}" data-dmv="${u.id}|${m.k}" value="${st.mv[u.id]?.[m.k]||''}" placeholder="0"></label>`).join('')||'<span class="muted" style="font-size:13px">Ligue pelo menos um item acima.</span>'}</div></div>`).join('')
+        :`<div class="dm-p"><span class="muted" style="font-size:13.5px">${ger?'Nenhum vendedor ativo na loja. Cadastre a equipe no Portal do Gerente.':'Nenhuma pessoa na equipe Nexum.'}</span></div>`}
+      <div class="dm-sec">3. Bônus do mês (R$)</div>
+      <div class="dm-p"><div class="dm-g dm-g2">${BONUS_REG.map(([k,l])=>`<label><small>${l}</small><input type="number" inputmode="numeric" min="0" step="10" data-dmb="${k}" value="${+st.bonus[k]||''}" placeholder="0"></label>`).join('')}</div>
+        <div class="dica" style="margin-top:12px">O bônus de acessórios + seguros sai quando a pessoa bate as duas metas. O integral é pago a mais quando ela bate todas.</div></div>
+      ${ger?'<p class="dm-nota">Estas metas valem só para a sua loja. As da equipe Nexum são definidas pela NexumCell.</p>':'<p class="dm-nota">Estas metas valem para a equipe Nexum. As lojas parceiras definem as delas pelo gerente.</p>'}
+      <div class="dm-rod"><button class="btn-ver" data-dm="fechar" style="margin:0">Cancelar</button><button class="btn" data-dm="salvar">Salvar metas</button></div>`;
+  };
+  const ler=()=>{ document.querySelectorAll('[data-dmv]').forEach(i=>{ const [u,k]=i.dataset.dmv.split('|'); st.mv[u]=st.mv[u]||{}; st.mv[u][k]=+i.value||0; });
+    document.querySelectorAll('[data-dmb]').forEach(i=>st.bonus[i.dataset.dmb]=+i.value||0); };
+  abrirModal(''); $('#modalBody').className='modal-card claro dm'; desenhar();
+  $('#modalBody').onclick=async e=>{
+    const ch=e.target.closest('[data-dmind]'); if(ch){ ler(); st.ativos[ch.dataset.dmind]=!st.ativos[ch.dataset.dmind]; desenhar(); return; }
+    const a=e.target.closest('[data-dm]')?.dataset.dm; if(!a) return;
+    if(a==='fechar') return fecharModal();
+    if(a==='todos'){ ler(); const p0=st.mv[pessoas[0].id]||{}; pessoas.forEach(u=>st.mv[u.id]={...p0}); desenhar(); return; }
+    if(a==='copiar'){ const ant=await metasDoc(mesAdd(mes,-1),lid||null); let n=0; pessoas.forEach(u=>{ if(ant.metasV[u.id]){ st.mv[u.id]={...ant.metasV[u.id]}; n++; } }); st.ativos={...ant.ativos}; st.bonus={...ant.bonus}; desenhar();
+      aviso(n?`Metas de ${mesNome(mesAdd(mes,-1))} copiadas para ${n} ${n===1?'pessoa':'pessoas'}. Confira e salve.`:'O mês anterior não tem metas para esta equipe.'); return; }
+    if(a==='salvar'){ ler(); const b=e.target; b.disabled=true; b.textContent='Salvando…';
+      const metasV={}; pessoas.forEach(u=>{ metasV[u.id]=Object.fromEntries(MET_IND.map(m=>[m.k,+st.mv[u.id]?.[m.k]||0])); });
+      try{ await DB.set('metas',metasDocId(mes,lid||null),{ativos:st.ativos,bonusRegras:st.bonus,metasV,lojaId:lid,atualizadoEm:Date.now(),por:S.me.nome||'',porUid:S.me.uid});
+        fecharModal(); aviso('Metas salvas.'); render(); }
+      catch(err){ b.disabled=false; b.textContent='Salvar metas'; aviso(String(err?.code||'').includes('permission')?'Sem permissão para salvar estas metas. Fale com a NexumCell.':'Não foi possível salvar agora. Tente de novo.'); } }
+  };
+}
+function aviso(t){ let el=$('#aviso'); if(!el){ el=document.createElement('div'); el.id='aviso'; el.className='aviso'; document.body.appendChild(el); } el.textContent=t; el.classList.add('on'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('on'),3500); }
+document.addEventListener('click',e=>{
+  const f=e.target.closest('[data-feq]'); if(f){ S.filtroEq=f.dataset.feq; render(); return; }
+  if(e.target.closest('[data-act-def]')) abrirDefinir();
+});
 
 /* ===== Vendas do próprio funcionário ===== */
 async function minhasVendas(){ try{ return await DB.list('vendas',[['vendedorUid','==',S.me.uid]]); }catch(e){ console.warn(e); return []; } }
@@ -453,10 +545,10 @@ function abrirModal(html){ $('#modalBody').className='modal-card claro'; $('#mod
 function fecharModal(){ $('#modal').classList.add('hidden'); }
 async function bonusDoMes(mes){
   const vendas=S._vendas||await minhasVendas();
-  const {ativos,metasV,bonus}=await metasDoc(mes);
+  const {ativos,metasV,bonus,propria}=await metasDoc(mes,S.me.lojaId);
   const mv=metasV[S.me.uid]||{}, feito=calcMetas(S.me.uid,mes,vendas);
   const b=metasBonus(feito,mv,ativos,bonus);
-  let pago=null; try{ const pg=await DB.get('bonusPagos',mes); pago=pg?.pagos?.[S.me.uid]||null; }catch(e){}
+  let pago=null; try{ const pg=await DB.get('bonusPagos',propria?metasDocId(mes,S.me.lojaId):mes); pago=pg?.pagos?.[S.me.uid]||null; }catch(e){}
   return {b,bonus,pago};
 }
 async function telaBonus(){
@@ -490,7 +582,7 @@ async function render(){
   $('#conteudo').innerHTML='<div class="card hero"><div class="spin"></div></div>';
   try{
     if(ehGestor()) $('#conteudo').innerHTML=await htmlEquipe(S.mes);
-    else{ const vendas=await minhasVendas(); S._vendas=vendas; $('#conteudo').innerHTML=await htmlVendedor(S.me.uid,S.mes,vendas,await metasDoc(S.mes)); }
+    else{ const vendas=await minhasVendas(); S._vendas=vendas; $('#conteudo').innerHTML=await htmlVendedor(S.me.uid,S.mes,vendas,await metasDoc(S.mes,S.me.lojaId)); }
   }catch(e){
     console.error(e);
     $('#conteudo').innerHTML=`<div class="card hero"><div class="empty">Não foi possível carregar as metas agora.<br><button class="btn-ver" onclick="render()">Tentar de novo</button></div></div>`;
