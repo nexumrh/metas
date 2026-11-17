@@ -336,15 +336,20 @@ const DB = {
 /* ===== Metas (porte fiel do portal) ===== */
 const MET_IND=[
   {k:'aparelhos',lbl:'Aparelhos'},
-  {k:'faturamento',lbl:'Faturamento',money:true},
+  {k:'faturamento',lbl:'Aparelhos (R$)',money:true},
+  {k:'pelicula',lbl:'Películas'},
+  {k:'peliculaRs',lbl:'Películas (R$)',money:true},
+  {k:'capinha',lbl:'Capinhas'},
+  {k:'capinhaRs',lbl:'Capinhas (R$)',money:true},
   {k:'acessorios',lbl:'Acessórios'},
-  {k:'capinha',lbl:'Capinha'},
-  {k:'pelicula',lbl:'Película'},
+  {k:'acessoriosRs',lbl:'Acessórios (R$)',money:true},
   {k:'seguros',lbl:'Seguros'},
+  {k:'segurosRs',lbl:'Seguros (R$)',money:true},
   {k:'parcelas',lbl:'Parcelas em dia'},
 ];
+const MET_ACESS=['pelicula','peliculaRs','capinha','capinhaRs','acessorios','acessoriosRs','seguros','segurosRs'];
 const METAS_BONUS_PADRAO={aparelhos:0,acessoriosSeguros:0,parcelas:0,integral:0};
-function metasDefAtivos(){ return {aparelhos:true,faturamento:true,acessorios:true,capinha:false,pelicula:false,seguros:true,parcelas:true}; }
+function metasDefAtivos(){ return {aparelhos:true,faturamento:true,pelicula:true,capinha:true,acessorios:true,seguros:true,parcelas:true}; }
 /* metas/{mes} = equipe Nexum (definida pelo Dono) · metas/{mes}_{lojaId} = metas da loja (definidas pelo Gerente).
    Enquanto a loja não define as dela, vale a da Nexum. */
 const metasDocId=(mes,lojaId)=>lojaId?mes+'_'+lojaId:mes;
@@ -363,17 +368,22 @@ function calcMetas(uid,mes,vendas){
   const tem=(v,re)=>(v.acessorios||[]).some(a=>re.test((a.nome||'').toLowerCase()));
   let parcelas=0;
   vendas.filter(v=>v.vendedorUid===uid).forEach(v=>(v.parcelas||[]).forEach(p=>{ if(p.pago&&p.pagoEm&&String(p.pagoEm).startsWith(mes)&&p.pagoEm<=p.venc&&!p.acordo) parcelas++; }));
-  return { aparelhos:meus.length, faturamento:r2(meus.reduce((s,v)=>s+(+v.valor||0),0)),
-    acessorios:meus.filter(v=>(v.acessorios||[]).length).length,
-    capinha:meus.filter(v=>tem(v,/cap(a|inha)/)).length,
-    pelicula:meus.filter(v=>tem(v,/pel.?cula/)).length,
-    seguros:meus.filter(v=>v.protecao).length, parcelas };
+  const tipo=a=>{ const n=(a.nome||'').toLowerCase(); return /cap(a|inha)/.test(n)?'capinha':/pel.?cula/.test(n)?'pelicula':'acessorios'; };
+  const it={capinha:[0,0],pelicula:[0,0],acessorios:[0,0]};
+  meus.forEach(v=>(v.acessorios||[]).forEach(a=>{ const q=+a.qtd||1, t=it[tipo(a)]; t[0]+=q; t[1]+=(+a.preco||+a.valor||0)*q; }));
+  const seg=meus.filter(v=>v.protecao);
+  const acessV=v=>(+v.acessoriosValor||(v.acessorios||[]).reduce((s,a)=>s+(+a.preco||+a.valor||0)*(+a.qtd||1),0));
+  return { aparelhos:meus.length, faturamento:r2(meus.reduce((s,v)=>s+Math.max(0,(+v.valor||0)-acessV(v)),0)),
+    acessorios:it.acessorios[0], acessoriosRs:r2(it.acessorios[1]),
+    capinha:it.capinha[0], capinhaRs:r2(it.capinha[1]),
+    pelicula:it.pelicula[0], peliculaRs:r2(it.pelicula[1]),
+    seguros:seg.length, segurosRs:r2(seg.reduce((s,v)=>s+(+v.protecao.mensal||0)*(+v.nParcelas||(v.parcelas||[]).length||0),0)), parcelas };
 }
 function metasBonus(feito,metaV,ativos,bonus){
   const exig=k=>!!ativos[k]&&(+metaV[k]>0), bate=k=>(+feito[k]||0)>=(+metaV[k]||0);
   const grupo=(...ks)=>{ const e=ks.filter(exig); return e.length>0&&e.every(bate); };
-  const r={ aparelhos:(exig('aparelhos')&&bate('aparelhos'))?(+bonus.aparelhos||0):0,
-    acessoriosSeguros:grupo('acessorios','seguros')?(+bonus.acessoriosSeguros||0):0,
+  const r={ aparelhos:grupo('aparelhos','faturamento')?(+bonus.aparelhos||0):0,
+    acessoriosSeguros:grupo(...MET_ACESS)?(+bonus.acessoriosSeguros||0):0,
     parcelas:(exig('parcelas')&&bate('parcelas'))?(+bonus.parcelas||0):0 };
   const todos=MET_IND.map(m=>m.k).filter(exig); const integralBate=todos.length>0&&todos.every(bate);
   r.integral=integralBate?(+bonus.integral||0):0; r.total=r.aparelhos+r.acessoriosSeguros+r.parcelas+r.integral;
@@ -405,11 +415,11 @@ function totalPossivel(bonus){ return (+bonus.aparelhos||0)+(+bonus.acessoriosSe
 /* o que falta para liberar o próximo bônus */
 function proximoBonus(feito,mv,ativos,bonus,b){
   const falta=k=>Math.max(0,Math.ceil((+mv[k]||0)-(+feito[k]||0)));
-  const nome={aparelhos:['aparelho','aparelhos'],acessorios:['venda com acessório','vendas com acessório'],seguros:['seguro','seguros'],parcelas:['parcela em dia','parcelas em dia']};
-  const txt=k=>{ const n=falta(k); return `${n} ${nome[k]?.[n===1?0:1]||k}`; };
+  const nome={aparelhos:['aparelho','aparelhos'],acessorios:['acessório','acessórios'],capinha:['capinha','capinhas'],pelicula:['película','películas'],seguros:['seguro','seguros'],parcelas:['parcela em dia','parcelas em dia']};
+  const txt=k=>{ const n=falta(k), m=MET_IND.find(x=>x.k===k)||{}; return m.money?`${brl(n)} em ${(m.lbl||k).toLowerCase()}`:`${n} ${nome[k]?.[n===1?0:1]||(m.lbl||k).toLowerCase()}`; };
   const op=[];
   if(bonus.aparelhos>0&&b.exig('aparelhos')&&!b.bate('aparelhos')) op.push({n:falta('aparelhos'),t:txt('aparelhos'),v:+bonus.aparelhos});
-  if(bonus.acessoriosSeguros>0){ const ks=['acessorios','seguros'].filter(k=>b.exig(k)&&!b.bate(k)); if(ks.length&&ks.every(k=>b.exig(k))) op.push({n:ks.reduce((s,k)=>s+falta(k),0),t:ks.map(txt).join(' e '),v:+bonus.acessoriosSeguros}); }
+  if(bonus.acessoriosSeguros>0){ const ks=MET_ACESS.filter(k=>b.exig(k)&&!b.bate(k)); if(ks.length&&ks.every(k=>b.exig(k))) op.push({n:ks.reduce((s,k)=>s+falta(k),0),t:ks.map(txt).join(' e '),v:+bonus.acessoriosSeguros}); }
   if(bonus.parcelas>0&&b.exig('parcelas')&&!b.bate('parcelas')) op.push({n:falta('parcelas'),t:txt('parcelas'),v:+bonus.parcelas});
   op.sort((x,y)=>x.n-y.n||y.v-x.v);
   return op[0]||null;
@@ -455,7 +465,7 @@ async function htmlVendedor(uid,mes,vendas,doc,opts={}){
     <div class="v" style="color:${on?'#0E9F6E':'#0F172A'}">${brl(valor)}<small>${on?'garantido':du.atual&&onP?'no ritmo':du.atual?'em aberto':'não batido'}</small></div></div>`;
   let r='';
   if(bonus.aparelhos>0&&ativos.aparelhos) r+=regra(b.aparelhos>0,bp.aparelhos>0,'Meta de aparelhos',`${feito.aparelhos} de ${+mv.aparelhos||0}`,bonus.aparelhos);
-  if(bonus.acessoriosSeguros>0&&(ativos.acessorios||ativos.seguros)) r+=regra(b.acessoriosSeguros>0,bp.acessoriosSeguros>0,'Acessórios + seguros',`Acessórios ${feito.acessorios}/${+mv.acessorios||0} · Seguros ${feito.seguros}/${+mv.seguros||0}`,bonus.acessoriosSeguros);
+  if(bonus.acessoriosSeguros>0&&MET_ACESS.some(k=>ativos[k])) r+=regra(b.acessoriosSeguros>0,bp.acessoriosSeguros>0,'Acessórios + seguros',MET_ACESS.filter(k=>ativos[k]&&+mv[k]>0).map(k=>{const m=MET_IND.find(x=>x.k===k);return `${m.lbl}${m.money?' R$':''} ${m.money?brl(feito[k]||0):feito[k]||0}/${m.money?brl(+mv[k]):+mv[k]}`;}).join(' · ')||'Acessórios e seguros',bonus.acessoriosSeguros);
   if(bonus.parcelas>0&&ativos.parcelas) r+=regra(b.parcelas>0,bp.parcelas>0,'Parcelas dos clientes em dia',`${feito.parcelas} de ${+mv.parcelas||0} pagas no prazo`,bonus.parcelas);
   if(bonus.integral>0) r+=regra(b.integralBate,bp.integralBate,'Bateu todas as metas','Bônus integral do mês',bonus.integral);
   if(r) h+=`<div class="sec">Como ganhar o bônus</div><div class="card">${r}${ativos.parcelas?'<div class="dica">As parcelas pagas em dia pelos seus clientes também contam para o bônus. Lembre o cliente do vencimento.</div>':''}</div>`;
@@ -550,7 +560,7 @@ async function abrirDefinir(){
       <div class="dm-chips">${MET_IND.map(m=>`<button class="dm-chip ${st.ativos[m.k]?'on':''}" data-dmind="${m.k}">${st.ativos[m.k]?'✓ ':''}${esc(m.lbl)}</button>`).join('')}</div>
       <div class="dm-sec">2. Meta de cada pessoa <span><button class="dm-link" data-dm="copiar">Copiar do mês anterior</button>${pessoas.length>1?' · <button class="dm-link" data-dm="todos">Repetir a 1ª para todos</button>':''}</span></div>
       ${pessoas.length?pessoas.map(u=>`<div class="dm-p"><div class="dm-pn"><b>${esc(String(u.nome||'Sem nome').split(' ').slice(0,2).join(' '))}</b><small>${esc(ROLES[u.role]||u.role||'')}</small></div>
-        <div class="dm-g">${ind.map(m=>`<label><small>${esc(m.lbl)}${m.money?' (R$)':''}</small><input type="number" inputmode="numeric" min="0" step="${m.money?'100':'1'}" data-dmv="${u.id}|${m.k}" value="${st.mv[u.id]?.[m.k]||''}" placeholder="0"></label>`).join('')||'<span class="muted" style="font-size:13px">Ligue pelo menos um item acima.</span>'}</div></div>`).join('')
+        <div class="dm-g">${ind.map(m=>`<label><small>${esc(m.lbl)}</small><input type="number" inputmode="numeric" min="0" step="${m.money?'100':'1'}" data-dmv="${u.id}|${m.k}" value="${st.mv[u.id]?.[m.k]||''}" placeholder="0"></label>`).join('')||'<span class="muted" style="font-size:13px">Ligue pelo menos um item acima.</span>'}</div></div>`).join('')
         :`<div class="dm-p"><span class="muted" style="font-size:13.5px">${ger?'Nenhum vendedor ativo na loja. Cadastre a equipe no Portal do Gerente.':'Nenhuma pessoa na equipe Nexum.'}</span></div>`}
       <div class="dm-sec">3. Bônus do mês (R$)</div>
       <div class="dm-p"><div class="dm-g dm-g2">${BONUS_REG.map(([k,l])=>`<label><small>${l}</small><input type="number" inputmode="numeric" min="0" step="10" data-dmb="${k}" value="${+st.bonus[k]||''}" placeholder="0"></label>`).join('')}</div>
