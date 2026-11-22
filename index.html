@@ -637,7 +637,7 @@ async function render(){
   $('#conteudo').innerHTML='<div class="card hero"><div class="spin"></div></div>';
   try{
     if(ehGestor()) $('#conteudo').innerHTML=await htmlEquipe(S.mes);
-    else{ const vendas=await minhasVendas(); S._vendas=vendas; $('#conteudo').innerHTML=await htmlVendedor(S.me.uid,S.mes,vendas,await metasDoc(S.mes,S.me.lojaId)); }
+    else{ const vendas=await minhasVendas(); S._vendas=vendas; $('#conteudo').innerHTML=await htmlVendedor(S.me.uid,S.mes,vendas,await metasDoc(S.mes,S.me.lojaId)); try{ $('#conteudo').insertAdjacentHTML('beforeend',await minhaComissao(S.me.uid,S.mes,vendas)); }catch(e){ console.warn('comissão',e); } }
   }catch(e){
     console.error(e);
     $('#conteudo').innerHTML=`<div class="card hero"><div class="empty">Não foi possível carregar as metas agora.<br><button class="btn-ver" onclick="render()">Tentar de novo</button></div></div>`;
@@ -649,7 +649,27 @@ document.addEventListener('click',e=>{ const tr=e.target.closest('tr.cl[data-uid
 async function iniciarSessao(perfil){
   S.me=perfil; S.mes=S.mes||hoje().slice(0,7);
   $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
+  // a loja pode ter optado por não usar o app (Painel do Dono → Lojas parceiras)
+  if(S.me.role!=='DONO'&&S.me.lojaId){ let l=null; try{ l=await DB.get('lojas',S.me.lojaId); }catch(e){}
+    if(l&&l.appMetas===false){ $('#conteudo').innerHTML=`<div class="card hero" style="text-align:center;padding:28px 20px"><h2 style="margin:0 0 8px">Sua loja não usa o app Minhas Metas</h2>
+      <p class="muted" style="margin:0 0 18px">A ${esc(l.nome||'sua loja')} optou por não usar o app. Acompanhe suas vendas e a sua comissão no Portal do Vendedor, em Comissões.</p><button class="btn full" onclick="sair()">Sair</button></div>`;
+      document.querySelectorAll('#bBonus,#mPrev,#mNext').forEach(b=>b&&(b.style.display='none')); return; } }
   render();
+}
+
+/* ===== Comissão do mês (regras que o gerente define no Portal do Gerente → Comissões) ===== */
+let _regraCom, _cfgSis;
+async function minhaComissao(uid,mes,vendas){
+  if(_regraCom===undefined){ try{ _regraCom=S.me.lojaId?await DB.get('regrasComissao',S.me.lojaId):null; }catch(e){ _regraCom=null; } }
+  if(_cfgSis===undefined){ try{ _cfgSis=await DB.get('config','sistema'); }catch(e){ _cfgSis=null; } }
+  const r=_regraCom||null, pct=r&&r.pctParcelas!=null&&r.pctParcelas!==''?+r.pctParcelas:(+S.me.comissaoPct||+_cfgSis?.comissaoPct||3);
+  let pago=0; vendas.filter(v=>v.vendedorUid===uid).forEach(v=>(v.parcelas||[]).forEach(p=>{ if(p.pago&&String(p.pagoEm||'').startsWith(mes)&&p.forma!=='Entrada do acordo') pago+=Number(p.valorPago||p.valor); }));
+  const f=calcMetas(uid,mes,vendas), L=[[`${pct}% das parcelas pagas pelos seus clientes`,`${brl(pago)} recebidos`,r2(pago*pct/100)]];
+  if(r) [['porAparelho','aparelhos','aparelho(s)'],['porPelicula','pelicula','película(s)'],['porCapinha','capinha','capinha(s)'],['porAcessorio','acessorios','acessório(s)'],['porSeguro','seguros','proteção(ões)']].forEach(([k,fk,t])=>{ const val=+r[k]||0, q=+f[fk]||0; if(val>0) L.push([`${brl(val)} por ${t.replace(/\(.*\)/,'')}`,`${q} ${t}`,r2(q*val)]); });
+  const tot=r2(L.reduce((s,x)=>s+x[2],0));
+  return `<div class="sec">Minha comissão<small>Regras da sua loja</small></div><div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><b style="font-size:15px">Comissão do mês</b><b style="font-size:24px;color:#0E9F6E">${brl(tot)}</b></div>
+    <div class="bnlist" style="margin-top:10px">${L.map(x=>`<div class="bnrow"><span>${esc(x[0])}<br><small class="muted">${esc(x[1])}</small></span><b class="on">${brl(x[2])}</b></div>`).join('')}</div>
+    <p class="muted" style="font-size:12px;margin:10px 0 0">Valores definidos pelo gerente da loja. Quem paga a comissão é a loja; o recibo chega no Portal do Vendedor.</p></div>`;
 }
 
 /* ===== Login / Firebase ===== */
