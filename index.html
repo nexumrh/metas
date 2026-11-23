@@ -82,56 +82,89 @@ td.cat{font-weight:700}td .ok{color:var(--pri);font-weight:700}td .bad{color:var
 #inst img{width:42px;height:42px;border-radius:11px}#inst div{flex:1;font-size:13px;color:var(--mut);line-height:1.35}#inst div b{display:block;color:var(--txt);font-size:14.5px}#inst .x{border:0;background:none;color:#98A2B3;font-size:22px;cursor:pointer;padding:0 4px}
 .top .inst{background:var(--pri)!important}
 
-/* ===== login novo (NEXUM Metas) ===== */
-#login{background:radial-gradient(1200px 700px at 12% 20%,#15306B 0%,#0A1733 55%,#060E22 100%)}
-.lg-l{background:none;padding:52px 48px;justify-content:center;gap:26px}
-.lg-brand .logo{height:120px;max-width:min(460px,70vw);width:auto;object-fit:contain;object-position:left center;filter:drop-shadow(0 8px 30px rgba(0,40,120,.45))}
-.lg-slogan{display:flex;align-items:center;gap:14px;color:#D7E3FF;font-weight:700;letter-spacing:.14em;font-size:15px;flex-wrap:wrap}
-.lg-slogan i{width:7px;height:7px;border-radius:50%;background:#2E6BF0;box-shadow:0 0 10px #3E7BFF}
-.lg-l .alvo{right:-20px;bottom:-10px;width:380px;opacity:.95;-webkit-mask-image:none;mask-image:none;filter:drop-shadow(0 10px 40px rgba(0,60,180,.35))}
-.lg-r{padding:30px;background:none}
-.lg-box{background:linear-gradient(180deg,#FFFFFF,#F2F6FF);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:34px 30px 26px;box-shadow:0 30px 80px rgba(3,12,34,.5);text-align:center;max-width:430px}
-.lg-logo-top{height:66px;width:auto;max-width:280px;object-fit:contain;margin:0 auto 10px;display:block}
-.lg-box h2{font-size:27px;margin:4px 0 2px;color:#0C1C3C;letter-spacing:-.01em}
-.lg-box .sub{color:#5B6B86;margin:0 0 20px;font-size:15px}
-.inp{position:relative;margin-top:13px}
-.inp .ic-l{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:22px;height:22px;color:#0C1C3C}
-.inp .ic-l svg{width:22px;height:22px}
-.inp input{height:56px;border:1.5px solid #D9E2F2;border-radius:16px;background:#F7FAFF;padding-left:48px;padding-right:46px;font-size:16px;color:#0C1C3C}
-.inp input::placeholder{color:#8A99B5}
-.inp input:focus{background:#fff;border-color:var(--pri);outline:4px solid #E7F0FF}
-.ic-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:none;color:#64748B;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;border-radius:9px}
-.ic-eye svg{width:22px;height:22px}.ic-eye:hover{background:#EEF3FC}
-.lg-entrar{width:100%;margin-top:18px;height:56px;border-radius:16px;font-size:17px;font-weight:700;background:linear-gradient(180deg,#2E6BF0,#124BC9);border:0;box-shadow:0 12px 26px rgba(18,75,201,.35)}
-.lg-entrar:hover{background:linear-gradient(180deg,#2A62DD,#0F43B6)}
-.lg-entrar svg{width:21px;height:21px}
-.lg-rodape{display:flex;align-items:center;gap:12px;margin:18px 2px 0;color:#7C8AA6;font-weight:600;font-size:13px}
-.lg-rodape i{flex:1;height:1px;background:linear-gradient(90deg,transparent,#C9D6EC,transparent)}
-.lg-dica{color:#60708C;font-size:12.5px;margin:12px 4px 0;line-height:1.5}
-.lg-dica b{color:#0C1C3C}
-#login .lg-msg{color:var(--bad);text-align:center;font-size:13.5px;min-height:18px;margin-top:10px}
-#login .lg-ok,#trocar label{text-align:left}
-@media(max-width:860px){.lg-l{display:none}.lg-r{padding:18px}.lg-box{max-width:460px;border-radius:22px;padding:28px 22px 22px}}
+/* ===== login (NEXUM Metas) ===== */
+#login{position:relative;overflow:hidden;background:#061233;grid-template-columns:1.05fr 1fr;min-height:100vh}
+#login::before{content:"";position:absolute;inset:0;z-index:0;background:
+  linear-gradient(115deg,transparent 0 50%,rgba(255,255,255,.0) 50%),
+  linear-gradient(90deg,rgba(6,18,51,.92) 0%,rgba(6,18,51,.70) 40%,rgba(6,18,51,.85) 60%);}
+.lg-office{position:absolute;inset:-20px;z-index:0;filter:blur(7px);opacity:.55;background:
+  linear-gradient(180deg,rgba(20,60,150,.55),rgba(4,12,40,.9) 75%),
+  repeating-linear-gradient(90deg,rgba(90,140,230,.0) 0 70px,rgba(120,170,255,.22) 70px 76px,rgba(90,140,230,.0) 76px 150px),
+  linear-gradient(180deg,transparent 0 22%,rgba(140,180,255,.25) 22% 23%,transparent 23% 55%,rgba(140,180,255,.18) 55% 56%,transparent 56%),
+  radial-gradient(600px 300px at 30% 30%,rgba(60,120,240,.45),transparent 70%),#0A1D4D}
+.lg-diag{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(160deg,#FFFFFF 0%,#EEF3FD 45%,#D6E3FA 100%);clip-path:polygon(59% 0,100% 0,100% 100%,39% 100%)}
+.lg-diag::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 160px,rgba(160,190,240,.22) 160px 230px,transparent 230px 380px)}
+.lg-edge{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#0B5BFF,#1C7BFF 50%,#0A3FC7);clip-path:polygon(56.6% 0,59.6% 0,39.6% 100%,36.6% 100%);filter:drop-shadow(0 0 18px rgba(30,120,255,.9))}
+.lg-edge2{position:absolute;inset:0;z-index:1;pointer-events:none;background:rgba(40,130,255,.35);clip-path:polygon(54% 0,55% 0,35% 100%,34% 100%);filter:blur(2px)}
+.lg-l{position:relative;z-index:2;background:none;padding:0 0 0 6vw;display:flex;flex-direction:column;justify-content:center;gap:0;min-height:100vh}
+.lg-word{display:flex;align-items:center;gap:6px}
+.lg-word svg.n{width:clamp(110px,14vw,210px);height:auto;filter:drop-shadow(0 10px 30px rgba(20,90,255,.45))}
+.lg-word .tx{display:flex;flex-direction:column;align-items:flex-end;line-height:.9}
+.lg-word .tx b{font-size:clamp(54px,7.2vw,112px);font-weight:800;color:#fff;letter-spacing:-.01em;text-shadow:0 6px 30px rgba(0,0,0,.35)}
+.lg-word .tx span{font-size:clamp(48px,6.4vw,100px);font-weight:800;color:#1F7BFF;letter-spacing:-.01em;margin-top:2px;background:linear-gradient(180deg,#3C93FF,#0B5BF0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lg-glow{height:2px;width:min(560px,40vw);margin:22px 0 26px 2vw;background:linear-gradient(90deg,transparent,#3C93FF 30%,#BFE0FF 55%,#3C93FF 75%,transparent);box-shadow:0 0 14px #2A7BFF}
+.lg-slogan{display:flex;align-items:center;gap:clamp(16px,2.2vw,34px);color:#fff;font-weight:600;letter-spacing:.26em;font-size:clamp(12px,1.15vw,19px);padding-left:1vw}
+.lg-slogan i{width:9px;height:9px;border-radius:50%;background:#2F86FF;box-shadow:0 0 10px #3C93FF}
+.lg-chart{width:min(620px,42vw);height:auto;margin-top:34px;margin-left:-2vw}
+.lg-r{position:relative;z-index:2;padding:30px 5vw 30px 0;display:flex;align-items:center;justify-content:center;background:none}
+.lg-box{position:relative;width:100%;max-width:520px;background:#fff;border-radius:34px;padding:22px 40px 30px;box-shadow:0 30px 70px rgba(25,55,120,.22),0 2px 0 rgba(255,255,255,.8) inset;text-align:center}
+.lg-ico{width:118px;height:118px;border-radius:50%;margin:0 auto 6px;background:radial-gradient(circle at 50% 35%,#E7F0FE,#CFDFFA);display:grid;place-items:center;box-shadow:0 8px 24px rgba(40,90,190,.15)}
+.lg-ico svg{width:66px;height:66px}
+.lg-box h2{font-size:clamp(30px,3.1vw,48px);line-height:1.08;margin:6px 0 10px;color:#0A1840;font-weight:800;letter-spacing:-.015em}
+.lg-box h2 em{font-style:normal;color:#1F6BFF}
+.lg-box .sub{color:#4F5E7A;margin:0 0 22px;font-size:clamp(15px,1.35vw,19px)}
+.inp{position:relative;margin-top:14px}
+.inp .ic-l{position:absolute;left:20px;top:50%;transform:translateY(-50%);width:26px;height:26px;color:#0A1840}
+.inp .ic-l svg{width:26px;height:26px}
+.inp input{height:64px;border:1.5px solid #D8E1F0;border-radius:20px;background:#fff;padding-left:64px;padding-right:54px;font-size:18px;color:#0A1840;box-shadow:0 2px 6px rgba(30,60,120,.04)}
+.inp input::placeholder{color:#6B7A95}
+.inp input:focus{border-color:#2F6BF0;outline:4px solid #E5EEFF}
+.ic-eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);border:0;background:none;color:#0A1840;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;border-radius:10px}
+.ic-eye svg{width:24px;height:24px}.ic-eye:hover{background:#EEF3FC}
+#login .lg-entrar{width:100%;margin-top:20px;height:64px;border-radius:24px;font-size:20px;font-weight:700;color:#fff;background:linear-gradient(180deg,#1F56D8 0%,#0D2F94 100%);border:0;box-shadow:0 12px 26px rgba(13,47,148,.35),inset 0 1px 0 rgba(255,255,255,.25);gap:12px}
+#login .lg-entrar:hover{background:linear-gradient(180deg,#1B4CC4,#0A2780)}
+.lg-entrar svg{width:26px;height:26px}
+.lg-rodape{display:flex;align-items:center;gap:22px;margin:26px 0 0;color:#0A1840;font-weight:600;font-size:15px;letter-spacing:.14em}
+.lg-rodape i{flex:1;height:1px;background:#C9D4E6}
+#login .lg-msg{color:var(--bad);text-align:center;font-size:13.5px;min-height:0;margin-top:10px}
+#login .lg-msg:empty{margin:0}
+#trocar label{text-align:left}
+@media(max-width:900px){#login{grid-template-columns:1fr}.lg-l,.lg-edge,.lg-edge2{display:none}.lg-diag{clip-path:polygon(0 30%,100% 10%,100% 100%,0 100%)}.lg-r{padding:22px 16px}.lg-box{padding:20px 22px 24px;border-radius:28px}.lg-ico{width:92px;height:92px}.lg-ico svg{width:52px;height:52px}.inp input{height:58px}.lg-entrar{height:58px}}
 </style>
 </head>
 <body>
 <div id="login" hidden>
+  <div class="lg-office"></div><div class="lg-diag"></div><div class="lg-edge2"></div><div class="lg-edge"></div>
   <div class="lg-l">
-    <div class="lg-brand"><img class="logo" src="login-logo.webp" alt="NEXUM Metas"></div>
+    <div class="lg-word"><svg class="n" viewBox="0 0 130 100" aria-hidden="true"><defs>
+<linearGradient id="nA" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#0A3BC0"/><stop offset=".55" stop-color="#1F6BFF"/><stop offset="1" stop-color="#5BA8FF"/></linearGradient>
+<linearGradient id="nB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B2C8E"/><stop offset="1" stop-color="#1D5FE6"/></linearGradient>
+<linearGradient id="nC" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#1450E0"/><stop offset="1" stop-color="#4C9BFF"/></linearGradient></defs>
+<path d="M4 92 L30 26 Q36 12 50 18 Q58 22 60 30 L44 30 Q38 28 36 36 L20 82 Z" fill="url(#nA)"/>
+<path d="M36 36 Q40 26 50 28 Q58 30 62 38 L88 84 Q80 92 70 86 Z" fill="url(#nB)"/>
+<path d="M70 86 L96 16 Q100 8 112 6 L126 4 L104 72 Q98 90 82 92 Q74 92 70 86 Z" fill="url(#nC)"/>
+<path d="M112 6 L126 4 L120 20 Z" fill="#7DBBFF"/></svg><div class="tx"><b>NEXUM</b><span>Metas</span></div></div>
+    <div class="lg-glow"></div>
     <div class="lg-slogan"><span>PLANEJE</span><i></i><span>ACOMPANHE</span><i></i><span>CONQUISTE</span></div>
-    <img class="alvo" src="login-alvo.webp" alt="">
+    <svg class="lg-chart" viewBox="0 0 620 320" aria-hidden="true"><defs>
+<linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A72FF" stop-opacity=".85"/><stop offset="1" stop-color="#0B2A7A" stop-opacity=".15"/></linearGradient>
+<linearGradient id="ar1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1D5FE6" stop-opacity="0"/><stop offset=".5" stop-color="#2F86FF"/><stop offset="1" stop-color="#7CC0FF"/></linearGradient>
+<filter id="gl"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<g fill="url(#bg1)"><rect x="150" y="245" width="52" height="60" rx="4"/><rect x="230" y="222" width="52" height="83" rx="4"/><rect x="310" y="195" width="52" height="110" rx="4"/><rect x="390" y="170" width="52" height="135" rx="4"/><rect x="470" y="135" width="52" height="170" rx="4"/><rect x="550" y="95" width="52" height="210" rx="4"/></g>
+<path d="M0 300 Q300 270 450 160 T585 25" fill="none" stroke="url(#ar1)" stroke-width="7" stroke-linecap="round" filter="url(#gl)"/>
+<path d="M548 18 L604 6 L590 62 Z" fill="#3C93FF" filter="url(#gl)"/>
+<line x1="0" y1="305" x2="620" y2="305" stroke="#2A72FF" stroke-opacity=".5" stroke-width="2" filter="url(#gl)"/></svg>
   </div>
   <div class="lg-r"><div class="lg-box">
-    <img class="lg-logo-top" src="login-logo.webp" alt="NEXUM Metas">
-    <h2>Bem-vindo(a)!</h2><p class="sub">Acesse sua conta para continuar</p>
+    <div class="lg-ico"><svg viewBox="0 0 64 64" aria-hidden="true"><g fill="#0A1E5C"><rect x="8" y="40" width="9" height="14" rx="1.5"/><rect x="21" y="32" width="9" height="22" rx="1.5"/><rect x="34" y="24" width="9" height="30" rx="1.5"/><rect x="47" y="16" width="9" height="38" rx="1.5"/></g><path d="M9 33 L40 12" stroke="#0A1E5C" stroke-width="4" stroke-linecap="round"/><path d="M35 8 L46 8 L44 19 Z" fill="#0A1E5C"/></svg></div>
+    <h2>Bem-vindo ao<br>NEXUM <em>Metas</em></h2><p class="sub">Acesse sua conta para continuar</p>
     <form id="fLogin" autocomplete="off" novalidate>
-      <div class="inp"><span class="ic-l"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span><input id="lUser" name="nx-user-metas" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="CPF ou e-mail"></div>
-      <div class="inp"><span class="ic-l"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></span><input id="lPass" type="password" autocomplete="current-password" placeholder="Senha"><button type="button" class="ic-eye" id="bEye" aria-label="Ver a senha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.4 5.2A9.5 9.5 0 0 1 12 5c6 0 9 7 9 7a15 15 0 0 1-2.6 3.5M6.1 6.1A15 15 0 0 0 3 12s3 7 9 7a9.3 9.3 0 0 0 3.3-.6"/></svg></button></div>
+      <div class="inp"><span class="ic-l"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7.5" r="4.5"/><path d="M3 21.5c0-4.6 4-7.5 9-7.5s9 2.9 9 7.5z"/></svg></span><input id="lUser" name="nx-user-metas" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Usuário" title="CPF (funcionário) ou e-mail (gerente e dono)"></div>
+      <div class="inp"><span class="ic-l"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7.5a5 5 0 0 1 10 0V10h.5A2.5 2.5 0 0 1 20 12.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 19.5v-7A2.5 2.5 0 0 1 6.5 10zm2.4 0h5.2V7.5a2.6 2.6 0 0 0-5.2 0zM12 14a1.6 1.6 0 0 0-.8 3v1.5h1.6V17a1.6 1.6 0 0 0-.8-3z"/></svg></span><input id="lPass" type="password" autocomplete="current-password" placeholder="Senha"><button type="button" class="ic-eye" id="bEye" aria-label="Ver a senha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.4 5.2A9.5 9.5 0 0 1 12 5c6 0 9 7 9 7a15 15 0 0 1-2.6 3.5M6.1 6.1A15 15 0 0 0 3 12s3 7 9 7a9.3 9.3 0 0 0 3.3-.6"/></svg></button></div>
       <button class="btn pri lg-entrar" id="bEntrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg><span>Entrar</span></button>
     </form>
     <div class="lg-msg" id="lMsg"></div>
     <div class="lg-rodape"><i></i><span>NEXUM Metas</span><i></i></div>
-    <p class="lg-dica" id="lDica">Funcionário entra com o <b>CPF</b> (senha inicial <b>123456</b>). Gerente e dono entram com o <b>e-mail</b> do sistema.</p>
   </div></div>
 </div>
 <!-- trocar senha (1º acesso do funcionário) -->
