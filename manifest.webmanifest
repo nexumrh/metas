@@ -1,6 +1,6 @@
 {
-  "name": "NexumCell — Minhas Metas",
-  "short_name": "Minhas Metas",
+  "name": "NexumCell — Metas & Bônus",
+  "short_name": "Metas",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

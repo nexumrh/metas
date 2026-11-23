@@ -78,6 +78,9 @@ td.cat{font-weight:700}td .ok{color:var(--pri);font-weight:700}td .bad{color:var
 .spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:g .8s linear infinite}@keyframes g{to{transform:rotate(360deg)}}
 @media(max-width:900px){.big4{grid-template-columns:1fr}.big4 .cards{grid-column:auto}.cfg-cat{grid-template-columns:1fr 1fr}.top{padding:0 12px;gap:8px}.top .nm,.top .div{display:none}.top .eu span{display:none}main{padding:16px 12px 70px}.g3{grid-template-columns:1fr}}
 @media(max-width:560px){.top{flex-wrap:wrap;height:auto;padding:10px 12px}.top nav{order:3;width:100%;margin:0}.g2{grid-template-columns:1fr}.big4 .cards{grid-template-columns:1fr}.filtros select,.filtros input{min-width:0;flex:1}}
+#inst{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:40;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 34px rgba(10,23,51,.18);padding:12px 12px 12px 14px;display:flex;align-items:center;gap:12px;width:calc(100% - 24px);max-width:440px}
+#inst img{width:42px;height:42px;border-radius:11px}#inst div{flex:1;font-size:13px;color:var(--mut);line-height:1.35}#inst div b{display:block;color:var(--txt);font-size:14.5px}#inst .x{border:0;background:none;color:#98A2B3;font-size:22px;cursor:pointer;padding:0 4px}
+.top .inst{background:var(--pri)!important}
 </style>
 </head>
 <body>
@@ -97,9 +100,10 @@ td.cat{font-weight:700}td .ok{color:var(--pri);font-weight:700}td .bad{color:var
   </div></div>
 </div>
 <div id="app" hidden>
-  <header class="top"><img src="login-logo.webp" alt="NexumCell"><span class="div"></span><span class="nm">METAS & BÔNUS</span><nav id="nav"></nav><div class="eu"><span id="euNome"></span><button id="bSair">Sair</button></div></header>
+  <header class="top"><img src="login-logo.webp" alt="NexumCell"><span class="div"></span><span class="nm">METAS & BÔNUS</span><nav id="nav"></nav><div class="eu"><span id="euNome"></span><button class="inst" id="bInst" hidden>Instalar app</button><button id="bSair">Sair</button></div></header>
   <main id="view"></main>
 </div>
+<div id="inst" hidden><img src="icon-192.png" alt=""><div><b>Instale o app no celular</b>Abra as suas metas com um toque, direto da tela inicial.</div><button class="btn pri sm" id="bInst2">Instalar</button><button class="x" id="instX" aria-label="Fechar">×</button></div>
 <div id="toast"></div>
 <script>
 'use strict';
@@ -125,13 +129,13 @@ let fb=null;
 const D={ store:null,
   demoInit(){ const ag=Date.now(), m=hojeISO().slice(0,7), pm=prevMes(m);
     const P=(cpf,nome,cargo,nasc,extra={})=>({id:'l1_'+cpf,escopo:'l1',cpf,nome,cargo,nasc,ativo:true,ativado:true,uid:'u'+cpf.slice(0,3),...extra});
-    const pes=[P('52998224725','Adriana da Silva','VENDEDOR','1995-04-10',{vendedorUid:'v1'}),P('11144477735','Nádia Mohamed','VENDEDOR','1998-08-21',{vendedorUid:'v2'}),P('39053344705','Bruno Lins','VENDEDOR','2000-01-15',{ativado:false,uid:''})];
+    const pes=[P('15350946056','Isabela Moura','GERENTE','1990-03-03'),P('52998224725','Adriana da Silva','VENDEDOR','1995-04-10',{vendedorUid:'v1'}),P('11144477735','Nádia Mohamed','VENDEDOR','1998-08-21',{vendedorUid:'v2'}),P('39053344705','Bruno Lins','VENDEDOR','2000-01-15',{ativado:false,uid:''})];
     const cats=PADRAO_LOJA.map((c,i)=>({...c,bonus:[{pct:80,valor:20},{pct:100,valor:60},{pct:120,valor:100}].map(x=>({...x,valor:x.valor*(i<2?2:1)}))}));
-    const metas={}; pes.forEach((p,i)=>metas[p.cpf]={aparelhos_rs:8000-i*500,aparelhos:6,peliculas:15,capas:10,acessorios:500,seguros:600});
+    const metas={}; pes.slice(1).forEach((p,i)=>metas[p.cpf]={aparelhos_rs:8000-i*500,aparelhos:6,peliculas:15,capas:10,acessorios:500,seguros:600});
     const lanc=[]; let k=0; const add=(cpf,cat,q,v,d)=>lanc.push({id:'x'+(k++),escopo:'l1',mes:m,cpf,cat,qtd:q,valor:v,data:m+'-'+String(d).padStart(2,'0'),por:'Demo',porUid:'',em:ag});
-    [[0,'peliculas',7],[0,'capas',3],[1,'peliculas',4],[1,'capas',6],[2,'peliculas',2]].forEach(([i,c,q])=>add(pes[i].cpf,c,q,q*25,5));
-    [[0,'acessorios',59],[1,'acessorios',220],[0,'seguros',0],[1,'seguros',180]].forEach(([i,c,v])=>add(pes[i].cpf,c,1,v,8));
-    this.store={metasPessoas:Object.fromEntries(pes.map(p=>[p.id,p])),metasPlano:{['l1_'+m]:{escopo:'l1',mes:m,categorias:cats,metas,extra:{valor:200},sabado:.5,auto:{[pes[0].cpf]:{aparelhos:4,faturamento:4990},[pes[1].cpf]:{aparelhos:3,faturamento:3600}}},['l1_'+pm]:{escopo:'l1',mes:pm,auto:{[pes[0].cpf]:{aparelhos:3,faturamento:3200}}}},metasLanc:Object.fromEntries(lanc.map(x=>[x.id,x])),lojas:{l1:{nome:'Loja Centro'},l2:{nome:'Loja Shopping'}}}; },
+    [[1,'peliculas',7],[1,'capas',3],[2,'peliculas',4],[2,'capas',6],[3,'peliculas',2],[0,'capas',2]].forEach(([i,c,q])=>add(pes[i].cpf,c,q,q*25,5));
+    [[1,'acessorios',59],[2,'acessorios',220],[2,'seguros',180]].forEach(([i,c,v])=>add(pes[i].cpf,c,1,v,8));
+    this.store={metasPessoas:Object.fromEntries(pes.map(p=>[p.id,p])),metasPlano:{['l1_'+m]:{escopo:'l1',mes:m,categorias:cats,metas,extra:{valor:200},sabado:.5,auto:{[pes[1].cpf]:{aparelhos:4,faturamento:4990},[pes[2].cpf]:{aparelhos:3,faturamento:3600}}},['l1_'+pm]:{escopo:'l1',mes:pm,auto:{[pes[1].cpf]:{aparelhos:3,faturamento:3200}}}},metasLanc:Object.fromEntries(lanc.map(x=>[x.id,x])),lojas:{l1:{nome:'Loja Centro'},l2:{nome:'Loja Shopping'}}}; },
   async get(c,id){ if(DEMO) return this.store[c]?.[id]?{id,...JSON.parse(JSON.stringify(this.store[c][id]))}:null; const s=await fb.m.getDoc(fb.m.doc(fb.db,c,id)); return s.exists()?{id:s.id,...s.data()}:null; },
   async set(c,id,d){ d={...d}; delete d.id; if(DEMO){ (this.store[c] ||= {})[id]={...(this.store[c][id]||{}),...JSON.parse(JSON.stringify(d))}; return; } await fb.m.setDoc(fb.m.doc(fb.db,c,id),d,{merge:true}); },
   async put(c,id,d){ d={...d}; delete d.id; if(DEMO){ (this.store[c] ||= {})[id]=JSON.parse(JSON.stringify(d)); return; } await fb.m.setDoc(fb.m.doc(fb.db,c,id),d); },
@@ -180,7 +184,7 @@ $('#bSair').onclick=async()=>{ if(DEMO){ S.modo=''; return mostrarLogin(); } awa
 
 async function iniciarFunc(cpf,ac){ const p=DEMO?Object.values(D.store.metasPessoas).find(x=>x.cpf===cpf):await D.get('metasPessoas',ac.pessoaId);
   if(!p||p.ativo===false){ if(!DEMO) await fb.au.signOut(fb.auth); return mostrarLogin('O seu acesso às metas está desativado. Fale com o seu gerente.'); }
-  Object.assign(S,{modo:'func',me:{nome:p.nome},cpf:p.cpf,escopo:p.escopo,escopos:[[p.escopo,'']],pessoa:p.cpf,tab:'painel'}); abrirApp(); }
+  Object.assign(S,{modo:'func',me:{nome:p.nome},cpf:p.cpf,escopo:p.escopo,escopos:[[p.escopo,'']],pessoa:p.cpf,tab:'painel',ger:p.cargo==='GERENTE'&&p.escopo!=='nexum'}); abrirApp(); }
 async function iniciarGestor(u){ const dono=u.role==='DONO';
   let escs=[]; if(dono){ escs=[['nexum','Equipe NexumCell']]; const ls=DEMO?Object.entries(D.store.lojas).map(([id,v])=>({id,...v})):await D.list('lojas').catch(()=>[]); ls.filter(l=>!l.encerrada).forEach(l=>escs.push([l.id,l.nome])); }
   else escs=[[u.lojaId,(DEMO?D.store.lojas[u.lojaId]?.nome:(await D.get('lojas',u.lojaId).catch(()=>null))?.nome)||'Minha loja']];
@@ -191,16 +195,21 @@ function abrirApp(){ $('#login').hidden=true; $('#app').hidden=false; $('#euNome
 let C={};   // cache do mês
 async function carregar(){ const m=S.mes, pm=prevMes(m), e=S.escopo;
   const [plano,planoAnt,pessoas,lanc,lancAnt]=await Promise.all([D.get('metasPlano',e+'_'+m),D.get('metasPlano',e+'_'+pm),
-    S.modo==='gestor'?D.list('metasPessoas',[['escopo','==',e]]):Promise.resolve([{cpf:S.cpf,nome:S.me.nome,ativo:true}]),
-    D.list('metasLanc',S.modo==='gestor'?[['escopo','==',e],['mes','==',m]]:[['escopo','==',e],['mes','==',m],['cpf','==',S.cpf]]),
-    D.list('metasLanc',S.modo==='gestor'?[['escopo','==',e],['mes','==',pm]]:[['escopo','==',e],['mes','==',pm],['cpf','==',S.cpf]])]);
+    S.modo==='gestor'||S.ger?D.list('metasPessoas',[['escopo','==',e]]):Promise.resolve([{cpf:S.cpf,nome:S.me.nome,ativo:true}]),
+    D.list('metasLanc',S.modo==='gestor'||S.ger?[['escopo','==',e],['mes','==',m]]:[['escopo','==',e],['mes','==',m],['cpf','==',S.cpf]]),
+    D.list('metasLanc',S.modo==='gestor'||S.ger?[['escopo','==',e],['mes','==',pm]]:[['escopo','==',e],['mes','==',pm],['cpf','==',S.cpf]])]);
   const cats=(plano?.categorias?.length?plano.categorias:planoAnt?.categorias?.length?planoAnt.categorias:(e==='nexum'?PADRAO_NEXUM:PADRAO_LOJA)).map((c,i)=>({bonus:[],...c,cor:c.cor||CORES[i%CORES.length]}));
   C={plano:plano||{},planoAnt:planoAnt||{},cats,pessoas:pessoas.filter(p=>p.ativo!==false).sort((a,b)=>String(a.nome).localeCompare(b.nome)),lanc,lancAnt,du:diasUteis(m,plano?.sabado??planoAnt?.sabado??.5),metas:plano?.metas||{},extra:plano?.extra||planoAnt?.extra||{}}; }
-function realiz(cpf,cat,ant){ const pl=ant?C.planoAnt:C.plano, L=ant?C.lancAnt:C.lanc;
+const ehGer=cpf=>S.escopo!=='nexum'&&C.pessoas.find(p=>p.cpf===cpf)?.cargo==='GERENTE';
+const equipeDe=()=>C.pessoas.filter(p=>p.cargo!=='GERENTE').map(p=>p.cpf);
+function metaP(cpf,id){ return +C.metas[cpf]?.[id]||0; }
+function metaDe(cpf,id){ return ehGer(cpf)?equipeDe().reduce((s,c)=>s+metaP(c,id),0):metaP(cpf,id); }
+function realiz(cpf,cat,ant){ return ehGer(cpf)?equipeDe().reduce((s,c)=>s+realizP(c,cat,ant),0)+realizP(cpf,cat,ant):realizP(cpf,cat,ant); }
+function realizP(cpf,cat,ant){ const pl=ant?C.planoAnt:C.plano, L=ant?C.lancAnt:C.lanc;
   if(cat.fonte==='sis_qtd') return +(pl.auto?.[cpf]?.aparelhos)||0; if(cat.fonte==='sis_rs') return +(pl.auto?.[cpf]?.faturamento)||0;
   return L.filter(x=>x.cpf===cpf&&x.cat===cat.id).reduce((s,x)=>s+(cat.tipo==='rs'?+x.valor||0:+x.qtd||0),0); }
 function bonusDe(cat,p){ let v=0; (cat.bonus||[]).forEach(f=>{ if(p>=+f.pct&&+f.valor>v) v=+f.valor; }); return v; }
-function indicador(cat,cpfs){ const real=cpfs.reduce((s,c)=>s+realiz(c,cat),0), meta=cpfs.reduce((s,c)=>s+(+C.metas[c]?.[cat.id]||0),0), ant=cpfs.reduce((s,c)=>s+realiz(c,cat,true),0);
+function indicador(cat,cpfs){ const um=cpfs.length===1, real=um?realiz(cpfs[0],cat):cpfs.reduce((s,c)=>s+realizP(c,cat),0), meta=um?metaDe(cpfs[0],cat.id):cpfs.filter(c=>!ehGer(c)).reduce((s,c)=>s+metaP(c,cat.id),0), ant=um?realiz(cpfs[0],cat,true):cpfs.reduce((s,c)=>s+realizP(c,cat,true),0);
   const tend=C.du.pas>0?real/C.du.pas*C.du.tot:0, at=meta?real/meta*100:0, tp=meta?tend/meta*100:0, mom=ant?((real-ant)/ant*100):null, gap=Math.max(0,meta-real), rest=Math.max(0,C.du.tot-C.du.pas);
   return {cat,real,meta,ant,tend,at,tp,mom,gap,nec:rest?gap/rest:gap,qtd:cpfs.reduce((s,c)=>s+C.lanc.filter(x=>x.cpf===c&&x.cat===cat.id).length,0)}; }
 const corPct=p=>p>=100?'#1F5FE8':p>=80?'#F59E0B':'#E8364F';
@@ -302,16 +311,17 @@ function vConfig(){ const pl=C.plano, cats=JSON.parse(JSON.stringify(C.cats)), m
         <div class="fx" style="grid-column:1/-1">Bônus:${[0,1,2].map(j=>{ const f=(c.bonus||[])[j]||{pct:[80,100,120][j],valor:''}; return ` ao chegar em <input data-b="${j}" data-bk="pct" type="number" value="${f.pct}" min="1" max="300">% ganha R$ <input data-b="${j}" data-bk="valor" type="number" value="${f.valor}" min="0" step="1">`; }).join(' ·')}</div></div>`).join('')}
       <button class="btn sm" id="cAdd">+ Categoria</button>
       <div class="g3" style="margin-top:14px"><label>Bônus extra para quem bater TODAS as metas (R$)<input id="cExtra" type="number" min="0" value="${+extra.valor||''}"></label><label>Sábado conta como<select id="cSab"><option value="1" ${sab==1?'selected':''}>Dia inteiro</option><option value=".5" ${sab==.5?'selected':''}>Meio dia</option><option value="0" ${sab==0?'selected':''}>Não conta</option></select></label></div></div>
-    <div class="card" style="margin-top:16px"><h3 style="margin:0 0 4px;font-size:16px">2. Meta de cada pessoa</h3><p style="color:var(--mut);margin:0 0 12px;font-size:13px">Preencha a linha "Todos" para aplicar o mesmo valor a toda a equipe.</p>
+    <div class="card" style="margin-top:16px"><h3 style="margin:0 0 4px;font-size:16px">2. Meta de cada pessoa</h3><p style="color:var(--mut);margin:0 0 12px;font-size:13px">Preencha a linha "Todos" para aplicar o mesmo valor a toda a equipe. A meta do gerente é a soma das metas dos funcionários ativos e o realizado dele é o total da loja.</p>
       <div class="tw mtab"><table><tr><th>Pessoa</th>${cats.map(c=>`<th>${esc(c.nome)}${c.tipo==='rs'?' (R$)':''}</th>`).join('')}</tr>
       <tr style="background:#F8FAFF"><td><b>Todos</b></td>${cats.map(c=>`<td><input data-todos="${c.id}" type="number" min="0" placeholder="—"></td>`).join('')}</tr>
-      ${C.pessoas.map(p=>`<tr><td>${esc(p.nome)}</td>${cats.map(c=>`<td><input data-m="${p.cpf}" data-c="${c.id}" type="number" min="0" value="${metas[p.cpf]?.[c.id]??''}"></td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cats.length+1}" class="vazio">Cadastre a equipe primeiro (aba Equipe).</td></tr>`}</table></div></div>`;
+      ${C.pessoas.map(p=>ehGer(p.cpf)?`<tr style="background:#FAFBFD"><td>${esc(p.nome)}<br><span style="font-size:11.5px;color:var(--mut)">Gerente: soma da equipe ativa</span></td>${cats.map(c=>`<td style="color:var(--pri);font-weight:700">${c.tipo==='rs'?brl(C.pessoas.filter(x=>!ehGer(x.cpf)).reduce((s,x)=>s+(+metas[x.cpf]?.[c.id]||0),0)):num(C.pessoas.filter(x=>!ehGer(x.cpf)).reduce((s,x)=>s+(+metas[x.cpf]?.[c.id]||0),0))}</td>`).join('')}</tr>`:`<tr><td>${esc(p.nome)}</td>${cats.map(c=>`<td><input data-m="${p.cpf}" data-c="${c.id}" type="number" min="0" value="${metas[p.cpf]?.[c.id]??''}"></td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cats.length+1}" class="vazio">Cadastre a equipe primeiro (aba Equipe).</td></tr>`}</table></div></div>`;
     ligarFiltros();
     const ler=()=>{ $$('.cfg-cat').forEach(el=>{ const c=cats[+el.dataset.i]; el.querySelectorAll('[data-k]').forEach(i=>c[i.dataset.k]=i.value); c.bonus=[0,1,2].map(j=>({pct:+el.querySelector(`[data-b="${j}"][data-bk="pct"]`).value||0,valor:+el.querySelector(`[data-b="${j}"][data-bk="valor"]`).value||0})).filter(f=>f.pct>0&&f.valor>0); });
       $$('[data-m]').forEach(i=>{ (metas[i.dataset.m] ||= {})[i.dataset.c]=i.value===''?null:+i.value; }); extra.valor=+$('#cExtra').value||0; sab=+$('#cSab').value; };
     $('#cAdd').onclick=()=>{ ler(); cats.push({id:'c'+Date.now().toString(36),nome:'Nova categoria',tipo:'qtd',fonte:'manual',bonus:[],cor:CORES[cats.length%CORES.length]}); desenha(); };
     $$('[data-rm]').forEach(b=>b.onclick=()=>{ ler(); if(!confirm('Tirar esta categoria das metas deste mês?')) return; cats.splice(+b.dataset.rm,1); desenha(); });
-    $$('[data-todos]').forEach(i=>i.onchange=()=>{ $$(`[data-c="${i.dataset.todos}"]`).forEach(x=>x.value=i.value); });
+    $$('[data-todos]').forEach(i=>i.onchange=()=>{ $$(`[data-c="${i.dataset.todos}"]`).forEach(x=>x.value=i.value); ler(); desenha(); });
+    $$('[data-m]').forEach(i=>i.onchange=()=>{ ler(); desenha(); });
     $('#cCopiar').onclick=async()=>{ const a=C.planoAnt; if(!a?.categorias?.length) return toast('O mês anterior não tem metas','err'); cats.splice(0,cats.length,...JSON.parse(JSON.stringify(a.categorias))); Object.assign(metas,JSON.parse(JSON.stringify(a.metas||{}))); extra.valor=a.extra?.valor||0; desenha(); toast('Copiado. Confira e salve.'); };
     $('#cSalvar').onclick=async e=>{ ler(); if(cats.some(c=>!c.nome.trim())) return toast('Toda categoria precisa de nome','err'); e.currentTarget.disabled=true;
       try{ await D.set('metasPlano',S.escopo+'_'+S.mes,{escopo:S.escopo,mes:S.mes,categorias:cats.map((c,i)=>({id:c.id,nome:c.nome.trim().slice(0,30),tipo:c.tipo,fonte:c.fonte,bonus:c.bonus||[],cor:c.cor||CORES[i%CORES.length]})),metas,extra:{valor:+extra.valor||0},sabado:sab,atualizadoEm:Date.now(),por:S.me.nome}); toast('Metas salvas. A equipe já vê no app.'); render(); }
@@ -329,6 +339,18 @@ function modal(t,corpo,salvar){ const d=document.createElement('div'); d.classNa
   d.querySelector('#eCpf')?.addEventListener('input',e=>{ const x=soD(e.target.value).slice(0,11); e.target.value=x.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2'); });
   d.querySelector('[data-ok]').onclick=async e=>{ e.currentTarget.disabled=true; try{ await salvar(); fechar(); }catch(er){ d.querySelector('#mMsg').textContent=er.message; e.currentTarget.disabled=false; } }; }
 
+
+/* ===== instalar no celular ===== */
+let instEv=null; const instalado=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const ehIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+function mostrarInst(){ if(instalado()) return; $('#bInst').hidden=false; let fech=0; try{ fech=+localStorage.getItem('mtInstX')||0; }catch(e){} if(Date.now()-fech>3*864e5) $('#inst').hidden=false; }
+addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); instEv=e; mostrarInst(); });
+addEventListener('appinstalled',()=>{ $('#inst').hidden=true; $('#bInst').hidden=true; toast('App instalado. Procure "Metas" na tela inicial.'); });
+async function instalar(){ if(instEv){ instEv.prompt(); const r=await instEv.userChoice.catch(()=>({})); instEv=null; if(r.outcome==='accepted'){ $('#inst').hidden=true; $('#bInst').hidden=true; } return; }
+  const d=document.createElement('div'); d.className='modal'; d.innerHTML=`<div class="mb" style="max-width:440px"><div class="mh"><h3>Instalar no celular</h3><button aria-label="Fechar">×</button></div><div class="mc">${ehIOS?`<ol style="margin:0;padding-left:20px;line-height:2"><li>Abra este link no <b>Safari</b>.</li><li>Toque no botão <b>Compartilhar</b> (quadrado com a seta para cima), na barra de baixo.</li><li>Role e toque em <b>Adicionar à Tela de Início</b>.</li><li>Toque em <b>Adicionar</b>. O ícone "Metas" aparece na tela inicial.</li></ol>`:`<ol style="margin:0;padding-left:20px;line-height:2"><li>Abra este link no <b>Chrome</b>.</li><li>Toque nos <b>três pontinhos</b> no canto de cima.</li><li>Toque em <b>Instalar app</b> (ou <b>Adicionar à tela inicial</b>).</li><li>Confirme. O ícone "Metas" aparece na tela inicial.</li></ol>`}</div><div class="mf"><button class="btn pri" data-x>Entendi</button></div></div>`;
+  document.body.appendChild(d); const f=()=>d.remove(); d.querySelector('.mh button').onclick=f; d.querySelector('[data-x]').onclick=f; d.onclick=e=>{ if(e.target===d) f(); }; }
+$('#bInst').onclick=instalar; $('#bInst2').onclick=instalar; $('#instX').onclick=()=>{ $('#inst').hidden=true; try{ localStorage.setItem('mtInstX',Date.now()); }catch(e){} };
+if(!instalado()&&(ehIOS||/android/i.test(navigator.userAgent))) setTimeout(mostrarInst,1200);
 /* ===== início ===== */
 (async()=>{
   if('serviceWorker' in navigator&&!DEMO) navigator.serviceWorker.register('sw.js').catch(()=>{});
