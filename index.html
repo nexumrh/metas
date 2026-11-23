@@ -25,17 +25,17 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--mut)}label>inpu
 /* login */
 #login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
 .lg-l{background:linear-gradient(160deg,#0A1733,#16306B);color:#fff;padding:44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-.lg-l img.logo{height:30px;width:auto}.lg-l h1{font-size:38px;line-height:1.1;margin:0 0 12px;letter-spacing:-.02em}.lg-l h1 em{font-style:normal;color:#7FA8FF}.lg-l p{color:#B9C6E4;font-size:16px;max-width:420px;margin:0}
-.lg-l .alvo{position:absolute;right:-60px;bottom:-40px;width:420px;opacity:.9;pointer-events:none}
+.lg-l img.logo{height:60px;width:auto;max-width:220px;object-fit:contain;object-position:left center;align-self:flex-start}.lg-l h1{font-size:38px;line-height:1.1;margin:0 0 12px;letter-spacing:-.02em}.lg-l h1 em{font-style:normal;color:#7FA8FF}.lg-l p{color:#B9C6E4;font-size:16px;max-width:420px;margin:0}
+.lg-l .alvo{position:absolute;right:-40px;bottom:-30px;width:340px;opacity:.55;pointer-events:none;-webkit-mask-image:radial-gradient(circle at 60% 60%,#000 45%,transparent 75%);mask-image:radial-gradient(circle at 60% 60%,#000 45%,transparent 75%)}
 .lg-r{display:flex;align-items:center;justify-content:center;padding:30px}
 .lg-box{width:100%;max-width:400px}.lg-box h2{font-size:24px;margin:0 0 4px}.lg-box .sub{color:var(--mut);margin:0 0 20px}
 .lg-tabs{display:flex;background:#EEF0F5;border-radius:12px;padding:4px;margin-bottom:18px}.lg-tabs button{flex:1;border:0;background:none;border-radius:9px;padding:9px;font-weight:600;color:var(--mut);cursor:pointer}.lg-tabs button.on{background:#fff;color:var(--txt);box-shadow:0 1px 3px rgba(16,24,40,.08)}
 .lg-box label{margin-top:12px}.lg-box .btn{width:100%;margin-top:18px;padding:13px}
 .lg-msg{color:var(--bad);font-size:13.5px;min-height:20px;margin-top:10px}.lg-ok{background:var(--pri-s);color:#1D3F8F;border-radius:12px;padding:11px 13px;font-size:13.5px;margin-top:4px}
-@media(max-width:860px){#login{grid-template-columns:1fr}.lg-l{padding:26px 22px;min-height:auto}.lg-l h1{font-size:26px}.lg-l .alvo{display:none}.lg-l .desk{display:none}}
+@media(max-width:860px){#login{grid-template-columns:1fr}.lg-l img.logo{height:46px}.lg-l{padding:26px 22px;min-height:auto}.lg-l h1{font-size:26px}.lg-l .alvo{display:none}.lg-l .desk{display:none}}
 /* app */
 .top{background:var(--ink);color:#fff;padding:0 22px;height:60px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:20}
-.top img{height:22px}.top .div{width:1px;height:20px;background:rgba(255,255,255,.25)}.top .nm{font-weight:700;letter-spacing:.04em;color:#9DB7F5;font-size:13px}
+.top img{height:30px;width:auto;object-fit:contain}.top .div{width:1px;height:20px;background:rgba(255,255,255,.25)}.top .nm{font-weight:700;letter-spacing:.04em;color:#9DB7F5;font-size:13px}
 .top nav{display:flex;gap:2px;margin-left:12px;overflow-x:auto}.top nav button{background:none;border:0;color:#B9C6E4;padding:8px 12px;border-radius:9px;cursor:pointer;font-weight:600;white-space:nowrap}.top nav button.on{background:rgba(255,255,255,.12);color:#fff}
 .top .eu{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:#C9D4EE}.top .eu button{background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:9px;padding:7px 11px;cursor:pointer;font-weight:600}
 main{max-width:1320px;margin:0 auto;padding:24px 22px 80px}
@@ -343,7 +343,8 @@ function modal(t,corpo,salvar){ const d=document.createElement('div'); d.classNa
 /* ===== instalar no celular ===== */
 let instEv=null; const instalado=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
 const ehIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-function mostrarInst(){ if(instalado()) return; $('#bInst').hidden=false; let fech=0; try{ fech=+localStorage.getItem('mtInstX')||0; }catch(e){} if(Date.now()-fech>3*864e5) $('#inst').hidden=false; }
+const ehCel=()=>matchMedia('(pointer:coarse)').matches||/android|iphone|ipad|ipod/i.test(navigator.userAgent);
+function mostrarInst(){ if(instalado()) return; $('#bInst').hidden=false; if(!ehCel()) return; let fech=0; try{ fech=+localStorage.getItem('mtInstX')||0; }catch(e){} if(Date.now()-fech>3*864e5) $('#inst').hidden=false; }
 addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); instEv=e; mostrarInst(); });
 addEventListener('appinstalled',()=>{ $('#inst').hidden=true; $('#bInst').hidden=true; toast('App instalado. Procure "Metas" na tela inicial.'); });
 async function instalar(){ if(instEv){ instEv.prompt(); const r=await instEv.userChoice.catch(()=>({})); instEv=null; if(r.outcome==='accepted'){ $('#inst').hidden=true; $('#bInst').hidden=true; } return; }
