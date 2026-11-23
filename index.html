@@ -2,770 +2,345 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Metas & Bônus — NexumCell</title>
 <meta name="theme-color" content="#0A1733">
-<title>Minhas Metas — NexumCell</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="nexumcell-config.js"></script>
 <style>
-  :root{--navy:#0A1733;--navy2:#0B1E3F;--blue:#1D4ED8;--blue2:#4D8DFF;--ink:#1B2130;--muted:#64708A;--line:#E4E8F0;--bg:#F3F6FC;--good:#15754A;--goodbg:#E7F3EC;--mid:#1D4ED8;--midbg:#E9F0FF;--bad:#9A2A2A;--badbg:#F6E8E8;--card:#fff}
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
-  .hidden{display:none!important}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 1px 2px rgba(16,32,64,.04)}
-  h1,h2{margin:0}
-  .muted{color:var(--muted)}
-  .btn{appearance:none;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:10px;padding:11px 16px;font-size:15px;font-weight:600;cursor:pointer}
-  .btn.ghost{background:#fff;color:var(--blue)}
-  .btn.sm{padding:7px 12px;font-size:13px}
-  .btn:disabled{opacity:.6}
-  /* ===== LOGIN (capa igual aos sistemas) ===== */
-  #login{min-height:100dvh;position:relative;display:grid;grid-template-columns:1.1fr .9fr;overflow:hidden;background:#07122b}
-  #net{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-  .adl-art{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:6vh 5vw;color:#fff;background:radial-gradient(120% 90% at 0% 0%,rgba(29,78,216,.35),transparent 60%),linear-gradient(135deg,rgba(10,23,51,.85),rgba(18,42,88,.55))}
-  .adl-in{width:100%;max-width:520px;display:flex;flex-direction:column;gap:22px}
-  .adl-art h1{font-size:clamp(30px,3.4vw,44px);line-height:1.08;margin:0;font-weight:800;letter-spacing:-1px}
-  .adl-art p{font-size:16px;color:#C4D2EC;max-width:46ch;margin:0;line-height:1.55}
-  .prev{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:18px 20px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 20px 50px rgba(0,0,0,.25)}
-  .prev .l{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:#9FB3D9}
-  .prev .chipv{background:rgba(16,185,129,.18);color:#6EE7B7;border-radius:99px;padding:3px 10px;font-weight:600;font-size:12px}
-  .prev .v{font-size:30px;font-weight:800;letter-spacing:-.5px;margin-top:4px}
-  .prev .v small{font-size:13px;color:#9FB3D9;font-weight:500;letter-spacing:0}
-  .prev .bar{height:7px;border-radius:6px;background:rgba(255,255,255,.12);margin-top:10px;overflow:hidden}
-  .prev .bar i{display:block;height:100%;width:62%;border-radius:6px;background:linear-gradient(90deg,#10B981,#34D399)}
-  .prev .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-  .prev .rg{display:flex;align-items:center;gap:10px;font-size:12.5px;color:#DCE7FB}
-  .prev .rg svg{width:38px;height:38px;flex:none;transform:rotate(-90deg)}
-  .prev .rg b{display:block;font-size:14px;color:#fff}
-  .feats{display:grid;gap:14px}
-  .feat{display:flex;gap:14px;align-items:flex-start}
-  .feat .ic{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;background:rgba(77,141,255,.16);border:1px solid rgba(77,141,255,.3);color:#7FAEFF}
-  .feat b{display:block;font-size:15px}.feat span{font-size:13.5px;color:#AFC0E0}
-  .mk{display:inline-flex;align-items:center;font-weight:800}
-  .mk img{height:28px;display:block}
-  .mk i{width:1px;height:19px;background:currentColor;opacity:.35;margin:0 10px}
-  .mk span{font-size:18px;letter-spacing:.5px}
-  .adl-side{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:5vh 5vw;background:linear-gradient(180deg,#F6F8FD,#EEF2FA)}
-  .lbox{width:100%;max-width:420px;background:#fff;border:1px solid #E5E9F2;border-radius:24px;padding:34px 32px 26px;box-shadow:0 24px 60px rgba(10,23,51,.10)}
-  .lbrand{display:inline-flex;background:#0A1733;border-radius:12px;padding:9px 14px;color:#fff;margin-bottom:22px}
-  .lbrand .mk img{height:22px}.lbrand .mk span{font-size:15px;color:#7FAEFF}
-  .lbox h2.tit{color:#0F172A;font-size:24px;margin:0 0 4px;letter-spacing:-.4px}
-  .lsub{color:#64748B;font-size:14px;margin:0 0 22px}
-  .rot{display:block;font-size:13px;font-weight:600;color:#334155;margin:14px 0 6px}
-  .in{display:flex;align-items:center;gap:10px;border:1.5px solid #D7DEEC;border-radius:12px;padding:0 14px;height:52px;margin:0;background:#fff;transition:border-color .15s,box-shadow .15s}
-  .in:focus-within{border-color:#1D4ED8;box-shadow:0 0 0 4px rgba(29,78,216,.12)}
-  .in svg{color:#8893A8;flex:none}
-  .in input{border:0;outline:0;font-size:16px;width:100%;background:transparent;color:#0F172A}
-  .in input::placeholder{color:#94A3B8}
-  .olho{background:0;border:0;color:#8893A8;cursor:pointer;padding:4px;display:grid;place-items:center;border-radius:8px}
-  .olho:hover{background:#F1F5F9}
-  .linha-l{display:flex;justify-content:flex-end;margin-top:10px}
-  .ent{width:100%;margin-top:18px;height:52px;border-radius:12px;font-size:16px;box-shadow:0 8px 20px rgba(29,78,216,.25)}
-  .ent:hover{background:#1E40AF;border-color:#1E40AF}
-  .lk{background:0;border:0;color:#1D4ED8;font-size:13.5px;font-weight:600;cursor:pointer;padding:0}
-  .lk:hover{text-decoration:underline}
-  .lmsg{text-align:center;font-size:13.5px;color:#C23;margin:12px 0 0;min-height:18px}
-  .seg{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:#94A3B8;margin-top:18px;padding-top:16px;border-top:1px solid #EEF1F7}
-  .seg svg{color:#0E9F6E}
-  @media(max-width:900px){ #login{grid-template-columns:1fr 1fr} .prev .rings{grid-template-columns:1fr} }
-  @media(max-width:760px){
-    #login{grid-template-columns:1fr;background:linear-gradient(160deg,#0A1733,#122a58)}
-    .adl-art{display:none}
-    .adl-side{background:transparent;min-height:100dvh;padding:24px 18px}
-    .lbox{padding:28px 22px 22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
-  }
-  /* ===== APP (padrão NexumCell) ===== */
-  #app{max-width:720px;margin:0 auto;padding:0 0 48px;min-height:100dvh}
-  .top{background:linear-gradient(135deg,#0A1733,#12306B 55%,#1D4ED8);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 84px;border-radius:0 0 28px 28px}
-  .top-bar{display:flex;align-items:center;gap:10px}
-  .top-bar .logo{width:30px;height:30px;border-radius:8px;background:#fff;color:#1D4ED8;display:grid;place-items:center;font-weight:800;font-size:16px}
-  .top-bar .marca{flex:1;font-weight:600;font-size:16px}
-  .ibtn{height:38px;min-width:38px;padding:0 10px;border-radius:12px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:13.5px;font-weight:600}
-  .ibtn svg{width:18px;height:18px}
-  .ola{font-size:23px;font-weight:700;margin-top:16px}
-  .ola-sub{color:#C7D5F5;font-size:13.5px;margin-top:2px}
-  .monthnav{display:flex;align-items:center;gap:10px;margin-top:14px}
-  .monthnav b{font-size:15px;flex:1;text-align:center}
-  .mbtn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:18px;cursor:pointer;display:grid;place-items:center}
-  .mbtn:disabled{opacity:.3}
-  .dias{display:flex;gap:8px;justify-content:center;margin-top:10px}
-  .dias span{font-size:12px;color:#DCE7FB;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:99px;padding:4px 10px}
-  #conteudo{padding:0 16px;margin-top:-64px;position:relative}
-  .card{background:#fff;border:1px solid #E5E9F2;border-radius:20px;padding:18px;margin:0 0 14px;box-shadow:0 4px 14px rgba(15,23,42,.05)}
-  .hero{box-shadow:0 10px 30px rgba(10,23,51,.12)}
-  .chip{display:inline-block;font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;white-space:nowrap}
-  .c-v{background:#E7F7F0;color:#0E9F6E}.c-a{background:#EAF0FF;color:#1D4ED8}.c-r{background:#FDECEC;color:#DC2626}.c-l{background:#FEF3E2;color:#B45309}.c-c{background:#F1F5F9;color:#64748B}
-  .linha{display:flex;align-items:center;gap:10px}.esp{flex:1}
-  .lbl{font-size:13px;color:#475569}
-  .duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-  .duo>div{border-radius:14px;padding:12px 14px}
-  .duo small{display:block;font-size:12px;color:#64748B}.duo b{display:block;font-size:24px;letter-spacing:-.02em;margin-top:2px}
-  .pb{height:8px;border-radius:6px;background:#EDF1F7;overflow:hidden;margin-top:12px;position:relative}
-  .pb i{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
-  .div{height:1px;background:#E5E9F2;margin:16px 0}
-  .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-  .tri small{display:block;font-size:12px;color:#94A3B8}.tri b{display:block;font-size:17px;margin-top:3px}
-  .sec{font-size:16px;font-weight:700;margin:22px 2px 10px;color:#0F172A;display:flex;align-items:center;justify-content:space-between}
-  .sec small{font-size:12.5px;font-weight:500;color:#64748B}
-  .alerta{display:flex;gap:12px;align-items:flex-start;border-radius:16px;padding:14px 16px;font-size:14px;margin-bottom:14px}
-  .alerta.az{background:#F5F8FF;border:1px solid #CFE0FF;color:#1E293B}
-  .alerta.vd{background:#F1FBF6;border:1px solid #BFE8D6;color:#14532D}
-  .alerta svg{flex:none;margin-top:1px}
-  .mt{padding:16px 0;border-top:1px solid #EEF1F7}.mt:first-child{border-top:0;padding-top:2px}
-  .mt-h{display:flex;align-items:center;gap:10px}.mt-h b{font-size:15.5px;flex:1}
-  .mt-n{display:flex;align-items:baseline;gap:6px;margin-top:8px}
-  .mt-n strong{font-size:24px;letter-spacing:-.02em}.mt-n span{font-size:14px;color:#64748B}
-  .mt-n em{margin-left:auto;font-style:normal;font-weight:700;font-size:15px}
-  .mt-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-  .mt-g div{background:#F8FAFC;border-radius:10px;padding:8px 10px}
-  .mt-g small{display:block;font-size:11.5px;color:#64748B}.mt-g b{display:block;font-size:14px;margin-top:2px}
-  .mt-p{font-size:12px;color:#94A3B8;margin-top:8px}
-  .regra{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #EEF1F7}
-  .regra:first-child{border-top:0;padding-top:2px}
-  .regra .ok{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;border:1.5px solid #D6DDEB}
-  .regra .ok.on{background:#0E9F6E;border-color:#0E9F6E}
-  .regra .t{flex:1}.regra .t b{display:block;font-size:14px}.regra .t small{color:#64748B;font-size:12.5px}
-  .regra .v{font-weight:800;font-size:14.5px;text-align:right}.regra .v small{display:block;font-weight:500;font-size:11.5px;color:#94A3B8}
-  .dica{background:#F3F5FA;border-radius:12px;padding:12px 14px;font-size:13px;color:#334155;margin-top:12px}
-  .btn-ver{display:block;width:100%;text-align:center;margin-top:14px;padding:12px;border-radius:12px;border:1px solid #D6DDEB;background:#fff;color:#1D4ED8;font-weight:600;font-size:14.5px;cursor:pointer}
-  .tab{width:100%;border-collapse:collapse;font-size:13px}
-  .tabw{overflow-x:auto;margin:0 -18px;padding:0 18px}
-  .tab th{font-size:11.5px;font-weight:600;color:#64748B;text-align:right;padding:8px 6px;border-bottom:1px solid #E5E9F2;white-space:nowrap}
-  .tab th:first-child,.tab td:first-child{text-align:left;position:sticky;left:0;background:#fff}
-  .tab td{padding:10px 6px;border-bottom:1px solid #EEF1F7;text-align:right;white-space:nowrap}
-  .tab tr.cl{cursor:pointer}.tab tr.cl:hover td{background:#F8FAFC}
-  .tab td .p{display:block;font-size:11px;font-weight:600}
-  .tab .pos{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#EAF0FF;color:#1D4ED8;font-size:11.5px;font-weight:700;margin-right:8px}
-  .tab tfoot td{font-weight:700;border-bottom:0;background:#F8FAFC}
-  .empty{text-align:center;color:#64748B;padding:26px 12px}
-  .empty b{display:block;color:#0F172A;font-size:16px;margin-bottom:6px}
-  .spin{width:30px;height:30px;border:3px solid #E5E9F2;border-top-color:#1D4ED8;border-radius:50%;animation:sp 1s linear infinite;margin:40px auto}
-  @keyframes sp{to{transform:rotate(360deg)}}
-  .inst{position:fixed;left:14px;right:14px;bottom:14px;max-width:612px;margin:0 auto;background:#0B1E3F;color:#fff;border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-  .inst .x{margin-left:auto;background:0;border:0;color:#9fb0cf;font-size:20px;cursor:pointer}
-  .modal{position:fixed;inset:0;background:rgba(10,23,51,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50;backdrop-filter:blur(3px)}
-  .modal-card{background:#F3F5FA;border-radius:24px 24px 0 0;padding:12px 16px calc(22px + env(safe-area-inset-bottom));max-width:720px;width:100%;max-height:92dvh;overflow:auto;animation:sobe .22s ease-out}
-  .modal-card.claro{background:#fff;padding:12px 22px calc(22px + env(safe-area-inset-bottom))}
-  @keyframes sobe{from{transform:translateY(40px);opacity:.4}}
-  .puxa{width:40px;height:5px;border-radius:3px;background:#CBD5E1;margin:0 auto 14px}
-  .bnbig{font-size:40px;font-weight:800;color:#0E9F6E;text-align:center;line-height:1.1}
-  .bntit{text-align:center;font-size:14px;color:#475569;margin-bottom:4px}
-  .bnsub{text-align:center;color:#64748B;font-size:12.5px;margin-top:12px}
-  .bnpaid{text-align:center;color:#0E9F6E;font-weight:600;font-size:13.5px;margin-top:10px;background:#E7F7F0;border-radius:10px;padding:8px}
-  .bnwait{text-align:center;color:#1D4ED8;font-weight:600;font-size:13.5px;margin-top:10px;background:#EAF0FF;border-radius:10px;padding:8px}
-  .bnlist{margin-top:14px}
-  .bnrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid #EEF1F7;font-size:14px}
-  .bnrow .on{color:#0E9F6E;font-weight:700}.bnrow .off{color:#94A3B8}
-  .btn.full{width:100%;margin-top:16px;border-radius:14px;padding:14px}
-  @media(min-width:760px){ #conteudo{padding:0 24px} .top{padding-left:28px;padding-right:28px} }
-  body.gestor #app{max-width:1120px}
-  .filtros{display:flex;gap:8px;overflow-x:auto;padding:0 0 12px;margin-top:-4px;scrollbar-width:none}
-  .fchip{white-space:nowrap;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
-  .fchip.on{background:#fff;color:#1D4ED8;border-color:#fff}
-  .btn-def{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;border-radius:12px;border:1px solid #CFE0FF;background:#F5F8FF;color:#1D4ED8;font-weight:600;font-size:14.5px;cursor:pointer}
-  .btn-def.grande{background:#1D4ED8;color:#fff;border-color:#1D4ED8;margin-top:16px;padding:14px;box-shadow:0 8px 20px rgba(29,78,216,.25)}
-  .dm{padding-bottom:0!important}
-  .dm-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}.dm-top>div{flex:1}.dm-top b{display:block;font-size:19px}.dm-top small{color:#64748B;font-size:13px}
-  .dm-x{width:36px;height:36px;border-radius:50%;border:0;background:#F1F5F9;font-size:22px;cursor:pointer;color:#0F172A}
-  .dm-sec{font-size:14px;font-weight:700;margin:20px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-  .dm-sec span{font-weight:500;font-size:12.5px;color:#94A3B8}
-  .dm-link{border:0;background:0;color:#1D4ED8;font-weight:600;font-size:12.5px;cursor:pointer;padding:0}
-  .dm-chips{display:flex;flex-wrap:wrap;gap:8px}
-  .dm-chip{border:1px solid #D6DDEB;background:#fff;color:#475569;border-radius:99px;padding:8px 14px;font-size:13.5px;font-weight:600;cursor:pointer}
-  .dm-chip.on{background:#EAF0FF;border-color:#BFD3FF;color:#1D4ED8}
-  .dm-p{border:1px solid #E5E9F2;border-radius:16px;padding:14px;margin-bottom:10px;background:#fff}
-  .dm-pn{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}.dm-pn b{font-size:15px}.dm-pn small{color:#94A3B8;font-size:12px}
-  .dm-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-  .dm-g2{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-  .dm-g label small{display:block;font-size:12px;color:#64748B;margin-bottom:4px}
-  .dm-g input{width:100%;height:44px;border:1.5px solid #D7DEEC;border-radius:10px;padding:0 12px;font-size:16px;color:#0F172A;outline:0;background:#fff}
-  .dm-g input:focus{border-color:#1D4ED8;box-shadow:0 0 0 3px rgba(29,78,216,.12)}
-  .dm-nota{font-size:12.5px;color:#64748B;text-align:center;margin:14px 0 4px}
-  .dm-rod{position:sticky;bottom:0;background:#fff;display:grid;grid-template-columns:1fr 1.4fr;gap:10px;padding:14px 0 calc(16px + env(safe-area-inset-bottom));border-top:1px solid #EEF1F7;margin-top:10px}
-  .dm-rod .btn{border-radius:12px;font-size:15px}
-  .aviso{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#0F172A;color:#fff;border-radius:12px;padding:12px 16px;font-size:14px;z-index:80;transition:.2s;max-width:90vw;text-align:center;pointer-events:none}
-  .aviso.on{opacity:1;transform:translate(-50%,0)}
-  @media(min-width:900px){ body.gestor .mtgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:32px} body.gestor .mtgrid .mt:nth-child(2){border-top:0;padding-top:2px} }
-
-  /* ===== Tela de entrada NEXUM Metas (visual escuro) ===== */
-  #login{grid-template-columns:1.05fr .95fr;background:#040a18}
-  #login::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-    background:radial-gradient(60% 50% at 18% 70%,rgba(29,108,255,.28),transparent 70%),
-    radial-gradient(50% 40% at 85% 20%,rgba(29,108,255,.14),transparent 70%),
-    linear-gradient(125deg,transparent 64%,rgba(37,118,255,.20) 64.2%,rgba(37,118,255,.05) 70%,transparent 70.2%),
-    linear-gradient(125deg,transparent 73%,rgba(37,118,255,.45) 73.15%,rgba(37,118,255,.10) 76%,transparent 76.2%),
-    linear-gradient(125deg,transparent 88%,rgba(37,118,255,.55) 88.2%,rgba(37,118,255,.12) 92%,transparent 92.2%),
-    linear-gradient(125deg,rgba(37,118,255,.16) 0,transparent 8%,transparent)}
-  #net{opacity:.45}
-  .adl-art{background:none;padding:5vh 3vw 4vh 5vw}
-  .adl-in{max-width:560px;gap:0;align-items:flex-start}
-  .nx-logo{width:min(380px,74%);max-height:30vh;object-fit:contain;object-position:left;margin:0 0 14px -4px}
-  .adl-art h1{font-style:italic;font-weight:600;font-size:clamp(30px,3.3vw,46px);letter-spacing:-.5px;line-height:1.12;color:#fff}
-  .adl-art h1 span{font-weight:800;color:#1E90FF;background:linear-gradient(90deg,#1E7BFF,#38B6FF);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .nx-risco{display:block;width:62%;height:3px;margin:16px 0 0 18%;border-radius:50%;background:linear-gradient(90deg,transparent,#1E6BFF 40%,#38B6FF 70%,transparent);box-shadow:0 0 16px rgba(56,182,255,.6)}
-  .nx-alvo{width:min(540px,100%);max-height:34vh;object-fit:contain;object-position:left bottom;margin:2px 0 0 -5vw;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 80%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 80%,transparent)}
-  .nx-feats{display:grid;grid-template-columns:repeat(3,auto);gap:0;margin-top:6px}
-  .nx-feats div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:0 26px;border-left:1px solid rgba(96,165,250,.45)}
-  .nx-feats div:first-child{border-left:0;padding-left:0}
-  .nx-feats svg{width:34px;height:34px;color:#DCE8FF}
-  .nx-feats b{font-size:15px;font-weight:500;color:#DCE8FF;line-height:1.25}
-  .adl-side{background:none;padding:5vh 5vw 5vh 2vw}
-  .lbox{max-width:470px;text-align:center;background:linear-gradient(160deg,rgba(26,46,96,.55),rgba(8,16,40,.72));border:1px solid rgba(80,150,255,.45);border-radius:26px;padding:42px 38px 30px;
-    box-shadow:0 0 0 1px rgba(80,150,255,.08),0 0 40px rgba(37,118,255,.18),0 30px 80px rgba(0,0,0,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#fff}
-  .nx-logo-m{display:none}
-  .nx-ico svg{width:84px;height:84px;color:#fff;margin:0 auto 6px;display:block}
-  .lbox h2.tit{color:#fff;font-size:30px;font-style:italic;font-weight:500;line-height:1.2;margin:0 0 8px;letter-spacing:-.3px}
-  .lbox h2.tit b{font-weight:900;letter-spacing:-.5px}
-  .lbox h2.tit span{font-weight:800;color:#2C9BFF}
-  .lsub{color:#C9D6EE;font-size:16px;margin:0 0 30px}
-  .lbox .in{background:rgba(255,255,255,.04);border:1.5px solid rgba(160,190,240,.35);border-radius:14px;height:60px;padding:0 18px;margin-bottom:22px}
-  .lbox .in:focus-within{border-color:#3B8BFF;box-shadow:0 0 0 4px rgba(59,139,255,.18)}
-  .lbox .in svg{color:#fff;width:24px;height:24px}
-  .lbox .in input{color:#fff;font-size:17px;padding-left:10px;border-left:1px solid rgba(255,255,255,.35);height:30px}
-  .lbox .in input::placeholder{color:#AAB8D3}
-  .lbox .in input:-webkit-autofill{-webkit-text-fill-color:#fff;-webkit-box-shadow:0 0 0 40px #0f1d40 inset;caret-color:#fff}
-  .lbox .olho{color:#fff}
-  .lbox .linha-l{text-align:right;margin:-10px 0 0}
-  .lbox .lk{color:#7FB5FF}
-  .lbox .ent{height:62px;border-radius:14px;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;border:0;
-    background:linear-gradient(90deg,#1F6BFF,#0B48E0);box-shadow:0 0 24px rgba(31,107,255,.45),0 10px 24px rgba(0,0,0,.35)}
-  .lbox .ent:hover{background:linear-gradient(90deg,#3A80FF,#1556F0)}
-  .nx-ou{display:flex;align-items:center;gap:18px;margin:26px 0 18px;color:#C9D6EE;font-size:14px}
-  .nx-ou::before,.nx-ou::after{content:"";flex:1;height:1px;background:rgba(180,200,240,.3)}
-  .nx-rod{color:#C9D6EE;font-size:14.5px;line-height:1.6}
-  .nx-rod b{display:block;font-weight:500;font-size:12.5px;letter-spacing:6px;text-transform:uppercase}
-  .lbox .lmsg{color:#FCA5A5}
-  .lbox .muted,#loginSenha h2{color:#C9D6EE!important}
-  @media(max-width:900px){ #login{grid-template-columns:1fr} .adl-art{display:none} .adl-side{min-height:100dvh;padding:28px 16px}
-    .nx-logo-m{display:block;width:220px;margin:0 auto 6px} .nx-ico{display:none}
-    .lbox{padding:30px 22px 24px} .lbox h2.tit{font-size:25px} .lbox h2.tit br,.lbox h2.tit b,.lbox h2.tit span{display:none} }
+:root{--ink:#0A1733;--bg:#F5F6FA;--card:#fff;--line:#E6E8EF;--txt:#101828;--mut:#667085;--pri:#1F5FE8;--pri-s:#EAF1FF;--ok:#12B76A;--ok-s:#E7F8EF;--warn:#F59E0B;--warn-s:#FEF4E2;--bad:#E8364F;--bad-s:#FDECEF;--f:'Onest',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0}body{font-family:var(--f);color:var(--txt);background:var(--bg);font-size:14px;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--pri)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);background:#fff;color:var(--txt);border-radius:12px;padding:10px 15px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{background:#F8F9FC}.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}.btn.pri:hover{background:#174FC4}.btn.sm{padding:7px 11px;font-size:13px;border-radius:10px}.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn svg,.ico{width:17px;height:17px;flex:none}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:#fff;font-size:15px}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--pri-s);border-color:var(--pri)}
+label{display:block;font-size:12.5px;font-weight:600;color:var(--mut)}label>input,label>select,label>textarea{margin-top:5px;color:var(--txt);font-weight:400}
+/* login */
+#login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.lg-l{background:linear-gradient(160deg,#0A1733,#16306B);color:#fff;padding:44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.lg-l img.logo{height:30px;width:auto}.lg-l h1{font-size:38px;line-height:1.1;margin:0 0 12px;letter-spacing:-.02em}.lg-l h1 em{font-style:normal;color:#7FA8FF}.lg-l p{color:#B9C6E4;font-size:16px;max-width:420px;margin:0}
+.lg-l .alvo{position:absolute;right:-60px;bottom:-40px;width:420px;opacity:.9;pointer-events:none}
+.lg-r{display:flex;align-items:center;justify-content:center;padding:30px}
+.lg-box{width:100%;max-width:400px}.lg-box h2{font-size:24px;margin:0 0 4px}.lg-box .sub{color:var(--mut);margin:0 0 20px}
+.lg-tabs{display:flex;background:#EEF0F5;border-radius:12px;padding:4px;margin-bottom:18px}.lg-tabs button{flex:1;border:0;background:none;border-radius:9px;padding:9px;font-weight:600;color:var(--mut);cursor:pointer}.lg-tabs button.on{background:#fff;color:var(--txt);box-shadow:0 1px 3px rgba(16,24,40,.08)}
+.lg-box label{margin-top:12px}.lg-box .btn{width:100%;margin-top:18px;padding:13px}
+.lg-msg{color:var(--bad);font-size:13.5px;min-height:20px;margin-top:10px}.lg-ok{background:var(--pri-s);color:#1D3F8F;border-radius:12px;padding:11px 13px;font-size:13.5px;margin-top:4px}
+@media(max-width:860px){#login{grid-template-columns:1fr}.lg-l{padding:26px 22px;min-height:auto}.lg-l h1{font-size:26px}.lg-l .alvo{display:none}.lg-l .desk{display:none}}
+/* app */
+.top{background:var(--ink);color:#fff;padding:0 22px;height:60px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:20}
+.top img{height:22px}.top .div{width:1px;height:20px;background:rgba(255,255,255,.25)}.top .nm{font-weight:700;letter-spacing:.04em;color:#9DB7F5;font-size:13px}
+.top nav{display:flex;gap:2px;margin-left:12px;overflow-x:auto}.top nav button{background:none;border:0;color:#B9C6E4;padding:8px 12px;border-radius:9px;cursor:pointer;font-weight:600;white-space:nowrap}.top nav button.on{background:rgba(255,255,255,.12);color:#fff}
+.top .eu{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:#C9D4EE}.top .eu button{background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:9px;padding:7px 11px;cursor:pointer;font-weight:600}
+main{max-width:1320px;margin:0 auto;padding:24px 22px 80px}
+.hd{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}.hd h1{font-size:26px;margin:0;letter-spacing:-.01em}.hd p{margin:4px 0 0;color:var(--mut)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px 10px;font-size:13px;color:var(--mut)}.chip b{color:var(--txt)}.chip.du b{color:var(--pri)}
+.filtros{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}.filtros select,.filtros input{width:auto;min-width:170px;padding:9px 12px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.kc{background:#fff;border:1px solid var(--line);border-left:4px solid var(--c,var(--pri));border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.kc .t{padding:16px 18px 0;font-size:12px;font-weight:700;letter-spacing:.08em;color:#475467;text-transform:uppercase}
+.kc .mid{padding:10px 18px 6px;display:flex;gap:14px;align-items:center}
+.ring{position:relative;width:64px;height:64px;flex:none}.ring svg{width:64px;height:64px;transform:rotate(-90deg)}.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--c)}
+.ring small{display:block;text-align:center;font-size:9.5px;font-weight:700;color:#667085;letter-spacing:.06em;margin-top:2px}
+.mom{font-size:12px;display:grid;gap:4px}.mom .up{color:var(--pri)}.mom .dn{color:var(--bad)}.mom .eq{color:var(--mut)}
+.kc .tr{padding:0 18px;font-size:11px;font-weight:700;color:#98A2B3;letter-spacing:.06em}.kc .trv{padding:2px 18px 12px;text-align:right;font-size:18px;font-weight:800;color:var(--c)}
+.kc .ft{margin-top:auto;background:#FAFBFD;border-top:1px solid #F0F2F6;padding:12px 18px 14px}
+.bar{display:flex;align-items:center;gap:10px}.bar i{flex:1;height:7px;border-radius:9px;background:#EEF0F5;overflow:hidden}.bar i s{display:block;height:100%;border-radius:9px;background:var(--c)}.bar b{font-size:13px;color:var(--c);min-width:52px;text-align:right}
+.kv{display:flex;justify-content:space-between;align-items:baseline;margin-top:9px}.kv span{font-size:11px;font-weight:700;color:#98A2B3;letter-spacing:.06em}.kv b{font-size:15px}.kv.m b{color:#98A2B3;font-weight:600}
+.kv.bn b{color:var(--ok)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.sec{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;margin:26px 0 12px}.sec small{color:var(--mut);font-weight:500}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th{font-size:11px;font-weight:700;letter-spacing:.06em;color:#667085;text-transform:uppercase;text-align:right;padding:12px 14px;background:#FAFBFD;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}td{padding:12px 14px;border-bottom:1px solid #F0F2F6;text-align:right;white-space:nowrap}tr:last-child td{border-bottom:0}
+td.cat{font-weight:700}td .ok{color:var(--pri);font-weight:700}td .bad{color:var(--bad);font-weight:700}td .w{color:#B54708;font-weight:700}
+.big4{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px}.big4 .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;grid-column:span 2}
+.bk{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;min-height:120px}.bk .l{display:flex;justify-content:space-between;align-items:flex-start}.bk small{font-size:11.5px;font-weight:700;letter-spacing:.08em;color:#667085}.bk .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--pri-s);color:var(--pri)}
+.bk b{font-size:28px;font-weight:800;margin-top:8px;display:block}.bk span{color:var(--mut);font-size:12.5px}.bk.dest{border-color:#C9D7FA;box-shadow:0 0 0 3px #F1F5FF}
+.proj{display:grid;place-items:center;text-align:center}.proj .ring{width:150px;height:150px}.proj .ring svg{width:150px;height:150px}.proj .ring b{font-size:30px;color:var(--txt)}.proj .ring b small{font-size:10px}
+.pill{display:inline-block;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700}.p-ok{background:var(--ok-s);color:#067647}.p-w{background:var(--warn-s);color:#B54708}.p-g{background:#F2F4F7;color:#475467}.p-b{background:var(--bad-s);color:#C01048}
+.vazio{text-align:center;color:var(--mut);padding:40px 20px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.modal{position:fixed;inset:0;background:rgba(10,23,51,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}.mb{background:#fff;border-radius:20px;width:100%;max-width:620px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
+.mb .mh{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.mb .mh h3{margin:0;font-size:17px}.mb .mh button{border:0;background:#F2F4F7;width:34px;height:34px;border-radius:10px;font-size:20px;cursor:pointer}
+.mb .mc{padding:18px 20px;overflow:auto}.mb .mf{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}
+.cfg-cat{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px;display:grid;grid-template-columns:2fr 1fr 1.4fr auto;gap:10px;align-items:end}
+.fx{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--mut);flex-wrap:wrap}.fx input{width:80px;padding:7px 9px;font-size:13.5px}
+.mtab input{width:100px;padding:7px 9px;text-align:right;font-size:13.5px}.mtab td{padding:6px 10px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:60}#toast div{background:var(--ink);color:#fff;border-radius:12px;padding:11px 16px;margin-top:8px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.2)}#toast div.err{background:var(--bad)}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:g .8s linear infinite}@keyframes g{to{transform:rotate(360deg)}}
+@media(max-width:900px){.big4{grid-template-columns:1fr}.big4 .cards{grid-column:auto}.cfg-cat{grid-template-columns:1fr 1fr}.top{padding:0 12px;gap:8px}.top .nm,.top .div{display:none}.top .eu span{display:none}main{padding:16px 12px 70px}.g3{grid-template-columns:1fr}}
+@media(max-width:560px){.top{flex-wrap:wrap;height:auto;padding:10px 12px}.top nav{order:3;width:100%;margin:0}.g2{grid-template-columns:1fr}.big4 .cards{grid-template-columns:1fr}.filtros select,.filtros input{min-width:0;flex:1}}
 </style>
 </head>
 <body>
-
-<!-- ===================== LOGIN ===================== -->
-<section id="login">
-  <canvas id="net"></canvas>
-  <div class="adl-art"><div class="adl-in">
-    <img class="nx-logo" src="login-logo.webp" alt="NEXUM Metas">
-    <h1>Planeje. Acompanhe.<br><span>Conquiste.</span></h1>
-    <i class="nx-risco"></i>
-    <img class="nx-alvo" src="login-alvo.webp" alt="" aria-hidden="true">
-    <div class="nx-feats">
-      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M6 16v-3M10 16v-6M14 16V9M18 16V6"/><path d="m5 10 5-4 4 3 6-5"/></svg><b>Metas<br>em foco</b></div>
-      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="m12 13 4-4"/><circle cx="12" cy="13" r="1.4"/></svg><b>Desempenho<br>em tempo real</b></div>
-      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><b>Resultados<br>concretos</b></div>
-    </div>
+<div id="login" hidden>
+  <div class="lg-l"><img class="logo" src="login-logo.webp" alt="NexumCell"><div><h1>Suas metas, seu bônus, <em>em tempo real.</em></h1><p class="desk">Acompanhe quanto já vendeu, quanto falta e quanto vai ganhar de bônus no mês. Tudo no celular.</p></div><div class="desk" style="font-size:12.5px;color:#8FA3CC">NexumCell · Metas & Bônus</div><img class="alvo" src="login-alvo.webp" alt=""></div>
+  <div class="lg-r"><div class="lg-box">
+    <h2>Entrar</h2><p class="sub">Funcionário entra com o CPF. Gerente e dono entram com o ID do sistema.</p>
+    <div class="lg-tabs"><button data-lt="cpf" class="on">Funcionário (CPF)</button><button data-lt="sis">Gerente ou dono</button></div>
+    <form id="fCpf" autocomplete="on">
+      <div id="pCpf"><label>CPF<input id="lCpf" inputmode="numeric" autocomplete="username" maxlength="14" placeholder="000.000.000-00"></label><button class="btn pri" id="bCpf">Continuar</button></div>
+      <div id="pSenha" hidden><div class="lg-ok" id="lOla"></div><label>Senha<input id="lSenha" type="password" autocomplete="current-password"></label><button class="btn pri" id="bEntrarCpf">Entrar</button>
+        <p style="font-size:13px;color:var(--mut);margin:14px 0 0">Esqueceu a senha? Peça ao seu gerente para <b>liberar um novo primeiro acesso</b>. <a href="#" data-voltar>Trocar CPF</a></p></div>
+      <div id="pPrim" hidden><div class="lg-ok" id="lOla2"></div><label>Data de nascimento<input id="lNasc" type="date"></label><label>Crie a sua senha (mínimo 6 caracteres)<input id="lN1" type="password" autocomplete="new-password"></label><label>Repita a senha<input id="lN2" type="password" autocomplete="new-password"></label><button class="btn pri" id="bAtivar">Criar senha e entrar</button><p style="font-size:13px;margin:12px 0 0"><a href="#" data-voltar>Trocar CPF</a></p></div>
+    </form>
+    <form id="fSis" hidden><label>ID ou e-mail<input id="sId" autocomplete="username" placeholder="Ex.: GER-1234"></label><label>Senha<input id="sSenha" type="password" autocomplete="current-password"></label><button class="btn pri" id="bSis">Entrar</button></form>
+    <div class="lg-msg" id="lMsg"></div>
   </div></div>
-  <div class="adl-side"><div class="lbox">
-    <img class="nx-logo-m" src="login-logo.webp" alt="NEXUM Metas">
-    <div class="nx-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.6"/><path d="M2.5 20v-.6A5.4 5.4 0 0 1 7.9 14h2.2a5.4 5.4 0 0 1 5.4 5.4v.6z"/><circle cx="16.5" cy="9" r="2.8"/><path d="M17 14.2h.4a4.6 4.6 0 0 1 4.6 4.6V20h-4"/></svg></div>
-    <h2 class="tit">Bem-vindo ao<br><b>NEXUM</b> <span>Metas</span></h2>
-    <p class="lsub">Acesse sua conta para continuar</p>
-
-    <div id="loginFb">
-            <div class="in"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg><input id="lEmail" placeholder="Usuário (ID ou e-mail)" aria-label="ID ou e-mail" autocomplete="username" autocapitalize="characters"></div>
-            <div class="in"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><input id="lSenha" type="password" placeholder="Senha" aria-label="Senha" autocomplete="current-password"><button type="button" class="olho" id="lOlho" aria-label="Mostrar senha"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
-      <div class="linha-l"><button type="button" class="lk" id="lEsqueci">Esqueci minha senha</button></div>
-      <button class="btn ent" id="bEntrar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M3 12h11M10 8l4 4-4 4"/></svg>Entrar</button>
-    </div>
-
-    <div id="loginSenha" class="hidden">
-      <h2 style="text-align:center;color:var(--navy);font-size:18px">Crie sua senha</h2>
-      <p class="muted" style="text-align:center;font-size:13px">Você entrou com a senha inicial. Crie agora a sua senha, com 5 ou 6 números.</p>
-      <div class="in"><input id="nsSenha" type="password" inputmode="numeric" maxlength="6" placeholder="Nova senha (5 ou 6 números)" autocomplete="new-password"></div>
-      <div class="in"><input id="nsSenha2" type="password" inputmode="numeric" maxlength="6" placeholder="Repita a nova senha" autocomplete="new-password"></div>
-      <button class="btn ent" id="bCriarSenha">Salvar senha e entrar</button>
-      <p id="nsMsg" class="lmsg"></p>
-    </div>
-
-    <div id="loginOff" class="hidden">
-      <p class="muted" style="text-align:center;font-size:13.5px">A configuração do sistema não foi carregada (arquivo <b>nexumcell-config.js</b>). Abra o app pelo endereço oficial ou fale com a NexumCell.</p>
-    </div>
-
-    <p id="lMsg" class="lmsg"></p>
-    <div class="nx-ou"><span>ou</span></div>
-    <div class="nx-rod"><b>NEXUM Metas</b>Performance que impulsiona o seu negócio.</div>
-  </div></div>
-</section>
-
-<!-- ===================== APP ===================== -->
-<main id="app" class="hidden">
-  <div class="top">
-    <div class="top-bar"><div class="logo">N</div><div class="marca">Minhas Metas</div>
-      <button class="ibtn" id="bBonus" title="Meu bônus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>Bônus</button>
-      <button class="ibtn" id="bSair" title="Sair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg></button></div>
-    <div class="ola" id="meNome">Olá!</div>
-    <div class="ola-sub" id="meRole"></div>
-    <div class="monthnav"><button class="mbtn" id="mPrev">‹</button><b id="mLabel">—</b><button class="mbtn" id="mNext">›</button></div>
-    <div class="dias" id="dias"></div>
-  </div>
-  <div id="conteudo"><div class="spin"></div></div>
-  <div id="modal" class="modal hidden"><div class="modal-card" id="modalBody"></div></div>
-</main>
-
+</div>
+<div id="app" hidden>
+  <header class="top"><img src="login-logo.webp" alt="NexumCell"><span class="div"></span><span class="nm">METAS & BÔNUS</span><nav id="nav"></nav><div class="eu"><span id="euNome"></span><button id="bSair">Sair</button></div></header>
+  <main id="view"></main>
+</div>
+<div id="toast"></div>
 <script>
-/* ===== Config / constantes ===== */
-const FIREBASE_CONFIG = window.NEXUMCELL_FIREBASE || { apiKey:"" };
-const DONO_EMAIL = String(window.NEXUMCELL_DONO||'').trim().toLowerCase();
-const URLS = window.NEXUMCELL_URLS || {};
-const FBV = '10.12.2';
-const FB_ON = !!FIREBASE_CONFIG.apiKey;
-const ROLES = {DONO:'Dono', GERENTE:'Gerente', VENDEDOR:'Vendedor', FINANCEIRO:'Financeiro', SUPORTE:'Suporte'};
-let fb=null, S={me:null, mes:null};
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const soD=s=>String(s||'').replace(/\D/g,''), fmtCpf=c=>{c=soD(c);return c.length===11?`${c.slice(0,3)}.${c.slice(3,6)}.${c.slice(6,9)}-${c.slice(9)}`:c;};
+const cpfOk=c=>{c=soD(c);if(c.length!==11||/^(\d)\1+$/.test(c))return false;for(const t of [9,10]){let s=0;for(let i=0;i<t;i++)s+=+c[i]*(t+1-i);if(((s*10)%11)%10!==+c[t])return false;}return true;};
+const brl=n=>'R$ '+Math.round(+n||0).toLocaleString('pt-BR'), brl2=n=>(+n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}), num=n=>(+n||0).toLocaleString('pt-BR',{maximumFractionDigits:1});
+const pct=n=>(isFinite(n)?(+n).toFixed(1):'0.0')+'%';
+const hojeISO=()=>new Date(Date.now()-3*36e5).toISOString().slice(0,10);
+function toast(m,t){ const d=document.createElement('div'); d.textContent=m; if(t) d.className=t; $('#toast').appendChild(d); setTimeout(()=>d.remove(),3800); }
+const DEMO=/[?&]demo\b/.test(location.search), CFGFB=window.NEXUMCELL_FIREBASE||{}, SERV=String(window.NEXUMCELL_SERVIDOR||'').replace(/\/$/,''), DONO_EMAIL=String(window.NEXUMCELL_DONO||'').toLowerCase();
+const URL_APP=location.origin+location.pathname;
+const CARGOS={VENDEDOR:'Vendedor',GERENTE:'Gerente',VENDEDOR_INTERNO:'Vendedor interno',FINANCEIRO:'Financeiro',SUPORTE:'Suporte',OUTRO:'Outro'};
+const FONTES={manual:'Lançado (venda a venda)',sis_qtd:'Do sistema: aparelhos vendidos',sis_rs:'Do sistema: faturamento de aparelhos'};
+const CORES=['#1F5FE8','#E8364F','#F59E0B','#12B76A','#7A5AF8','#0BA5EC','#EE46BC','#475467'];
+const PADRAO_LOJA=[{id:'aparelhos_rs',nome:'Aparelhos',tipo:'rs',fonte:'sis_rs'},{id:'aparelhos',nome:'Aparelhos (qtd)',tipo:'qtd',fonte:'sis_qtd'},{id:'peliculas',nome:'Películas',tipo:'qtd',fonte:'manual'},{id:'capas',nome:'Capas',tipo:'qtd',fonte:'manual'},{id:'acessorios',nome:'Acessórios',tipo:'rs',fonte:'manual'},{id:'seguros',nome:'Seguros',tipo:'rs',fonte:'manual'}];
+const PADRAO_NEXUM=[{id:'vendas_int',nome:'Vendas internas',tipo:'qtd',fonte:'manual'},{id:'cobranca',nome:'Cobrança recuperada',tipo:'rs',fonte:'manual'},{id:'atend',nome:'Atendimentos resolvidos',tipo:'qtd',fonte:'manual'},{id:'preanal',nome:'Pré-análises convertidas',tipo:'qtd',fonte:'manual'}];
+const ICONE={sair:'',alvo:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>'};
 
-/* ===== Helpers (iguais aos portais) ===== */
-const $ = s => document.querySelector(s);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const brl = n => (Number(n)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const r2 = n => Math.round((Number(n)||0)*100)/100;
-function isoDate(d){ const z=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
-const hoje = () => isoDate(new Date());
-function mesNome(mes){ try{ const [a,m]=mes.split('-'); return new Date(a,m-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}); }catch(e){ return mes; } }
-function mesAdd(mes,k){ const [a,m]=mes.split('-').map(Number); const d=new Date(a,m-1+k,1); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
-
-/* ===== Camada de dados (Firestore) ===== */
-const DB = {
-  async get(c,id){ const s=await fb.m.getDoc(fb.m.doc(fb.db,c,id)); return s.exists()?{id:s.id,...s.data()}:null; },
-  async set(c,id,data){ data={...data}; delete data.id; await fb.m.setDoc(fb.m.doc(fb.db,c,id),data,{merge:true}); },
-  async list(c,filters=[]){ let q=fb.m.collection(fb.db,c); if(filters.length) q=fb.m.query(q,...filters.map(([f,op,v])=>fb.m.where(f,op,v))); const s=await fb.m.getDocs(q); return s.docs.map(d=>({id:d.id,...d.data()})); }
+/* ===== dados: Firebase ou demonstração ===== */
+let fb=null;
+const D={ store:null,
+  demoInit(){ const ag=Date.now(), m=hojeISO().slice(0,7), pm=prevMes(m);
+    const P=(cpf,nome,cargo,nasc,extra={})=>({id:'l1_'+cpf,escopo:'l1',cpf,nome,cargo,nasc,ativo:true,ativado:true,uid:'u'+cpf.slice(0,3),...extra});
+    const pes=[P('52998224725','Adriana da Silva','VENDEDOR','1995-04-10',{vendedorUid:'v1'}),P('11144477735','Nádia Mohamed','VENDEDOR','1998-08-21',{vendedorUid:'v2'}),P('39053344705','Bruno Lins','VENDEDOR','2000-01-15',{ativado:false,uid:''})];
+    const cats=PADRAO_LOJA.map((c,i)=>({...c,bonus:[{pct:80,valor:20},{pct:100,valor:60},{pct:120,valor:100}].map(x=>({...x,valor:x.valor*(i<2?2:1)}))}));
+    const metas={}; pes.forEach((p,i)=>metas[p.cpf]={aparelhos_rs:8000-i*500,aparelhos:6,peliculas:15,capas:10,acessorios:500,seguros:600});
+    const lanc=[]; let k=0; const add=(cpf,cat,q,v,d)=>lanc.push({id:'x'+(k++),escopo:'l1',mes:m,cpf,cat,qtd:q,valor:v,data:m+'-'+String(d).padStart(2,'0'),por:'Demo',porUid:'',em:ag});
+    [[0,'peliculas',7],[0,'capas',3],[1,'peliculas',4],[1,'capas',6],[2,'peliculas',2]].forEach(([i,c,q])=>add(pes[i].cpf,c,q,q*25,5));
+    [[0,'acessorios',59],[1,'acessorios',220],[0,'seguros',0],[1,'seguros',180]].forEach(([i,c,v])=>add(pes[i].cpf,c,1,v,8));
+    this.store={metasPessoas:Object.fromEntries(pes.map(p=>[p.id,p])),metasPlano:{['l1_'+m]:{escopo:'l1',mes:m,categorias:cats,metas,extra:{valor:200},sabado:.5,auto:{[pes[0].cpf]:{aparelhos:4,faturamento:4990},[pes[1].cpf]:{aparelhos:3,faturamento:3600}}},['l1_'+pm]:{escopo:'l1',mes:pm,auto:{[pes[0].cpf]:{aparelhos:3,faturamento:3200}}}},metasLanc:Object.fromEntries(lanc.map(x=>[x.id,x])),lojas:{l1:{nome:'Loja Centro'},l2:{nome:'Loja Shopping'}}}; },
+  async get(c,id){ if(DEMO) return this.store[c]?.[id]?{id,...JSON.parse(JSON.stringify(this.store[c][id]))}:null; const s=await fb.m.getDoc(fb.m.doc(fb.db,c,id)); return s.exists()?{id:s.id,...s.data()}:null; },
+  async set(c,id,d){ d={...d}; delete d.id; if(DEMO){ (this.store[c] ||= {})[id]={...(this.store[c][id]||{}),...JSON.parse(JSON.stringify(d))}; return; } await fb.m.setDoc(fb.m.doc(fb.db,c,id),d,{merge:true}); },
+  async put(c,id,d){ d={...d}; delete d.id; if(DEMO){ (this.store[c] ||= {})[id]=JSON.parse(JSON.stringify(d)); return; } await fb.m.setDoc(fb.m.doc(fb.db,c,id),d); },
+  async add(c,d){ if(DEMO){ const id='n'+Date.now()+Math.random().toString(36).slice(2,5); (this.store[c] ||= {})[id]={...d}; return id; } return (await fb.m.addDoc(fb.m.collection(fb.db,c),d)).id; },
+  async del(c,id){ if(DEMO){ delete this.store[c]?.[id]; return; } await fb.m.deleteDoc(fb.m.doc(fb.db,c,id)); },
+  async list(c,w=[]){ if(DEMO) return Object.entries(this.store[c]||{}).map(([id,v])=>({id,...v})).filter(x=>w.every(([f,o,v])=>o==='=='?x[f]===v:o==='in'?v.includes(x[f]):true)); let q=fb.m.collection(fb.db,c); if(w.length) q=fb.m.query(q,...w.map(([f,o,v])=>fb.m.where(f,o,v))); return (await fb.m.getDocs(q)).docs.map(d=>({id:d.id,...d.data()})); }
 };
+async function fbInit(){ const base='https://www.gstatic.com/firebasejs/10.12.2/'; const [a,au,m]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);
+  const app=a.initializeApp(CFGFB,'nexumcell-metas2'); fb={a,au,m,app,auth:au.getAuth(app),db:m.getFirestore(app)}; }
+async function api(corpo){ if(DEMO){ if(corpo.acao==='status'){ const p=Object.values(D.store.metasPessoas).find(x=>x.cpf===soD(corpo.cpf)); return p?{existe:true,ativado:!!(p.ativado&&p.uid),nome:p.nome.split(' ')[0]}:{existe:false}; } if(corpo.acao==='ativar'){ const p=Object.values(D.store.metasPessoas).find(x=>x.cpf===soD(corpo.cpf)); if(p.nasc!==corpo.nasc) throw new Error('A data de nascimento não confere com o cadastro feito pelo seu gerente.'); p.ativado=true; p.uid='u'+p.cpf.slice(0,3); return {ok:true}; } }
+  if(!SERV) throw new Error('Servidor não configurado.'); const r=await fetch(SERV+'/api/metas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(corpo)}); const j=await r.json().catch(()=>({})); if(!r.ok) throw new Error(j.erro||'Erro '+r.status); return j; }
 
-/* ===== Metas (porte fiel do portal) ===== */
-const MET_IND=[
-  {k:'aparelhos',lbl:'Aparelhos'},
-  {k:'faturamento',lbl:'Aparelhos (R$)',money:true},
-  {k:'pelicula',lbl:'Películas'},
-  {k:'peliculaRs',lbl:'Películas (R$)',money:true},
-  {k:'capinha',lbl:'Capinhas'},
-  {k:'capinhaRs',lbl:'Capinhas (R$)',money:true},
-  {k:'acessorios',lbl:'Acessórios'},
-  {k:'acessoriosRs',lbl:'Acessórios (R$)',money:true},
-  {k:'seguros',lbl:'Seguros'},
-  {k:'segurosRs',lbl:'Seguros (R$)',money:true},
-  {k:'parcelas',lbl:'Parcelas em dia'},
-];
-const MET_ACESS=['pelicula','peliculaRs','capinha','capinhaRs','acessorios','acessoriosRs','seguros','segurosRs'];
-const METAS_BONUS_PADRAO={aparelhos:0,acessoriosSeguros:0,parcelas:0,integral:0};
-function metasDefAtivos(){ return {aparelhos:true,faturamento:true,pelicula:true,capinha:true,acessorios:true,seguros:true,parcelas:true}; }
-/* metas/{mes} = equipe Nexum (definida pelo Dono) · metas/{mes}_{lojaId} = metas da loja (definidas pelo Gerente).
-   Enquanto a loja não define as dela, vale a da Nexum. */
-const metasDocId=(mes,lojaId)=>lojaId?mes+'_'+lojaId:mes;
-async function metasDoc(mes,lojaId){
-  let d=null, propria=false;
-  if(lojaId){ d=await DB.get('metas',metasDocId(mes,lojaId)).catch(()=>null); propria=!!d; }
-  if(!d) d=await DB.get('metas',mes).catch(()=>null)||{};
-  const metasV=JSON.parse(JSON.stringify(d.metasV||{}));
-  if(d.vendedores) for(const u in d.vendedores){ metasV[u]=metasV[u]||{}; if(metasV[u].faturamento==null) metasV[u].faturamento=+d.vendedores[u]||0; }
-  return {ativos:d.ativos||metasDefAtivos(), metasV, bonus:{...METAS_BONUS_PADRAO,...(d.bonusRegras||{})}, raw:d, propria, lojaId:lojaId||''};
-}
-function calcMetas(uid,mes,vendas){
-  const ok=v=>['ATIVA','QUITADA','RETOMADA','INSTALANDO'].includes(v.status)&&v.entradaPaga;
-  const dt=v=>isoDate(new Date(v.entradaPaga.em));
-  const meus=vendas.filter(v=>v.vendedorUid===uid&&ok(v)&&dt(v).startsWith(mes));
-  const tem=(v,re)=>(v.acessorios||[]).some(a=>re.test((a.nome||'').toLowerCase()));
-  let parcelas=0;
-  vendas.filter(v=>v.vendedorUid===uid).forEach(v=>(v.parcelas||[]).forEach(p=>{ if(p.pago&&p.pagoEm&&String(p.pagoEm).startsWith(mes)&&p.pagoEm<=p.venc&&!p.acordo) parcelas++; }));
-  const tipo=a=>{ const n=(a.nome||'').toLowerCase(); return /cap(a|inha)/.test(n)?'capinha':/pel.?cula/.test(n)?'pelicula':'acessorios'; };
-  const it={capinha:[0,0],pelicula:[0,0],acessorios:[0,0]};
-  meus.forEach(v=>(v.acessorios||[]).forEach(a=>{ const q=+a.qtd||1, t=it[tipo(a)]; t[0]+=q; t[1]+=(+a.preco||+a.valor||0)*q; }));
-  const seg=meus.filter(v=>v.protecao);
-  const acessV=v=>(+v.acessoriosValor||(v.acessorios||[]).reduce((s,a)=>s+(+a.preco||+a.valor||0)*(+a.qtd||1),0));
-  return { aparelhos:meus.length, faturamento:r2(meus.reduce((s,v)=>s+Math.max(0,(+v.valor||0)-acessV(v)),0)),
-    acessorios:it.acessorios[0], acessoriosRs:r2(it.acessorios[1]),
-    capinha:it.capinha[0], capinhaRs:r2(it.capinha[1]),
-    pelicula:it.pelicula[0], peliculaRs:r2(it.pelicula[1]),
-    seguros:seg.length, segurosRs:r2(seg.reduce((s,v)=>s+(+v.protecao.mensal||0)*(+v.nParcelas||(v.parcelas||[]).length||0),0)), parcelas };
-}
-function metasBonus(feito,metaV,ativos,bonus){
-  const exig=k=>!!ativos[k]&&(+metaV[k]>0), bate=k=>(+feito[k]||0)>=(+metaV[k]||0);
-  const grupo=(...ks)=>{ const e=ks.filter(exig); return e.length>0&&e.every(bate); };
-  const r={ aparelhos:grupo('aparelhos','faturamento')?(+bonus.aparelhos||0):0,
-    acessoriosSeguros:grupo(...MET_ACESS)?(+bonus.acessoriosSeguros||0):0,
-    parcelas:(exig('parcelas')&&bate('parcelas'))?(+bonus.parcelas||0):0 };
-  const todos=MET_IND.map(m=>m.k).filter(exig); const integralBate=todos.length>0&&todos.every(bate);
-  r.integral=integralBate?(+bonus.integral||0):0; r.total=r.aparelhos+r.acessoriosSeguros+r.parcelas+r.integral;
-  r.exig=exig; r.bate=bate; r.integralBate=integralBate; r.todos=todos;
-  return r;
-}
-/* ===== Dias úteis (segunda a sábado) e projeção ===== */
-function diasUteis(mes){
-  const [a,m]=mes.split('-').map(Number), dim=new Date(a,m,0).getDate(), h=new Date(), atual=mes===hoje().slice(0,7), futuro=mes>hoje().slice(0,7);
-  let total=0, passados=0;
-  for(let d=1; d<=dim; d++){ const util=new Date(a,m-1,d).getDay()!==0; if(!util) continue; total++; if(!futuro&&(!atual||d<=h.getDate())) passados++; }
-  return {total, passados, restantes:Math.max(0,total-passados+(atual&&new Date().getDay()!==0?1:0)), dia:atual?h.getDate():dim, dim, atual};
-}
-function metasProj(feito,mes){ const du=diasUteis(mes); if(!du.atual) return feito; return du.passados>0?feito/du.passados*du.total:feito; }
-function situacao(f,meta,mes){
-  const du=diasUteis(mes);
-  if(meta<=0) return ['c-c','Sem meta'];
-  if(f>=meta) return ['c-v','Batida'];
-  if(!du.atual) return ['c-r','Não batida'];
-  if(f<=0&&du.passados<=2) return ['c-c','No início'];
-  return metasProj(f,mes)>=meta?['c-a','No ritmo']:['c-l','Em risco'];
-}
-const fmtV=(m,v)=>m.money?brl(v).replace(',00',''):String(Math.round(v*10)/10).replace('.',',');
-const mil=v=>v>=1000?'R$ '+(Math.round(v/100)/10).toLocaleString('pt-BR')+' mil':brl(v).replace(',00','');
-const OKSVG='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-function feitoProjetado(feito,mes){ const o={}; for(const k in feito) o[k]=Math.floor(metasProj(+feito[k]||0,mes)); return o; }
-function totalPossivel(bonus){ return (+bonus.aparelhos||0)+(+bonus.acessoriosSeguros||0)+(+bonus.parcelas||0)+(+bonus.integral||0); }
+/* ===== sessão ===== */
+const S={modo:'',me:null,escopo:'',escopos:[],cpf:'',mes:hojeISO().slice(0,7),tab:'painel',pessoa:'',filtroCat:''};
+function prevMes(m){ const [y,mm]=m.split('-').map(Number); const d=new Date(Date.UTC(y,mm-2,1)); return d.toISOString().slice(0,7); }
+function mesNome(m){ const [y,mm]=m.split('-').map(Number); return new Date(y,mm-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}); }
+function diasUteis(m,sab){ const [y,mm]=m.split('-').map(Number), n=new Date(y,mm,0).getDate(), hj=hojeISO(), ini=m+'-01', fim=m+'-'+String(n).padStart(2,'0'); let tot=0,pas=0;
+  for(let d=1;d<=n;d++){ const dt=new Date(y,mm-1,d), w=dt.getDay(), v=w===0?0:w===6?sab:1, iso=m+'-'+String(d).padStart(2,'0'); tot+=v; if(iso<=hj) pas+=v; }
+  const diaAt=hj<ini?0:hj>fim?n:+hj.slice(8,10); return {tot,pas:Math.min(pas,tot),n,dia:diaAt}; }
 
-/* o que falta para liberar o próximo bônus */
-function proximoBonus(feito,mv,ativos,bonus,b){
-  const falta=k=>Math.max(0,Math.ceil((+mv[k]||0)-(+feito[k]||0)));
-  const nome={aparelhos:['aparelho','aparelhos'],acessorios:['acessório','acessórios'],capinha:['capinha','capinhas'],pelicula:['película','películas'],seguros:['seguro','seguros'],parcelas:['parcela em dia','parcelas em dia']};
-  const txt=k=>{ const n=falta(k), m=MET_IND.find(x=>x.k===k)||{}; return m.money?`${brl(n)} em ${(m.lbl||k).toLowerCase()}`:`${n} ${nome[k]?.[n===1?0:1]||(m.lbl||k).toLowerCase()}`; };
-  const op=[];
-  if(bonus.aparelhos>0&&b.exig('aparelhos')&&!b.bate('aparelhos')) op.push({n:falta('aparelhos'),t:txt('aparelhos'),v:+bonus.aparelhos});
-  if(bonus.acessoriosSeguros>0){ const ks=MET_ACESS.filter(k=>b.exig(k)&&!b.bate(k)); if(ks.length&&ks.every(k=>b.exig(k))) op.push({n:ks.reduce((s,k)=>s+falta(k),0),t:ks.map(txt).join(' e '),v:+bonus.acessoriosSeguros}); }
-  if(bonus.parcelas>0&&b.exig('parcelas')&&!b.bate('parcelas')) op.push({n:falta('parcelas'),t:txt('parcelas'),v:+bonus.parcelas});
-  op.sort((x,y)=>x.n-y.n||y.v-x.v);
-  return op[0]||null;
-}
+/* ===== login ===== */
+let lgCpf='';
+function mostrarLogin(msg){ $('#app').hidden=true; $('#login').hidden=false; $('#lMsg').textContent=msg||''; }
+$$('[data-lt]').forEach(b=>b.onclick=()=>{ $$('[data-lt]').forEach(x=>x.classList.toggle('on',x===b)); $('#fCpf').hidden=b.dataset.lt!=='cpf'; $('#fSis').hidden=b.dataset.lt!=='sis'; $('#lMsg').textContent=''; });
+$('#lCpf').addEventListener('input',e=>{ const d=soD(e.target.value).slice(0,11); e.target.value=d.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2'); });
+$$('[data-voltar]').forEach(a=>a.onclick=e=>{ e.preventDefault(); $('#pCpf').hidden=false; $('#pSenha').hidden=true; $('#pPrim').hidden=true; $('#lMsg').textContent=''; });
+$('#fCpf').onsubmit=e=>e.preventDefault();
+$('#bCpf').onclick=async()=>{ const c=soD($('#lCpf').value); $('#lMsg').textContent=''; if(!cpfOk(c)) return $('#lMsg').textContent='CPF inválido.'; const b=$('#bCpf'); b.disabled=true;
+  try{ const r=await api({acao:'status',cpf:c}); lgCpf=c;
+    if(!r.existe) $('#lMsg').textContent='Este CPF não está cadastrado nas metas. Peça ao seu gerente (ou à NexumCell) para cadastrar você.';
+    else if(r.ativado){ $('#lOla').innerHTML=`Olá, <b>${esc(r.nome)}</b>! Digite a sua senha.`; $('#pCpf').hidden=true; $('#pSenha').hidden=false; $('#lSenha').focus(); }
+    else { $('#lOla2').innerHTML=`Olá, <b>${esc(r.nome)}</b>! É o seu primeiro acesso: confirme a data de nascimento e crie uma senha. Nas próximas vezes, entre com o CPF e essa senha.`; $('#pCpf').hidden=true; $('#pPrim').hidden=false; } }
+  catch(er){ $('#lMsg').textContent=er.message; } b.disabled=false; };
+$('#bEntrarCpf').onclick=async()=>{ const s=$('#lSenha').value; if(!s) return; const b=$('#bEntrarCpf'); b.disabled=true;
+  try{ if(DEMO){ await iniciarFunc(lgCpf); } else { await fb.au.signInWithEmailAndPassword(fb.auth,`${lgCpf}@metas.nexumcell.app`,s); } }
+  catch(er){ $('#lMsg').textContent=/invalid|wrong|credential/i.test(er.code||er.message)?'Senha errada. Esqueceu? Peça ao gerente para liberar um novo primeiro acesso.':er.message; } b.disabled=false; };
+$('#bAtivar').onclick=async()=>{ const n1=$('#lN1').value, n2=$('#lN2').value, nasc=$('#lNasc').value; $('#lMsg').textContent='';
+  if(!nasc) return $('#lMsg').textContent='Informe a data de nascimento.'; if(n1.length<6) return $('#lMsg').textContent='A senha precisa ter pelo menos 6 caracteres.'; if(n1!==n2) return $('#lMsg').textContent='As senhas não são iguais.';
+  const b=$('#bAtivar'); b.disabled=true; try{ await api({acao:'ativar',cpf:lgCpf,nasc,senha:n1}); toast('Senha criada! Nas próximas vezes, entre com o CPF e essa senha.'); if(DEMO) await iniciarFunc(lgCpf); else await fb.au.signInWithEmailAndPassword(fb.auth,`${lgCpf}@metas.nexumcell.app`,n1); }
+  catch(er){ $('#lMsg').textContent=er.message; } b.disabled=false; };
+$('#fSis').onsubmit=async e=>{ e.preventDefault(); const id=$('#sId').value.trim(), se=$('#sSenha').value; $('#lMsg').textContent=''; if(!id||!se) return $('#lMsg').textContent='Informe o ID e a senha.';
+  const b=$('#bSis'); b.disabled=true; try{ if(DEMO){ await iniciarGestor({uid:'g1',nome:id.toUpperCase().startsWith('DON')?'Wevellen':'Isabela Moura',role:id.toUpperCase().startsWith('DON')?'DONO':'GERENTE',lojaId:'l1'}); }
+    else { let email=id.includes('@')?id.toLowerCase():(await D.get('logins',id.toUpperCase().replace(/\s+/g,'')).catch(()=>null))?.email; if(!email) throw new Error('ID não encontrado.'); await fb.au.signInWithEmailAndPassword(fb.auth,email,se.length<6?'nx-'+se:se); } }
+  catch(er){ $('#lMsg').textContent=/invalid|wrong|credential/i.test(er.code||er.message)?'ID ou senha errados.':er.message; } b.disabled=false; };
+$('#bSair').onclick=async()=>{ if(DEMO){ S.modo=''; return mostrarLogin(); } await fb.au.signOut(fb.auth); };
 
-/* ===== Visão do vendedor ===== */
-async function htmlVendedor(uid,mes,vendas,doc,opts={}){
-  const {ativos,metasV,bonus}=doc;
-  const mv=metasV[uid]||{}, feito=calcMetas(uid,mes,vendas), ant=calcMetas(uid,mesAdd(mes,-1),vendas);
-  const ind=MET_IND.filter(m=>ativos[m.k]&&(+mv[m.k]||0)>0);
-  if(!ind.length) return `<div class="card hero"><div class="empty"><b>Metas ainda não definidas</b>As metas de ${esc(mesNome(mes))} ${opts.nome?'de '+esc(opts.nome)+' ':''}ainda não foram definidas pela NexumCell.</div></div>`;
-  const du=diasUteis(mes), b=metasBonus(feito,mv,ativos,bonus), fp=feitoProjetado(feito,mes), bp=metasBonus(fp,mv,ativos,bonus);
-  const tp=totalPossivel(bonus), alvos=b.todos.length, batidos=b.todos.filter(b.bate).length;
-  const st=alvos&&batidos===alvos?['c-v','Todas as metas batidas']:!du.atual?['c-c','Mês encerrado']:bp.total>b.total?['c-a','Bônus subindo no ritmo atual']:['c-l','Acelere para garantir o bônus'];
-  const pg=tp>0?Math.round(b.total/tp*100):0, pp=tp>0?Math.round(bp.total/tp*100):0;
-  let h=`<div class="card hero">
-    <div class="linha"><span class="chip ${st[0]}">${st[1]}</span></div>
-    ${tp>0?`<div class="duo"><div style="background:#E7F7F0"><small>Bônus garantido</small><b style="color:#0E9F6E">${brl(b.total)}</b></div>
-      <div style="background:#EAF0FF"><small>${du.atual?'Se mantiver o ritmo':'Total possível'}</small><b style="color:#1D4ED8">${brl(du.atual?bp.total:tp)}</b></div></div>
-      <div class="pb"><i style="width:${Math.max(pp,pg)}%;background:#BFD3FF"></i><i style="width:${Math.max(2,pg)}%;background:linear-gradient(90deg,#0E9F6E,#10B981)"></i></div>
-      <div class="lbl" style="font-size:12.5px;margin-top:6px">de ${brl(tp)} possíveis no mês</div>`
-      :`<div class="lbl" style="margin-top:14px">Metas batidas</div><div style="font-size:32px;font-weight:800;color:#1D4ED8">${batidos} de ${alvos}</div>`}
-    <div class="div"></div>
-    <div class="tri"><div><small>Aparelhos</small><b>${feito.aparelhos}</b></div><div><small>Faturamento</small><b>${mil(feito.faturamento)}</b></div><div><small>Metas batidas</small><b>${batidos}/${alvos}</b></div></div>
-  </div>`;
-  const prox=du.atual?proximoBonus(feito,mv,ativos,bonus,b):null;
-  if(prox) h+=`<div class="alerta az"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
-    <div>Faltam <b>${esc(prox.t)}</b> para liberar <b style="color:#0E9F6E">${brl(prox.v)}</b> de bônus.${du.restantes>0?`<div style="color:#475569;font-size:13px;margin-top:3px">Você ainda tem ${du.restantes} ${du.restantes===1?'dia útil':'dias úteis'} no mês.</div>`:''}</div></div>`;
-  else if(alvos&&batidos===alvos) h+=`<div class="alerta vd"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E9F6E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><b>Parabéns!</b> Você bateu todas as metas de ${esc(mesNome(mes))}.</div></div>`;
-  const linhas=ind.map(m=>{ const f=+feito[m.k]||0, meta=+mv[m.k]||0, pct=Math.round(f/meta*100), pj=metasProj(f,mes), falta=Math.max(0,meta-f), s=situacao(f,meta,mes);
-    const cor=s[0]==='c-v'?'#0E9F6E':s[0]==='c-a'?'#1D4ED8':s[0]==='c-l'?'#B45309':s[0]==='c-r'?'#DC2626':'#64748B';
-    const porDia=du.atual&&du.restantes>0&&falta>0?falta/du.restantes:0;
-    const a=+ant[m.k]||0, dif=a>0?Math.round((f-a)/a*100):null;
-    return `<div class="mt"><div class="mt-h"><b>${esc(m.lbl)}</b><span class="chip ${s[0]}">${s[1]}</span></div>
-      <div class="mt-n"><strong>${fmtV(m,f)}</strong><span>de ${fmtV(m,meta)}</span><em style="color:${cor}">${pct}%</em></div>
-      <div class="pb" style="margin-top:8px"><i style="width:${Math.min(100,Math.round(pj/meta*100))}%;background:#DCE6FB"></i><i style="width:${Math.max(2,Math.min(100,pct))}%;background:${cor}"></i></div>
-      <div class="mt-g"><div><small>${du.atual?'Tendência':'Fechou em'}</small><b>${fmtV(m,du.atual?Math.floor(pj):f)}</b></div>
-        <div><small>Falta</small><b>${falta>0?fmtV(m,falta):'—'}</b></div>
-        <div><small>Por dia útil</small><b>${porDia>0?fmtV(m,m.money?Math.ceil(porDia):Math.ceil(porDia*10)/10):'—'}</b></div></div>
-      ${dif!=null?`<div class="mt-p">${dif>=0?'+':''}${dif}% em relação a ${esc(mesNome(mesAdd(mes,-1)).split(' ')[0])}</div>`:''}</div>`; }).join('');
-  h+=`<div class="sec">${opts.nome?'Metas':'Minhas metas'}<small>${du.atual?`Dia útil ${du.passados} de ${du.total}`:esc(mesNome(mes))}</small></div><div class="card">${linhas}</div>`;
-  const regra=(on,onP,titulo,sub,valor)=>`<div class="regra"><div class="ok ${on?'on':''}">${on?OKSVG:''}</div><div class="t"><b>${titulo}</b><small>${sub}</small></div>
-    <div class="v" style="color:${on?'#0E9F6E':'#0F172A'}">${brl(valor)}<small>${on?'garantido':du.atual&&onP?'no ritmo':du.atual?'em aberto':'não batido'}</small></div></div>`;
-  let r='';
-  if(bonus.aparelhos>0&&ativos.aparelhos) r+=regra(b.aparelhos>0,bp.aparelhos>0,'Meta de aparelhos',`${feito.aparelhos} de ${+mv.aparelhos||0}`,bonus.aparelhos);
-  if(bonus.acessoriosSeguros>0&&MET_ACESS.some(k=>ativos[k])) r+=regra(b.acessoriosSeguros>0,bp.acessoriosSeguros>0,'Acessórios + seguros',MET_ACESS.filter(k=>ativos[k]&&+mv[k]>0).map(k=>{const m=MET_IND.find(x=>x.k===k);return `${m.lbl}${m.money?' R$':''} ${m.money?brl(feito[k]||0):feito[k]||0}/${m.money?brl(+mv[k]):+mv[k]}`;}).join(' · ')||'Acessórios e seguros',bonus.acessoriosSeguros);
-  if(bonus.parcelas>0&&ativos.parcelas) r+=regra(b.parcelas>0,bp.parcelas>0,'Parcelas dos clientes em dia',`${feito.parcelas} de ${+mv.parcelas||0} pagas no prazo`,bonus.parcelas);
-  if(bonus.integral>0) r+=regra(b.integralBate,bp.integralBate,'Bateu todas as metas','Bônus integral do mês',bonus.integral);
-  if(r) h+=`<div class="sec">Como ganhar o bônus</div><div class="card">${r}${ativos.parcelas?'<div class="dica">As parcelas pagas em dia pelos seus clientes também contam para o bônus. Lembre o cliente do vencimento.</div>':''}</div>`;
-  return h+`<p style="text-align:center;color:#94A3B8;font-size:12px;margin:6px 0 0">Conta automático das vendas com entrada paga. Tendência calculada pelos dias úteis (segunda a sábado).</p>`;
-}
+async function iniciarFunc(cpf,ac){ const p=DEMO?Object.values(D.store.metasPessoas).find(x=>x.cpf===cpf):await D.get('metasPessoas',ac.pessoaId);
+  if(!p||p.ativo===false){ if(!DEMO) await fb.au.signOut(fb.auth); return mostrarLogin('O seu acesso às metas está desativado. Fale com o seu gerente.'); }
+  Object.assign(S,{modo:'func',me:{nome:p.nome},cpf:p.cpf,escopo:p.escopo,escopos:[[p.escopo,'']],pessoa:p.cpf,tab:'painel'}); abrirApp(); }
+async function iniciarGestor(u){ const dono=u.role==='DONO';
+  let escs=[]; if(dono){ escs=[['nexum','Equipe NexumCell']]; const ls=DEMO?Object.entries(D.store.lojas).map(([id,v])=>({id,...v})):await D.list('lojas').catch(()=>[]); ls.filter(l=>!l.encerrada).forEach(l=>escs.push([l.id,l.nome])); }
+  else escs=[[u.lojaId,(DEMO?D.store.lojas[u.lojaId]?.nome:(await D.get('lojas',u.lojaId).catch(()=>null))?.nome)||'Minha loja']];
+  Object.assign(S,{modo:'gestor',me:u,escopos:escs,escopo:escs[dono&&DEMO?1:0][0],pessoa:'',tab:'painel'}); abrirApp(); }
+function abrirApp(){ $('#login').hidden=true; $('#app').hidden=false; $('#euNome').textContent=S.me.nome+(S.modo==='gestor'?' · '+(S.me.role==='DONO'?'Dono':'Gerente'):''); render(); }
 
-/* ===== Visão da equipe (dono, gerente e financeiro) ===== */
-const ehGestor=()=>['DONO','GERENTE','FINANCEIRO'].includes(S.me?.role);
-async function dadosEquipe(mes){
-  let users=[]; try{ users=await DB.list('users'); }catch(e){ console.warn(e); }
-  let lojas={}; try{ (await DB.list('lojas')).forEach(l=>lojas[l.id]=l.nome||l.fantasia||l.id); }catch(e){}
-  const ger=S.me.role==='GERENTE';
-  const pessoas=users.filter(u=>u.ativo!==false&&u.role!=='DONO'&&(ger?u.lojaId===S.me.lojaId:true));
-  let vendas=[]; try{ vendas=ger?await DB.list('vendas',[['lojaId','==',S.me.lojaId]]):await DB.list('vendas'); }catch(e){ console.warn(e); }
-  const docs={}; for(const lid of new Set(pessoas.map(u=>u.lojaId||''))) docs[lid]=await metasDoc(mes,lid||null);
-  if(!docs[ger?S.me.lojaId:'']) docs[ger?S.me.lojaId:'']=await metasDoc(mes,ger?S.me.lojaId:null);
-  return {docs,pessoas,vendas,lojas};
-}
-const docDe=(eq,u)=>eq.docs[u.lojaId||'']||eq.docs[''];
-const escopoMeu=()=>S.me.role==='GERENTE'?S.me.lojaId:'';   // dono: equipe Nexum (sem loja)
-async function htmlEquipe(mes){
-  const eq=await dadosEquipe(mes); S._eq=eq;
-  const {pessoas,vendas,lojas}=eq, du=diasUteis(mes), ger=S.me.role==='GERENTE';
-  // filtro: dono escolhe Equipe Nexum, uma loja ou todas
-  const f=ger?S.me.lojaId:(S.filtroEq??'');
-  const daVez=pessoas.filter(u=>f==='*'||(u.lojaId||'')===f);
-  const comMeta=daVez.filter(u=>{ const d=docDe(eq,u); return MET_IND.some(m=>d.ativos[m.k]&&(+d.metasV[u.id]?.[m.k]||0)>0); });
-  const podeDefinir=S.me.role==='DONO'||ger;
-  const filtro=ger?'':`<div class="filtros">${[['','Equipe Nexum'],...Object.entries(lojas).filter(([id])=>pessoas.some(u=>u.lojaId===id)),['*','Todas']].map(([id,n])=>`<button class="fchip ${f===id?'on':''}" data-feq="${esc(id)}">${esc(n)}</button>`).join('')}</div>`;
-  const definir=podeDefinir&&(ger||f==='')?`<button class="btn-def" data-act-def="1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>${ger?'Definir metas da loja':'Definir metas da equipe Nexum'}</button>`:'';
-  if(!comMeta.length){
-    const quem=ger?`da ${esc(lojas[S.me.lojaId]||'sua loja')}`:f===''?'da equipe Nexum':f==='*'?'':`da ${esc(lojas[f]||'loja')}`;
-    return filtro+`<div class="card hero"><div class="empty"><b>Metas ${quem} de ${esc(mesNome(mes))} ainda não definidas</b>${daVez.length?`Há ${daVez.length} ${daVez.length===1?'pessoa':'pessoas'} na equipe, mas nenhuma com meta neste mês.`:'Nenhuma pessoa encontrada nesta equipe.'}
-      ${definir?definir.replace('btn-def','btn-def grande'):!ger&&f!==''&&f!=='*'?'<div style="margin-top:10px;font-size:13px">As metas desta loja são definidas pelo gerente dela.</div>':''}</div></div>`;
-  }
-  const ind=MET_IND.filter(m=>comMeta.some(u=>docDe(eq,u).ativos[m.k]));
-  const linhas=comMeta.map(u=>{ const d=docDe(eq,u), mv=Object.fromEntries(Object.entries(d.metasV[u.id]||{}).filter(([k])=>d.ativos[k])), f=calcMetas(u.id,mes,vendas), b=metasBonus(f,mv,d.ativos,d.bonus), bp=metasBonus(feitoProjetado(f,mes),mv,d.ativos,d.bonus);
-    const pcts=ind.filter(m=>(+mv[m.k]||0)>0).map(m=>Math.min(150,(+f[m.k]||0)/(+mv[m.k])*100));
-    return {u,mv,f,b,bp,score:pcts.length?pcts.reduce((s,x)=>s+x,0)/pcts.length:0,bat:b.todos.filter(b.bate).length,alv:b.todos.length}; }).sort((x,y)=>y.score-x.score);
-  const soma=k=>linhas.reduce((s,l)=>s+(+l.f[k]||0),0), somaM=k=>linhas.reduce((s,l)=>s+(+l.mv[k]||0),0);
-  const bg=linhas.reduce((s,l)=>s+l.b.total,0), bpT=linhas.reduce((s,l)=>s+l.bp.total,0);
-  const batendo=linhas.filter(l=>l.alv&&l.bat===l.alv).length;
-  let h=filtro+`<div class="card hero">
-    <div class="linha"><span class="chip c-a">${linhas.length} ${linhas.length===1?'pessoa':'pessoas'} com meta</span><span class="esp"></span><span class="lbl">${batendo} ${batendo===1?'bateu':'bateram'} tudo</span></div>
-    <div class="duo"><div style="background:#E7F7F0"><small>Bônus garantido</small><b style="color:#0E9F6E">${brl(bg)}</b></div>
-      <div style="background:#EAF0FF"><small>${du.atual?'Projetado no ritmo atual':'Total do mês'}</small><b style="color:#1D4ED8">${brl(du.atual?bpT:bg)}</b></div></div>
-    ${definir?`<div style="margin-top:14px">${definir}</div>`:''}
-    <div class="div"></div>
-    <div class="tri"><div><small>Aparelhos</small><b>${soma('aparelhos')}${somaM('aparelhos')?`<span style="font-size:12px;color:#94A3B8"> /${somaM('aparelhos')}</span>`:''}</b></div><div><small>Faturamento</small><b>${mil(soma('faturamento'))}</b></div><div><small>Tendência aparelhos</small><b>${Math.floor(metasProj(soma("aparelhos"),mes))}</b></div></div>
-  </div>`;
-  // metas da equipe por categoria
-  const cats=ind.filter(m=>somaM(m.k)>0).map(m=>{ const f=soma(m.k), meta=somaM(m.k), pct=Math.round(f/meta*100), pj=metasProj(f,mes), s=situacao(f,meta,mes);
-    const cor=s[0]==='c-v'?'#0E9F6E':s[0]==='c-a'?'#1D4ED8':s[0]==='c-l'?'#B45309':s[0]==='c-r'?'#DC2626':'#64748B';
-    const falta=Math.max(0,meta-f), porDia=du.atual&&du.restantes>0&&falta>0?falta/du.restantes:0;
-    return `<div class="mt"><div class="mt-h"><b>${esc(m.lbl)}</b><span class="chip ${s[0]}">${s[1]}</span></div>
-      <div class="mt-n"><strong>${fmtV(m,f)}</strong><span>de ${fmtV(m,meta)}</span><em style="color:${cor}">${pct}%</em></div>
-      <div class="pb" style="margin-top:8px"><i style="width:${Math.min(100,Math.round(pj/meta*100))}%;background:#DCE6FB"></i><i style="width:${Math.max(2,Math.min(100,pct))}%;background:${cor}"></i></div>
-      <div class="mt-g"><div><small>${du.atual?'Tendência':'Fechou em'}</small><b>${fmtV(m,du.atual?Math.floor(pj):f)}</b></div><div><small>Falta</small><b>${falta>0?fmtV(m,falta):'—'}</b></div><div><small>Por dia útil</small><b>${porDia>0?fmtV(m,m.money?Math.ceil(porDia):Math.ceil(porDia*10)/10):'—'}</b></div></div></div>`; }).join('');
-  // ranking
-  const cols=ind.filter(m=>linhas.some(l=>(+l.mv[m.k]||0)>0));
-  const cel=(m,l)=>{ const meta=+l.mv[m.k]||0, f=+l.f[m.k]||0; if(!meta) return '<td style="color:#CBD5E1">—</td>';
-    const s=situacao(f,meta,mes), cor=s[0]==='c-v'?'#0E9F6E':s[0]==='c-a'?'#1D4ED8':s[0]==='c-l'?'#B45309':s[0]==='c-r'?'#DC2626':'#94A3B8';
-    return `<td>${m.money?mil(f):f}<span style="color:#94A3B8">/${m.money?mil(meta):meta}</span><span class="p" style="color:${cor}">${Math.round(f/meta*100)}%</span></td>`; };
-  h+=`<div class="sec">Ranking da equipe<small>Toque para ver o detalhe</small></div><div class="card"><div class="tabw"><table class="tab"><thead><tr><th>Vendedor</th>${cols.map(m=>`<th>${esc(m.lbl)}</th>`).join('')}<th>Bônus</th></tr></thead><tbody>
-    ${linhas.map((l,i)=>`<tr class="cl" data-uid="${esc(l.u.id)}"><td><span class="pos">${i+1}</span>${esc(String(l.u.nome||'Vendedor').split(' ').slice(0,2).join(' '))}${S.me.role==='DONO'?`<span class="p" style="color:#94A3B8;font-weight:500;margin-left:30px">${esc(l.u.lojaId?lojas[l.u.lojaId]||'Loja':'Equipe Nexum')}</span>`:''}</td>${cols.map(m=>cel(m,l)).join('')}
-      <td><b style="color:#0E9F6E">${brl(l.b.total).replace(',00','')}</b>${du.atual?`<span class="p" style="color:#1D4ED8">ritmo ${brl(l.bp.total).replace(',00','')}</span>`:''}</td></tr>`).join('')}
-    </tbody></table></div></div>`;
-  h+=`<div class="sec">Metas da equipe<small>${du.atual?`Dia útil ${du.passados} de ${du.total}`:esc(mesNome(mes))}</small></div><div class="card mtgrid">${cats}</div>`;
-  return h;
-}
-async function abrirVendedor(uid){
-  const eq=S._eq; if(!eq) return; const u=eq.pessoas.find(x=>x.id===uid);
-  abrirModal('<div class="spin"></div>'); $('#modalBody').className='modal-card';
-  const nome=u?.nome||'Vendedor';
-  $('#modalBody').innerHTML=`<div class="puxa"></div><div style="font-size:18px;font-weight:700;margin:0 4px 12px">${esc(nome)}</div>`+await htmlVendedor(uid,S.mes,eq.vendas,u?docDe(eq,u):eq.docs[''],{nome})+`<button class="btn full" onclick="fecharModal()">Fechar</button>`;
-}
+/* ===== cálculo ===== */
+let C={};   // cache do mês
+async function carregar(){ const m=S.mes, pm=prevMes(m), e=S.escopo;
+  const [plano,planoAnt,pessoas,lanc,lancAnt]=await Promise.all([D.get('metasPlano',e+'_'+m),D.get('metasPlano',e+'_'+pm),
+    S.modo==='gestor'?D.list('metasPessoas',[['escopo','==',e]]):Promise.resolve([{cpf:S.cpf,nome:S.me.nome,ativo:true}]),
+    D.list('metasLanc',S.modo==='gestor'?[['escopo','==',e],['mes','==',m]]:[['escopo','==',e],['mes','==',m],['cpf','==',S.cpf]]),
+    D.list('metasLanc',S.modo==='gestor'?[['escopo','==',e],['mes','==',pm]]:[['escopo','==',e],['mes','==',pm],['cpf','==',S.cpf]])]);
+  const cats=(plano?.categorias?.length?plano.categorias:planoAnt?.categorias?.length?planoAnt.categorias:(e==='nexum'?PADRAO_NEXUM:PADRAO_LOJA)).map((c,i)=>({bonus:[],...c,cor:c.cor||CORES[i%CORES.length]}));
+  C={plano:plano||{},planoAnt:planoAnt||{},cats,pessoas:pessoas.filter(p=>p.ativo!==false).sort((a,b)=>String(a.nome).localeCompare(b.nome)),lanc,lancAnt,du:diasUteis(m,plano?.sabado??planoAnt?.sabado??.5),metas:plano?.metas||{},extra:plano?.extra||planoAnt?.extra||{}}; }
+function realiz(cpf,cat,ant){ const pl=ant?C.planoAnt:C.plano, L=ant?C.lancAnt:C.lanc;
+  if(cat.fonte==='sis_qtd') return +(pl.auto?.[cpf]?.aparelhos)||0; if(cat.fonte==='sis_rs') return +(pl.auto?.[cpf]?.faturamento)||0;
+  return L.filter(x=>x.cpf===cpf&&x.cat===cat.id).reduce((s,x)=>s+(cat.tipo==='rs'?+x.valor||0:+x.qtd||0),0); }
+function bonusDe(cat,p){ let v=0; (cat.bonus||[]).forEach(f=>{ if(p>=+f.pct&&+f.valor>v) v=+f.valor; }); return v; }
+function indicador(cat,cpfs){ const real=cpfs.reduce((s,c)=>s+realiz(c,cat),0), meta=cpfs.reduce((s,c)=>s+(+C.metas[c]?.[cat.id]||0),0), ant=cpfs.reduce((s,c)=>s+realiz(c,cat,true),0);
+  const tend=C.du.pas>0?real/C.du.pas*C.du.tot:0, at=meta?real/meta*100:0, tp=meta?tend/meta*100:0, mom=ant?((real-ant)/ant*100):null, gap=Math.max(0,meta-real), rest=Math.max(0,C.du.tot-C.du.pas);
+  return {cat,real,meta,ant,tend,at,tp,mom,gap,nec:rest?gap/rest:gap,qtd:cpfs.reduce((s,c)=>s+C.lanc.filter(x=>x.cpf===c&&x.cat===cat.id).length,0)}; }
+const corPct=p=>p>=100?'#1F5FE8':p>=80?'#F59E0B':'#E8364F';
+const valFmt=(cat,v)=>cat.tipo==='rs'?brl(v):num(Math.round(v*10)/10);
+function anel(p,cor,tam=64,txt){ const r=tam/2-6, c=2*Math.PI*r, f=Math.max(0,Math.min(1,p/100)); return `<div class="ring" style="--c:${cor};width:${tam}px;height:${tam}px"><svg viewBox="0 0 ${tam} ${tam}" style="width:${tam}px;height:${tam}px"><circle cx="${tam/2}" cy="${tam/2}" r="${r}" fill="none" stroke="${cor}22" stroke-width="${tam>100?14:6}"/><circle cx="${tam/2}" cy="${tam/2}" r="${r}" fill="none" stroke="${cor}" stroke-width="${tam>100?14:6}" stroke-linecap="round" stroke-dasharray="${c*f} ${c}"/></svg><b>${txt??Math.round(p)+'%'}</b></div>`; }
 
-/* ===== Definir metas (dono: equipe Nexum · gerente: a própria loja) ===== */
-const BONUS_REG=[['aparelhos','Bater a meta de aparelhos'],['acessoriosSeguros','Bater acessórios + seguros'],['parcelas','Parcelas dos clientes em dia'],['integral','Bater TODAS as metas (bônus integral)']];
-async function abrirDefinir(){
-  const eq=S._eq; if(!eq) return;
-  const ger=S.me.role==='GERENTE', lid=ger?S.me.lojaId:'', mes=S.mes;
-  const doc=await metasDoc(mes,lid||null);
-  const pessoas=eq.pessoas.filter(u=>(u.lojaId||'')===lid).sort((a,b)=>String(a.nome).localeCompare(String(b.nome)));
-  const st={ativos:{...doc.ativos}, bonus:{...doc.bonus}, mv:Object.fromEntries(pessoas.map(u=>[u.id,{...(doc.metasV[u.id]||{})}]))};
-  const nomeEq=ger?(eq.lojas[lid]||'Sua loja'):'Equipe Nexum';
-  const desenhar=()=>{
-    const ind=MET_IND.filter(m=>st.ativos[m.k]);
-    $('#modalBody').innerHTML=`<div class="puxa"></div>
-      <div class="dm-top"><div><b>Definir metas</b><small>${esc(nomeEq)} · ${esc(mesNome(mes))}</small></div><button class="dm-x" data-dm="fechar" aria-label="Fechar">×</button></div>
-      <div class="dm-sec">1. O que vai ter meta</div>
-      <div class="dm-chips">${MET_IND.map(m=>`<button class="dm-chip ${st.ativos[m.k]?'on':''}" data-dmind="${m.k}">${st.ativos[m.k]?'✓ ':''}${esc(m.lbl)}</button>`).join('')}</div>
-      <div class="dm-sec">2. Meta de cada pessoa <span><button class="dm-link" data-dm="copiar">Copiar do mês anterior</button>${pessoas.length>1?' · <button class="dm-link" data-dm="todos">Repetir a 1ª para todos</button>':''}</span></div>
-      ${pessoas.length?pessoas.map(u=>`<div class="dm-p"><div class="dm-pn"><b>${esc(String(u.nome||'Sem nome').split(' ').slice(0,2).join(' '))}</b><small>${esc(ROLES[u.role]||u.role||'')}</small></div>
-        <div class="dm-g">${ind.map(m=>`<label><small>${esc(m.lbl)}</small><input type="number" inputmode="numeric" min="0" step="${m.money?'100':'1'}" data-dmv="${u.id}|${m.k}" value="${st.mv[u.id]?.[m.k]||''}" placeholder="0"></label>`).join('')||'<span class="muted" style="font-size:13px">Ligue pelo menos um item acima.</span>'}</div></div>`).join('')
-        :`<div class="dm-p"><span class="muted" style="font-size:13.5px">${ger?'Nenhum vendedor ativo na loja. Cadastre a equipe no Portal do Gerente.':'Nenhuma pessoa na equipe Nexum.'}</span></div>`}
-      <div class="dm-sec">3. Bônus do mês (R$)</div>
-      <div class="dm-p"><div class="dm-g dm-g2">${BONUS_REG.map(([k,l])=>`<label><small>${l}</small><input type="number" inputmode="numeric" min="0" step="10" data-dmb="${k}" value="${+st.bonus[k]||''}" placeholder="0"></label>`).join('')}</div>
-        <div class="dica" style="margin-top:12px">O bônus de acessórios + seguros sai quando a pessoa bate as duas metas. O integral é pago a mais quando ela bate todas.</div></div>
-      ${ger?'<p class="dm-nota">Estas metas valem só para a sua loja. As da equipe Nexum são definidas pela NexumCell.</p>':'<p class="dm-nota">Estas metas valem para a equipe Nexum. As lojas parceiras definem as delas pelo gerente.</p>'}
-      <div class="dm-rod"><button class="btn-ver" data-dm="fechar" style="margin:0">Cancelar</button><button class="btn" data-dm="salvar">Salvar metas</button></div>`;
-  };
-  const ler=()=>{ document.querySelectorAll('[data-dmv]').forEach(i=>{ const [u,k]=i.dataset.dmv.split('|'); st.mv[u]=st.mv[u]||{}; st.mv[u][k]=+i.value||0; });
-    document.querySelectorAll('[data-dmb]').forEach(i=>st.bonus[i.dataset.dmb]=+i.value||0); };
-  abrirModal(''); $('#modalBody').className='modal-card claro dm'; desenhar();
-  $('#modalBody').onclick=async e=>{
-    const ch=e.target.closest('[data-dmind]'); if(ch){ ler(); st.ativos[ch.dataset.dmind]=!st.ativos[ch.dataset.dmind]; desenhar(); return; }
-    const a=e.target.closest('[data-dm]')?.dataset.dm; if(!a) return;
-    if(a==='fechar') return fecharModal();
-    if(a==='todos'){ ler(); const p0=st.mv[pessoas[0].id]||{}; pessoas.forEach(u=>st.mv[u.id]={...p0}); desenhar(); return; }
-    if(a==='copiar'){ const ant=await metasDoc(mesAdd(mes,-1),lid||null); let n=0; pessoas.forEach(u=>{ if(ant.metasV[u.id]){ st.mv[u.id]={...ant.metasV[u.id]}; n++; } }); st.ativos={...ant.ativos}; st.bonus={...ant.bonus}; desenhar();
-      aviso(n?`Metas de ${mesNome(mesAdd(mes,-1))} copiadas para ${n} ${n===1?'pessoa':'pessoas'}. Confira e salve.`:'O mês anterior não tem metas para esta equipe.'); return; }
-    if(a==='salvar'){ ler(); const b=e.target; b.disabled=true; b.textContent='Salvando…';
-      const metasV={}; pessoas.forEach(u=>{ metasV[u.id]=Object.fromEntries(MET_IND.map(m=>[m.k,+st.mv[u.id]?.[m.k]||0])); });
-      try{ await DB.set('metas',metasDocId(mes,lid||null),{ativos:st.ativos,bonusRegras:st.bonus,metasV,lojaId:lid,atualizadoEm:Date.now(),por:S.me.nome||'',porUid:S.me.uid});
-        fecharModal(); aviso('Metas salvas.'); render(); }
-      catch(err){ b.disabled=false; b.textContent='Salvar metas'; aviso(String(err?.code||'').includes('permission')?'Sem permissão para salvar estas metas. Fale com a NexumCell.':'Não foi possível salvar agora. Tente de novo.'); } }
-  };
-}
-function aviso(t){ let el=$('#aviso'); if(!el){ el=document.createElement('div'); el.id='aviso'; el.className='aviso'; document.body.appendChild(el); } el.textContent=t; el.classList.add('on'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('on'),3500); }
-document.addEventListener('click',e=>{
-  const f=e.target.closest('[data-feq]'); if(f){ S.filtroEq=f.dataset.feq; render(); return; }
-  if(e.target.closest('[data-act-def]')) abrirDefinir();
-});
+/* ===== telas ===== */
+const ABAS_G=[['painel','Painel'],['bonus','Bônus'],['lanc','Lançamentos'],['equipe','Equipe'],['config','Metas e bônus'],['link','Link da equipe']];
+const ABAS_F=[['painel','Meu painel'],['bonus','Meu bônus'],['lanc','Lançar venda']];
+async function render(){ const abas=S.modo==='gestor'?ABAS_G:ABAS_F;
+  $('#nav').innerHTML=abas.map(([k,n])=>`<button data-tab="${k}" class="${S.tab===k?'on':''}">${n}</button>`).join(''); $$('#nav [data-tab]').forEach(b=>b.onclick=()=>{ S.tab=b.dataset.tab; render(); });
+  $('#view').innerHTML='<div class="vazio"><span class="spin" style="border-color:#C9D4EE;border-top-color:var(--pri)"></span></div>';
+  try{ await carregar(); ({painel:vPainel,bonus:vBonus,lanc:vLanc,equipe:vEquipe,config:vConfig,link:vLink})[S.tab](); }
+  catch(e){ console.error(e); $('#view').innerHTML=`<div class="card vazio">Não foi possível carregar: ${esc(e.message)}</div>`; } }
+function cab(t,s){ return `<div class="hd"><div><h1>${t}</h1><p>${s}</p><div class="chips"><span class="chip">Dia <b>${C.du.dia}</b> / ${C.du.n}</span><span class="chip du">D.U. <b>${num(C.du.pas)}</b> / ${num(C.du.tot)}</span><span class="chip">${esc(mesNome(S.mes))}</span></div></div></div>`; }
+function filtros(comPessoa=true){ const ehG=S.modo==='gestor';
+  return `<div class="filtros"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
+    <input type="month" id="fMes" value="${S.mes}">${ehG&&S.escopos.length>1?`<select id="fEsc">${S.escopos.map(([k,n])=>`<option value="${k}" ${k===S.escopo?'selected':''}>${esc(n)}</option>`).join('')}</select>`:''}
+    ${ehG&&comPessoa?`<select id="fPes"><option value="">Toda a equipe</option>${C.pessoas.map(p=>`<option value="${p.cpf}" ${p.cpf===S.pessoa?'selected':''}>${esc(p.nome)}</option>`).join('')}</select>`:''}
+    ${S.pessoa&&ehG?'<button class="btn sm" id="fLimpar">Limpar</button>':''}</div>`; }
+function ligarFiltros(){ $('#fMes')&&($('#fMes').onchange=e=>{ if(e.target.value){ S.mes=e.target.value; render(); } }); $('#fEsc')&&($('#fEsc').onchange=e=>{ S.escopo=e.target.value; S.pessoa=''; render(); }); $('#fPes')&&($('#fPes').onchange=e=>{ S.pessoa=e.target.value; render(); }); $('#fLimpar')&&($('#fLimpar').onclick=()=>{ S.pessoa=''; render(); }); }
+const cpfsSel=()=>S.modo==='func'?[S.cpf]:S.pessoa?[S.pessoa]:C.pessoas.map(p=>p.cpf);
 
-/* ===== Vendas do próprio funcionário ===== */
-async function minhasVendas(){ try{ return await DB.list('vendas',[['vendedorUid','==',S.me.uid]]); }catch(e){ console.warn(e); return []; } }
+function vPainel(){ const cpfs=cpfsSel(), ind=C.cats.map(c=>indicador(c,cpfs)), nome=S.modo==='func'?'Meu painel':S.pessoa?(C.pessoas.find(p=>p.cpf===S.pessoa)?.nome||''):'Painel de Performance';
+  $('#view').innerHTML=cab(esc(nome),S.modo==='func'?'Quanto você já fez, quanto falta e a tendência até o fim do mês':'Central de comando da equipe, em tempo real')+filtros()+
+   (C.pessoas.length||S.modo==='func'?`<div class="grid">${ind.map(x=>{ const c=corPct(x.tp), cb=corPct(x.at), up=x.mom==null?'eq':x.mom>=0?'up':'dn';
+    return `<div class="kc" style="--c:${c}"><div class="t">${esc(x.cat.nome)}</div><div class="mid"><div>${anel(x.tp,c)}<small style="display:block;text-align:center;font-size:9.5px;font-weight:700;color:#667085;letter-spacing:.06em;margin-top:3px">TENDÊNCIA</small></div>
+      <div class="mom"><span class="${up}">${x.mom==null?'— MoM sem base':(x.mom>=0?'↗':'↘')+' MoM '+(x.mom>=0?'+':'')+Math.round(x.mom)+'%'}</span><span class="eq">${x.cat.fonte!=='manual'?'Do sistema':'Lançado'}</span></div></div>
+      <div class="tr">TEND. REAL.</div><div class="trv">${valFmt(x.cat,x.tend)}</div>
+      <div class="ft" style="--c:${cb}"><div class="bar"><i><s style="width:${Math.min(100,x.at)}%"></s></i><b>${pct(x.at)}</b></div>
+        <div class="kv"><span>REALIZADO</span><b>${valFmt(x.cat,x.real)}</b></div><div class="kv m"><span>META</span><b>${x.meta?valFmt(x.cat,x.meta):'sem meta'}</b></div></div></div>`; }).join('')}</div>
+   <div class="sec"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#1F5FE8" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Matriz de Performance por Categoria</div>
+   <div class="tw"><table><tr><th>Categoria</th><th>Realizado</th><th>Meta</th><th>% Ating.</th><th>Tend. %</th><th>Tend. real.</th><th>MoM</th><th>Gap</th><th>Nec. diária</th><th>Lançamentos</th></tr>
+   ${ind.map(x=>`<tr><td class="cat">${esc(x.cat.nome)}</td><td><b>${valFmt(x.cat,x.real)}</b></td><td style="color:#98A2B3">${valFmt(x.cat,x.meta)}</td><td><span class="${x.at>=100?'ok':x.at>=80?'w':'bad'}">${pct(x.at)}</span></td><td><span class="${x.tp>=100?'ok':x.tp>=80?'w':'bad'}">${pct(x.tp)}</span></td><td><b>${valFmt(x.cat,x.tend)}</b></td><td>${x.mom==null?'—':`<span class="${x.mom>=0?'ok':'bad'}">${x.mom>=0?'+':''}${num(x.mom)}%</span>`}</td><td>${x.gap>0?valFmt(x.cat,x.gap):'<span class="ok">✓</span>'}</td><td>${x.gap>0?valFmt(x.cat,x.nec):'<span class="ok">✓</span>'}</td><td>${x.cat.fonte==='manual'?x.qtd:'—'}</td></tr>`).join('')}</table></div>`
+   :`<div class="card vazio">Ninguém cadastrado ainda. Vá em <b>Equipe</b> e cadastre os funcionários com CPF e data de nascimento.</div>`);
+  ligarFiltros(); }
 
-/* ===== Bônus: quanto o funcionário recebe no dia do pagamento ===== */
-function fmtD(iso){ const [a,m,d]=String(iso||'').split('-'); return d?`${d}/${m}/${a}`:String(iso||''); }
-function abrirModal(html){ $('#modalBody').className='modal-card claro'; $('#modalBody').innerHTML=html; $('#modal').classList.remove('hidden'); }
-function fecharModal(){ $('#modal').classList.add('hidden'); }
-async function bonusDoMes(mes){
-  const vendas=S._vendas||await minhasVendas();
-  const {ativos,metasV,bonus,propria}=await metasDoc(mes,S.me.lojaId);
-  const mv=metasV[S.me.uid]||{}, feito=calcMetas(S.me.uid,mes,vendas);
-  const b=metasBonus(feito,mv,ativos,bonus);
-  let pago=null; try{ const pg=await DB.get('bonusPagos',propria?metasDocId(mes,S.me.lojaId):mes); pago=pg?.pagos?.[S.me.uid]||null; }catch(e){}
-  return {b,bonus,pago};
-}
-async function telaBonus(){
-  abrirModal('<div class="spin"></div>');
-  try{
-    const {b,bonus,pago}=await bonusDoMes(S.mes);
-    const regra=(titulo,on,valor)=>`<div class="bnrow"><span class="${on?'':'off'}">${titulo}</span><b class="${on?'on':'off'}">${brl(valor)}</b></div>`;
-    const linhas=[];
-    if(bonus.aparelhos>0) linhas.push(regra('Meta de aparelhos',b.aparelhos>0,bonus.aparelhos));
-    if(bonus.acessoriosSeguros>0) linhas.push(regra('Acessórios + seguros',b.acessoriosSeguros>0,bonus.acessoriosSeguros));
-    if(bonus.parcelas>0) linhas.push(regra('Parcelas dos clientes em dia',b.parcelas>0,bonus.parcelas));
-    if(bonus.integral>0) linhas.push(regra('Bateu todas as metas',b.integralBate,bonus.integral));
-    const det=linhas.length?`<div class="bnlist">${linhas.join('')}</div>`:`<p class="muted" style="text-align:center;margin:12px 0">As metas deste mês ainda não têm bônus definido pela Nexum.</p>`;
-    const status = pago ? `<div class="bnpaid">Pago em ${fmtD(isoDate(new Date(pago.pagoEm)))}${pago.por?' · '+esc(pago.por):''}</div>` : `<div class="bnwait">Você recebe no dia do pagamento</div>`;
-    $('#modalBody').innerHTML=`<div class="puxa"></div><div class="bntit">Seu bônus garantido</div><div class="bnbig">${brl(b.total)}</div>${status}${det}
-      <p class="bnsub">${esc(mesNome(S.mes))} · conta automático das suas vendas. Regras definidas pela NexumCell.</p><button class="btn full" onclick="fecharModal()">Fechar</button>`;
-  }catch(e){ $('#modalBody').innerHTML=`<div class="empty">Não foi possível calcular o bônus agora.</div><button class="btn full" onclick="fecharModal()">Fechar</button>`; }
-}
+function vBonus(){ const lista=S.modo==='func'?[{cpf:S.cpf,nome:S.me.nome}]:(S.pessoa?C.pessoas.filter(p=>p.cpf===S.pessoa):C.pessoas);
+  const linhas=lista.map(p=>{ const ind=C.cats.map(c=>indicador(c,[p.cpf])); const bAt=ind.reduce((s,x)=>s+bonusDe(x.cat,x.at),0), bPr=ind.reduce((s,x)=>s+bonusDe(x.cat,x.tp),0);
+    const comMeta=ind.filter(x=>x.meta>0), todasAt=comMeta.length&&comMeta.every(x=>x.at>=100), todasPr=comMeta.length&&comMeta.every(x=>x.tp>=100), ex=+C.extra.valor||0;
+    return {p,ind,bAt,bPr,exAt:todasAt?ex:0,exPr:todasPr?ex:0,nAt:comMeta.filter(x=>x.at>=100).length,nPr:comMeta.filter(x=>x.tp>=100).length,nTot:comMeta.length}; });
+  const T=k=>linhas.reduce((s,l)=>s+l[k],0), nTot=T('nTot'), nPr=T('nPr'), nAt=T('nAt');
+  $('#view').innerHTML=cab(S.modo==='func'?'Meu bônus':'Bônus & Performance','Acompanhe metas e a projeção do bônus até o fim do mês')+filtros()+
+   `<div class="big4"><div class="card proj">${anel(nTot?nPr/nTot*100:0,'#E8364F',150,`${nPr}/${nTot}<small style="display:block;font-size:10px;font-weight:700;color:#667085;letter-spacing:.08em">PROJEÇÃO METAS</small>`)}<span style="color:var(--mut);font-size:12.5px;margin-top:8px">Atual: ${nAt}/${nTot} atingidas</span></div>
+    <div class="cards"><div class="bk"><div class="l"><small>BÔNUS POR METAS</small><span class="ic">$</span></div><div><b>${brl(T('bPr'))}</b><span>Atual: ${brl(T('bAt'))}</span></div></div>
+    <div class="bk"><div class="l"><small>METAS BATIDAS</small><span class="ic">${ICONE.alvo}</span></div><div><b>${nAt} de ${nTot}</b><span>Projeção: ${nPr} de ${nTot}</span></div></div>
+    <div class="bk dest"><div class="l"><small>BÔNUS EXTRA</small><span class="ic" style="background:#FEF4E2;color:#B54708"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg></span></div><div><b>${brl(T('exPr'))}</b><span>${+C.extra.valor?`${brl(C.extra.valor)} para quem bate todas as metas`:'Não definido'}</span></div></div>
+    <div class="bk dest"><div class="l"><small>TOTAL GERAL</small><span class="ic" style="background:#F4F3FF;color:#7A5AF8"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span></div><div><b>${brl(T('bPr')+T('exPr'))}</b><span>Atual: ${brl(T('bAt')+T('exAt'))}</span></div></div></div></div>
+   <div class="sec">Desempenho por categoria <small>meta, tendência e bônus de cada um</small></div>
+   <div class="tw"><table><tr><th rowspan="2" style="vertical-align:bottom">${S.modo==='func'?'Você':'Vendedor'}</th>${C.cats.map(c=>`<th colspan="4" style="text-align:center;border-left:1px solid var(--line)">${esc(c.nome)}</th>`).join('')}<th rowspan="2" style="vertical-align:bottom;border-left:1px solid var(--line)">Bônus</th></tr>
+   <tr>${C.cats.map(()=>'<th style="border-left:1px solid var(--line)">Meta</th><th>Tend.</th><th>% Ating.</th><th>Bônus</th>').join('')}</tr>
+   ${linhas.map(l=>`<tr><td><b>${esc(l.p.nome)}</b><br><span style="font-size:11.5px;color:var(--mut)">${l.nAt}/${l.nTot} metas</span></td>${l.ind.map(x=>`<td style="border-left:1px solid #F0F2F6">${x.meta?valFmt(x.cat,x.meta):'—'}</td><td>${valFmt(x.cat,x.tend)}</td><td><span class="${x.at>=100?'ok':x.at>=80?'w':'bad'}">${pct(x.at)}</span></td><td style="color:var(--pri);font-weight:700">${brl(bonusDe(x.cat,x.tp))}</td>`).join('')}<td style="border-left:1px solid #F0F2F6"><b style="color:var(--ok)">${brl(l.bPr+l.exPr)}</b><br><span style="font-size:11.5px;color:var(--mut)">atual ${brl(l.bAt+l.exAt)}</span></td></tr>`).join('')||`<tr><td colspan="${C.cats.length*4+2}" class="vazio">Sem pessoas.</td></tr>`}</table></div>
+   <p style="color:var(--mut);font-size:12.5px;margin-top:10px">O bônus de cada categoria usa a maior faixa atingida (ex.: 80%, 100%, 120% da meta). "Atual" é com o que já foi feito; o valor grande é a projeção se o ritmo continuar.</p>`;
+  ligarFiltros(); }
 
-/* ===== Render ===== */
-async function render(){
-  const pn=String(S.me.nome||'').trim().split(/\s+/)[0]||'';
-  $('#meNome').textContent=pn?`Olá, ${pn}`:'Olá!';
-  $('#meRole').textContent=ehGestor()?`${ROLES[S.me.role]||''} · desempenho da ${S.me.role==='GERENTE'?'sua loja':'equipe'}`:[(ROLES[S.me.role]||S.me.role||''),S.me.lojaNome||''].filter(Boolean).join(' · ');
-  $('#mLabel').textContent=mesNome(S.mes).replace(/^./,c=>c.toUpperCase());
-  $('#mNext').disabled = S.mes >= hoje().slice(0,7);
-  $('#bBonus').style.display=ehGestor()?'none':'';
-  document.body.classList.toggle('gestor',ehGestor());
-  const du=diasUteis(S.mes);
-  $('#dias').innerHTML=du.atual?`<span>Dia ${du.dia} de ${du.dim}</span><span>Dia útil ${du.passados} de ${du.total}</span>`:`<span>${du.total} dias úteis</span>`;
-  $('#conteudo').innerHTML='<div class="card hero"><div class="spin"></div></div>';
-  try{
-    if(ehGestor()) $('#conteudo').innerHTML=await htmlEquipe(S.mes);
-    else{ const vendas=await minhasVendas(); S._vendas=vendas; $('#conteudo').innerHTML=await htmlVendedor(S.me.uid,S.mes,vendas,await metasDoc(S.mes,S.me.lojaId)); try{ $('#conteudo').insertAdjacentHTML('beforeend',await minhaComissao(S.me.uid,S.mes,vendas)); }catch(e){ console.warn('comissão',e); } }
-  }catch(e){
-    console.error(e);
-    $('#conteudo').innerHTML=`<div class="card hero"><div class="empty">Não foi possível carregar as metas agora.<br><button class="btn-ver" onclick="render()">Tentar de novo</button></div></div>`;
-  }
-}
-document.addEventListener('click',e=>{ const tr=e.target.closest('tr.cl[data-uid]'); if(tr) abrirVendedor(tr.dataset.uid); });
+function vLanc(){ const ehG=S.modo==='gestor', man=C.cats.filter(c=>c.fonte==='manual'), l=[...C.lanc].filter(x=>!S.pessoa||x.cpf===S.pessoa).sort((a,b)=>String(b.data).localeCompare(a.data)||(b.em||0)-(a.em||0));
+  const nomeDe=c=>C.pessoas.find(p=>p.cpf===c)?.nome||fmtCpf(c), catDe=id=>C.cats.find(c=>c.id===id);
+  $('#view').innerHTML=cab(ehG?'Lançamentos':'Lançar venda','Cada venda de película, capa, acessório, seguro (ou o que estiver nas metas) entra aqui')+filtros()+
+   `<div class="card" style="margin-bottom:16px"><h3 style="margin:0 0 12px;font-size:16px">Nova venda</h3>${man.length?`<div class="g3">${ehG?`<label>Funcionário<select id="nPes">${C.pessoas.map(p=>`<option value="${p.cpf}">${esc(p.nome)}</option>`).join('')}</select></label>`:''}
+     <label>Categoria<select id="nCat">${man.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join('')}</select></label><label>Data<input id="nData" type="date" value="${hojeISO()}"></label>
+     <label>Quantidade<input id="nQtd" type="number" min="1" step="1" value="1"></label><label>Valor total (R$)<input id="nVal" type="number" min="0" step="0.01" placeholder="0,00"></label><label>Observação<input id="nObs" maxlength="120" placeholder="Opcional: cliente, nº da venda"></label></div>
+     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn pri" id="nOk">Lançar</button></div>`:'<p style="color:var(--mut);margin:0">Todas as categorias são contadas pelo sistema. Não há nada para lançar.</p>'}</div>
+   <div class="tw"><table><tr><th>Data</th>${ehG?'<th>Funcionário</th>':''}<th>Categoria</th><th>Qtd</th><th>Valor</th><th>Obs.</th><th>Lançado por</th><th></th></tr>
+   ${l.map(x=>`<tr><td>${String(x.data).split('-').reverse().join('/')}</td>${ehG?`<td style="text-align:left">${esc(nomeDe(x.cpf))}</td>`:''}<td style="text-align:left">${esc(catDe(x.cat)?.nome||x.cat)}</td><td>${num(x.qtd)}</td><td>${brl2(x.valor)}</td><td style="text-align:left;white-space:normal;max-width:220px">${esc(x.obs||'')}</td><td style="text-align:left">${esc(x.por||'')}</td><td>${ehG||x.porUid===(DEMO?'':fb?.auth.currentUser?.uid)?`<button class="btn sm" data-del="${x.id}">Excluir</button>`:''}</td></tr>`).join('')||`<tr><td colspan="8" class="vazio">Nada lançado neste mês.</td></tr>`}</table></div>`;
+  ligarFiltros();
+  $('#nOk')&&($('#nOk').onclick=async()=>{ const cat=catDe($('#nCat').value), q=+$('#nQtd').value||0, v=+$('#nVal').value||0, d=$('#nData').value; if(!d||!d.startsWith(S.mes)) return toast('Escolha uma data dentro do mês selecionado','err');
+    if(cat.tipo==='rs'&&!(v>0)) return toast('Informe o valor','err'); if(cat.tipo==='qtd'&&!(q>0)) return toast('Informe a quantidade','err');
+    const cpf=ehG?$('#nPes').value:S.cpf; await D.add('metasLanc',{escopo:S.escopo,mes:S.mes,cpf,cat:cat.id,qtd:q,valor:v,data:d,obs:$('#nObs').value.trim(),por:S.me.nome,porUid:DEMO?'':fb.auth.currentUser.uid,em:Date.now()}); toast('Venda lançada'); render(); });
+  $$('[data-del]').forEach(b=>b.onclick=async()=>{ if(!confirm('Excluir este lançamento?')) return; await D.del('metasLanc',b.dataset.del); toast('Excluído'); render(); }); }
 
-/* ===== Sessão ===== */
-async function iniciarSessao(perfil){
-  S.me=perfil; S.mes=S.mes||hoje().slice(0,7);
-  $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
-  // a loja pode ter optado por não usar o app (Painel do Dono → Lojas parceiras)
-  if(S.me.role!=='DONO'&&S.me.lojaId){ let l=null; try{ l=await DB.get('lojas',S.me.lojaId); }catch(e){}
-    if(l&&l.appMetas===false){ $('#conteudo').innerHTML=`<div class="card hero" style="text-align:center;padding:28px 20px"><h2 style="margin:0 0 8px">Sua loja não usa o app Minhas Metas</h2>
-      <p class="muted" style="margin:0 0 18px">A ${esc(l.nome||'sua loja')} optou por não usar o app. Acompanhe suas vendas e a sua comissão no Portal do Vendedor, em Comissões.</p><button class="btn full" onclick="sair()">Sair</button></div>`;
-      document.querySelectorAll('#bBonus,#mPrev,#mNext').forEach(b=>b&&(b.style.display='none')); return; } }
-  render();
-}
+function vEquipe(){ const todas=null;
+  D.list('metasPessoas',[['escopo','==',S.escopo]]).then(ps=>{ ps.sort((a,b)=>(a.ativo===false)-(b.ativo===false)||String(a.nome).localeCompare(b.nome));
+    $('#view').innerHTML=`<div class="hd"><div><h1>Equipe</h1><p>Quem tem metas ${S.escopo==='nexum'?'na equipe NexumCell (financeiro, suporte, vendedores internos e gerentes)':'nesta loja'}. Cada pessoa entra no app com o CPF e cria a própria senha no primeiro acesso.</p></div><button class="btn pri" id="eNovo">+ Cadastrar pessoa</button></div>${filtros(false)}
+     <div class="tw"><table><tr><th>Nome</th><th>CPF</th><th>Cargo</th><th>Nascimento</th><th>Acesso</th><th></th></tr>
+     ${ps.map(p=>`<tr style="${p.ativo===false?'opacity:.55':''}"><td><b>${esc(p.nome)}</b>${p.vendedorUid?'<br><span style="font-size:11.5px;color:var(--mut)">vendas do sistema contam sozinhas</span>':''}</td><td>${fmtCpf(p.cpf)}</td><td style="text-align:left">${esc(CARGOS[p.cargo]||p.cargo||'')}</td><td>${p.nasc?p.nasc.split('-').reverse().join('/'):'—'}</td>
+       <td>${p.ativo===false?'<span class="pill p-g">Desativado</span>':p.ativado&&p.uid?'<span class="pill p-ok">Senha criada</span>':'<span class="pill p-w">Aguardando 1º acesso</span>'}</td>
+       <td><div class="row" style="justify-content:flex-end;gap:6px"><button class="btn sm" data-ed="${p.id}">Editar</button>${p.ativo!==false&&p.ativado?`<button class="btn sm" data-reset="${p.id}">Novo 1º acesso</button>`:''}<button class="btn sm" data-tg="${p.id}">${p.ativo===false?'Reativar':'Desativar'}</button>${p.ativo!==false?`<a class="btn sm pri" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(`Olá, ${String(p.nome).split(' ')[0]}! As suas metas e o seu bônus estão no app Metas & Bônus da NexumCell: ${URL_APP}\nEntre com o seu CPF. No primeiro acesso, confirme a data de nascimento e crie a sua senha.`)}">Enviar link</a>`:''}</div></td></tr>`).join('')||'<tr><td colspan="6" class="vazio">Ninguém cadastrado ainda.</td></tr>'}</table></div>`;
+    ligarFiltros(); $('#eNovo').onclick=()=>editarPessoa(null);
+    $$('[data-ed]').forEach(b=>b.onclick=()=>editarPessoa(ps.find(p=>p.id===b.dataset.ed)));
+    $$('[data-tg]').forEach(b=>b.onclick=async()=>{ const p=ps.find(x=>x.id===b.dataset.tg); await D.set('metasPessoas',p.id,{ativo:p.ativo===false,atualizadoEm:Date.now()}); toast(p.ativo===false?'Reativado':'Desativado: não entra mais no app'); render(); });
+    $$('[data-reset]').forEach(b=>b.onclick=async()=>{ const p=ps.find(x=>x.id===b.dataset.reset); if(!confirm(`Liberar um novo primeiro acesso para ${p.nome}? Ele vai confirmar a data de nascimento e criar uma senha nova.`)) return; await D.set('metasPessoas',p.id,{ativado:false,atualizadoEm:Date.now()}); toast('Pronto: na próxima entrada ele cria uma senha nova'); render(); });
+  }).catch(e=>$('#view').innerHTML=`<div class="card vazio">${esc(e.message)}</div>`); }
+async function editarPessoa(p){ const novo=!p; let vend=[];
+  if(S.escopo!=='nexum'&&!DEMO) vend=(await D.list('users',[['lojaId','==',S.escopo]]).catch(()=>[])).filter(u=>['VENDEDOR','GERENTE'].includes(u.role)); if(DEMO) vend=[{id:'v1',nome:'adriana da silva'},{id:'v2',nome:'nadia mohamed'},{id:'v3',nome:'bruno lins'}];
+  modal(novo?'Cadastrar pessoa':'Editar pessoa',`<div class="g2"><label>Nome completo<input id="eNome" value="${esc(p?.nome||'')}" maxlength="80"></label><label>CPF<input id="eCpf" inputmode="numeric" value="${p?fmtCpf(p.cpf):''}" ${novo?'':'disabled'} maxlength="14"></label>
+    <label>Data de nascimento<input id="eNasc" type="date" value="${esc(p?.nasc||'')}"></label><label>Cargo<select id="eCargo">${Object.entries(CARGOS).filter(([k])=>S.escopo==='nexum'||['VENDEDOR','GERENTE','OUTRO'].includes(k)).map(([k,n])=>`<option value="${k}" ${p?.cargo===k?'selected':''}>${n}</option>`).join('')}</select></label>
+    ${S.escopo!=='nexum'?`<label style="grid-column:1/-1">Vendas do sistema (opcional)<select id="eVend"><option value="">Não ligar</option>${vend.map(u=>`<option value="${u.id}" ${p?.vendedorUid===u.id?'selected':''}>${esc(u.nome)}</option>`).join('')}</select><span style="font-weight:400;font-size:12px">Ligando ao login do vendedor no sistema, os aparelhos vendidos e o faturamento contam sozinhos.</span></label>`:''}</div>
+    <p style="color:var(--mut);font-size:12.5px;margin:12px 0 0">A data de nascimento é a "chave" do primeiro acesso: só quem sabe consegue criar a senha.</p>`,
+    async()=>{ const nome=$('#eNome').value.trim(), cpf=soD($('#eCpf').value), nasc=$('#eNasc').value; if(nome.length<3) throw new Error('Informe o nome'); if(!cpfOk(cpf)) throw new Error('CPF inválido'); if(!nasc) throw new Error('Informe a data de nascimento');
+      const id=S.escopo+'_'+cpf; if(novo&&await D.get('metasPessoas',id).catch(()=>null)) throw new Error('Este CPF já está cadastrado');
+      const d={escopo:S.escopo,cpf,nome,nasc,cargo:$('#eCargo').value,vendedorUid:$('#eVend')?.value||'',ativo:true,atualizadoEm:Date.now(),...(novo?{criadoEm:Date.now(),criadoPor:S.me.nome,ativado:false,uid:''}:{})};
+      await D.set('metasPessoas',id,d); toast(novo?'Cadastrado. Envie o link pelo botão "Enviar link".':'Salvo'); render(); }); }
 
-/* ===== Comissão do mês (regras que o gerente define no Portal do Gerente → Comissões) ===== */
-let _regraCom, _cfgSis;
-async function minhaComissao(uid,mes,vendas){
-  if(_regraCom===undefined){ try{ _regraCom=S.me.lojaId?await DB.get('regrasComissao',S.me.lojaId):null; }catch(e){ _regraCom=null; } }
-  if(_cfgSis===undefined){ try{ _cfgSis=await DB.get('config','sistema'); }catch(e){ _cfgSis=null; } }
-  const r=_regraCom||null, pct=r&&r.pctParcelas!=null&&r.pctParcelas!==''?+r.pctParcelas:(+S.me.comissaoPct||+_cfgSis?.comissaoPct||3);
-  let pago=0; vendas.filter(v=>v.vendedorUid===uid).forEach(v=>(v.parcelas||[]).forEach(p=>{ if(p.pago&&String(p.pagoEm||'').startsWith(mes)&&p.forma!=='Entrada do acordo') pago+=Number(p.valorPago||p.valor); }));
-  const f=calcMetas(uid,mes,vendas), L=[[`${pct}% das parcelas pagas pelos seus clientes`,`${brl(pago)} recebidos`,r2(pago*pct/100)]];
-  if(r) [['porAparelho','aparelhos','aparelho(s)'],['porPelicula','pelicula','película(s)'],['porCapinha','capinha','capinha(s)'],['porAcessorio','acessorios','acessório(s)'],['porSeguro','seguros','proteção(ões)']].forEach(([k,fk,t])=>{ const val=+r[k]||0, q=+f[fk]||0; if(val>0) L.push([`${brl(val)} por ${t.replace(/\(.*\)/,'')}`,`${q} ${t}`,r2(q*val)]); });
-  const tot=r2(L.reduce((s,x)=>s+x[2],0));
-  return `<div class="sec">Minha comissão<small>Regras da sua loja</small></div><div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><b style="font-size:15px">Comissão do mês</b><b style="font-size:24px;color:#0E9F6E">${brl(tot)}</b></div>
-    <div class="bnlist" style="margin-top:10px">${L.map(x=>`<div class="bnrow"><span>${esc(x[0])}<br><small class="muted">${esc(x[1])}</small></span><b class="on">${brl(x[2])}</b></div>`).join('')}</div>
-    <p class="muted" style="font-size:12px;margin:10px 0 0">Valores definidos pelo gerente da loja. Quem paga a comissão é a loja; o recibo chega no Portal do Vendedor.</p></div>`;
-}
+function vConfig(){ const pl=C.plano, cats=JSON.parse(JSON.stringify(C.cats)), metas=JSON.parse(JSON.stringify(C.metas)), extra={...C.extra}; let sab=pl.sabado??C.planoAnt.sabado??.5;
+  const desenha=()=>{ $('#view').innerHTML=`<div class="hd"><div><h1>Metas e bônus</h1><p>Do jeito que você quiser: crie as categorias, a meta de cada pessoa e quanto cada uma ganha ao bater. Vale para ${esc(mesNome(S.mes))}.</p></div><div class="row"><button class="btn" id="cCopiar">Copiar do mês anterior</button><button class="btn pri" id="cSalvar">Salvar metas</button></div></div>${filtros(false)}
+    <div class="card"><h3 style="margin:0 0 4px;font-size:16px">1. Categorias e bônus</h3><p style="color:var(--mut);margin:0 0 12px;font-size:13px">Bônus por faixa: ao chegar em X% da meta, ganha R$ Y (vale a maior faixa atingida).</p>
+      ${cats.map((c,i)=>`<div class="cfg-cat" data-i="${i}"><label>Nome<input data-k="nome" value="${esc(c.nome)}" maxlength="30"></label><label>Medida<select data-k="tipo"><option value="qtd" ${c.tipo==='qtd'?'selected':''}>Quantidade</option><option value="rs" ${c.tipo==='rs'?'selected':''}>Valor (R$)</option></select></label>
+        <label>Como conta<select data-k="fonte">${Object.entries(FONTES).filter(([k])=>k==='manual'||S.escopo!=='nexum').map(([k,n])=>`<option value="${k}" ${c.fonte===k?'selected':''}>${n}</option>`).join('')}</select></label><button class="btn sm" data-rm="${i}" title="Tirar">Tirar</button>
+        <div class="fx" style="grid-column:1/-1">Bônus:${[0,1,2].map(j=>{ const f=(c.bonus||[])[j]||{pct:[80,100,120][j],valor:''}; return ` ao chegar em <input data-b="${j}" data-bk="pct" type="number" value="${f.pct}" min="1" max="300">% ganha R$ <input data-b="${j}" data-bk="valor" type="number" value="${f.valor}" min="0" step="1">`; }).join(' ·')}</div></div>`).join('')}
+      <button class="btn sm" id="cAdd">+ Categoria</button>
+      <div class="g3" style="margin-top:14px"><label>Bônus extra para quem bater TODAS as metas (R$)<input id="cExtra" type="number" min="0" value="${+extra.valor||''}"></label><label>Sábado conta como<select id="cSab"><option value="1" ${sab==1?'selected':''}>Dia inteiro</option><option value=".5" ${sab==.5?'selected':''}>Meio dia</option><option value="0" ${sab==0?'selected':''}>Não conta</option></select></label></div></div>
+    <div class="card" style="margin-top:16px"><h3 style="margin:0 0 4px;font-size:16px">2. Meta de cada pessoa</h3><p style="color:var(--mut);margin:0 0 12px;font-size:13px">Preencha a linha "Todos" para aplicar o mesmo valor a toda a equipe.</p>
+      <div class="tw mtab"><table><tr><th>Pessoa</th>${cats.map(c=>`<th>${esc(c.nome)}${c.tipo==='rs'?' (R$)':''}</th>`).join('')}</tr>
+      <tr style="background:#F8FAFF"><td><b>Todos</b></td>${cats.map(c=>`<td><input data-todos="${c.id}" type="number" min="0" placeholder="—"></td>`).join('')}</tr>
+      ${C.pessoas.map(p=>`<tr><td>${esc(p.nome)}</td>${cats.map(c=>`<td><input data-m="${p.cpf}" data-c="${c.id}" type="number" min="0" value="${metas[p.cpf]?.[c.id]??''}"></td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cats.length+1}" class="vazio">Cadastre a equipe primeiro (aba Equipe).</td></tr>`}</table></div></div>`;
+    ligarFiltros();
+    const ler=()=>{ $$('.cfg-cat').forEach(el=>{ const c=cats[+el.dataset.i]; el.querySelectorAll('[data-k]').forEach(i=>c[i.dataset.k]=i.value); c.bonus=[0,1,2].map(j=>({pct:+el.querySelector(`[data-b="${j}"][data-bk="pct"]`).value||0,valor:+el.querySelector(`[data-b="${j}"][data-bk="valor"]`).value||0})).filter(f=>f.pct>0&&f.valor>0); });
+      $$('[data-m]').forEach(i=>{ (metas[i.dataset.m] ||= {})[i.dataset.c]=i.value===''?null:+i.value; }); extra.valor=+$('#cExtra').value||0; sab=+$('#cSab').value; };
+    $('#cAdd').onclick=()=>{ ler(); cats.push({id:'c'+Date.now().toString(36),nome:'Nova categoria',tipo:'qtd',fonte:'manual',bonus:[],cor:CORES[cats.length%CORES.length]}); desenha(); };
+    $$('[data-rm]').forEach(b=>b.onclick=()=>{ ler(); if(!confirm('Tirar esta categoria das metas deste mês?')) return; cats.splice(+b.dataset.rm,1); desenha(); });
+    $$('[data-todos]').forEach(i=>i.onchange=()=>{ $$(`[data-c="${i.dataset.todos}"]`).forEach(x=>x.value=i.value); });
+    $('#cCopiar').onclick=async()=>{ const a=C.planoAnt; if(!a?.categorias?.length) return toast('O mês anterior não tem metas','err'); cats.splice(0,cats.length,...JSON.parse(JSON.stringify(a.categorias))); Object.assign(metas,JSON.parse(JSON.stringify(a.metas||{}))); extra.valor=a.extra?.valor||0; desenha(); toast('Copiado. Confira e salve.'); };
+    $('#cSalvar').onclick=async e=>{ ler(); if(cats.some(c=>!c.nome.trim())) return toast('Toda categoria precisa de nome','err'); e.currentTarget.disabled=true;
+      try{ await D.set('metasPlano',S.escopo+'_'+S.mes,{escopo:S.escopo,mes:S.mes,categorias:cats.map((c,i)=>({id:c.id,nome:c.nome.trim().slice(0,30),tipo:c.tipo,fonte:c.fonte,bonus:c.bonus||[],cor:c.cor||CORES[i%CORES.length]})),metas,extra:{valor:+extra.valor||0},sabado:sab,atualizadoEm:Date.now(),por:S.me.nome}); toast('Metas salvas. A equipe já vê no app.'); render(); }
+      catch(er){ toast(er.message,'err'); e.currentTarget.disabled=false; } }; };
+  desenha(); }
 
-/* ===== Login / Firebase ===== */
-const senhaFb = s => { s=String(s); return s.length<6?'nx-'+s:s; };
-const SENHA_PADRAO='12345';
-const mascara = e => { const [u,d]=String(e).split('@'); return (u.slice(0,2)+'***@'+d); };
-async function emailDoLogin(v){
-  v=v.trim(); if(v.includes('@')) return v.toLowerCase();
-  const id=v.toUpperCase().replace(/\s+/g,'');
-  const l=await DB.get('logins',id).catch(()=>null);
-  if(!l?.email) throw Object.assign(new Error('ID não encontrado. Confira o ID enviado pela NexumCell.'),{code:'nx/id'});
-  return l.email;
-}
-async function fazerLogin(){
-  const login=$('#lEmail').value.trim(), senha=$('#lSenha').value; $('#lMsg').textContent='';
-  if(!login||!senha){ $('#lMsg').textContent='Informe seu ID e a senha.'; return; }
-  const b=$('#bEntrar'); b.disabled=true; b.textContent='Entrando…';
-  try{ if(!fb) await fbInit(); const email=await emailDoLogin(login); await fb.au.signInWithEmailAndPassword(fb.auth,email,senhaFb(senha)); }
-  catch(e){ $('#lMsg').textContent=e.code==='nx/id'?e.message:['auth/invalid-credential','auth/wrong-password','auth/user-not-found','auth/invalid-email'].includes(e.code)?'ID ou senha incorretos.':e.code==='auth/too-many-requests'?'Muitas tentativas. Aguarde alguns minutos ou use “Esqueci minha senha”.':'Erro: '+e.message; }
-  finally{ b.disabled=false; b.textContent='Entrar'; }
-}
-async function esqueciSenha(){
-  const login=$('#lEmail').value.trim(); $('#lMsg').textContent='';
-  if(!login){ $('#lMsg').textContent='Digite seu ID (ou e-mail) no campo acima e toque de novo em “Esqueci minha senha”.'; $('#lEmail').focus(); return; }
-  try{
-    if(!fb) await fbInit(); const email=await emailDoLogin(login);
-    fb.auth.languageCode='pt-BR';
-    await fb.au.sendPasswordResetEmail(fb.auth,email,{url:location.href.split('?')[0]});
-    $('#lMsg').innerHTML=`<span style="color:#1E7A4E">Enviamos para <b>${esc(mascara(email))}</b> um link para criar uma nova senha. Veja também o spam.</span>`;
-  }catch(e){ $('#lMsg').textContent=e.code==='nx/id'?e.message:e.code==='auth/user-not-found'?'Não encontramos esse acesso.':'Não foi possível enviar: '+(e.message||e); }
-}
-async function criarSenhaPropria(){
-  const a=$('#nsSenha').value, b2=$('#nsSenha2').value, msg=$('#nsMsg'); msg.textContent='';
-  if(!/^\d{5,6}$/.test(a)) return msg.textContent='A senha precisa ter 5 ou 6 números.';
-  if(a===SENHA_PADRAO||/^(\d)\1+$/.test(a)) return msg.textContent='Escolha outra senha: essa é fácil demais de adivinhar.';
-  if(a!==b2) return msg.textContent='As senhas não são iguais.';
-  try{
-    await fb.au.updatePassword(fb.auth.currentUser,senhaFb(a));
-    await DB.set('users',fb.auth.currentUser.uid,{senhaTemporaria:false,senhaTrocadaEm:Date.now()});
-    $('#loginSenha').classList.add('hidden'); const p=S._pendente; S._pendente=null; await iniciarSessao(p);
-  }catch(e){ msg.textContent=e.code==='auth/weak-password'?'Senha fraca. Use 5 ou 6 números.':e.code==='auth/requires-recent-login'?'Por segurança, saia e entre de novo com a senha temporária.':'Erro: '+e.message; }
-}
-async function sair(){ if(fb) await fb.au.signOut(fb.auth); S.me=null; mostrarLogin(); }
-function mostrarLogin(){ $('#app').classList.add('hidden'); $('#login').classList.remove('hidden'); $('#loginFb').classList.toggle('hidden',!FB_ON); $('#loginOff').classList.toggle('hidden',FB_ON); $('#loginSenha').classList.add('hidden'); startNet(); }
+function vLink(){ const msg=`As suas metas e o seu bônus do mês estão no app Metas & Bônus da NexumCell: ${URL_APP}\nEntre com o seu CPF. No primeiro acesso, confirme a data de nascimento e crie a sua senha.`;
+  $('#view').innerHTML=`<div class="hd"><div><h1>Link da equipe</h1><p>Mande este link para a equipe. Cada pessoa entra com o CPF que você cadastrou e cria a própria senha no primeiro acesso.</p></div></div>
+   <div class="card"><div class="row" style="gap:10px"><input readonly value="${esc(URL_APP)}" style="flex:1;min-width:240px"><button class="btn" id="lkC">Copiar link</button><a class="btn pri" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">Mandar no WhatsApp</a></div>
+   <ol style="margin:18px 0 0;padding-left:20px;line-height:1.9;color:#344054"><li>Cadastre cada pessoa em <b>Equipe</b> com nome, CPF e data de nascimento.</li><li>Defina as categorias, as metas e o bônus em <b>Metas e bônus</b>.</li><li>Mande o link. A pessoa digita o CPF, confirma a data de nascimento e cria a senha.</li><li>As vendas entram pelo <b>Lançamentos</b> (o funcionário também pode lançar as dele). Aparelhos do sistema contam sozinhos para quem está ligado a um vendedor.</li><li>Esqueceu a senha? Em Equipe, clique em <b>Novo 1º acesso</b>.</li></ol></div>`;
+  $('#lkC').onclick=()=>navigator.clipboard?.writeText(URL_APP).then(()=>toast('Link copiado')); }
 
-async function fbInit(){
-  const base=`https://www.gstatic.com/firebasejs/${FBV}/`;
-  const [a,au,m]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);
-  const app=a.initializeApp(FIREBASE_CONFIG,'nexumcell-metas');
-  fb={a,au,m,app,auth:au.getAuth(app),db:(()=>{ try{ return m.initializeFirestore(app,{localCache:m.persistentLocalCache({tabManager:m.persistentMultipleTabManager()})}); }catch(e){ return m.getFirestore(app); } })()};
-  au.onAuthStateChanged(fb.auth, async u=>{
-    if(!u){ mostrarLogin(); return; }
-    if(u.isAnonymous){ await au.signOut(fb.auth); return; }
-    try{
-      let p=await DB.get('users',u.uid);
-      const ehDono = DONO_EMAIL && String(u.email||'').toLowerCase()===DONO_EMAIL;
-      if(ehDono && (!p||p.role!=='DONO')) p={id:u.uid,nome:p?.nome||'Dono',email:u.email,role:'DONO',lojaId:'',ativo:true,codigo:p?.codigo||'DON-0001',...(p||{})};
-      if(!p){ $('#lMsg').textContent='Seu usuário não tem acesso. Peça à NexumCell para cadastrar você.'; await au.signOut(fb.auth); return; }
-      if(p.ativo===false){ $('#lMsg').textContent='Seu acesso está inativo. Fale com a NexumCell ou o seu gerente.'; await au.signOut(fb.auth); return; }
-      if(p.senhaTemporaria){ S._pendente={uid:u.uid,...p}; $('#loginFb').classList.add('hidden'); $('#loginSenha').classList.remove('hidden'); $('#nsSenha').focus(); return; }
-      await iniciarSessao({uid:u.uid,...p});
-    }catch(e){ console.error(e); $('#lMsg').textContent='Erro ao carregar perfil: '+e.message; }
-  });
-}
+function modal(t,corpo,salvar){ const d=document.createElement('div'); d.className='modal'; d.innerHTML=`<div class="mb"><div class="mh"><h3>${t}</h3><button aria-label="Fechar">×</button></div><div class="mc">${corpo}<div class="lg-msg" id="mMsg"></div></div><div class="mf"><button class="btn" data-x>Cancelar</button><button class="btn pri" data-ok>Salvar</button></div></div>`;
+  document.body.appendChild(d); const fechar=()=>d.remove(); d.querySelector('.mh button').onclick=fechar; d.querySelector('[data-x]').onclick=fechar; d.onclick=e=>{ if(e.target===d) fechar(); };
+  d.querySelector('#eCpf')?.addEventListener('input',e=>{ const x=soD(e.target.value).slice(0,11); e.target.value=x.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2'); });
+  d.querySelector('[data-ok]').onclick=async e=>{ e.currentTarget.disabled=true; try{ await salvar(); fechar(); }catch(er){ d.querySelector('#mMsg').textContent=er.message; e.currentTarget.disabled=false; } }; }
 
-/* ===== Animação do fundo do login ===== */
-let netRaf=0;
-function startNet(){
-  const cv=$('#net'); if(!cv) return; const ctx=cv.getContext('2d'), dpr=devicePixelRatio||1; let W,H,pts;
-  const rs=()=>{ W=cv.width=cv.offsetWidth*dpr; H=cv.height=cv.offsetHeight*dpr; pts=Array.from({length:30},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3*dpr,vy:(Math.random()-.5)*.3*dpr})); };
-  rs(); window.onresize=rs; cancelAnimationFrame(netRaf);
-  const lim=140*dpr, red=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const f=()=>{ if($('#login').classList.contains('hidden')) return; ctx.clearRect(0,0,W,H); pts.forEach(p=>{ if(!red){p.x+=p.vx;p.y+=p.vy;} if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1; });
-    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){ const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y); if(d<lim){ ctx.strokeStyle=`rgba(77,141,255,${(1-d/lim)*.35})`; ctx.lineWidth=dpr; ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); } }
-    pts.forEach(p=>{ ctx.fillStyle='rgba(77,141,255,.8)'; ctx.beginPath(); ctx.arc(p.x,p.y,2*dpr,0,7); ctx.fill(); });
-    if(!red) netRaf=requestAnimationFrame(f); };
-  f();
-}
-
-/* ===== Eventos ===== */
-$('#bEntrar').onclick=fazerLogin;
-$('#lSenha').addEventListener('keydown',e=>{ if(e.key==='Enter') fazerLogin(); });
-$('#lOlho').onclick=()=>{ const i=$('#lSenha'); i.type=i.type==='password'?'text':'password'; };
-$('#lEsqueci').onclick=esqueciSenha;
-$('#bCriarSenha').onclick=criarSenhaPropria;
-$('#bSair').onclick=sair;
-$('#bBonus').onclick=telaBonus;
-$('#modal').onclick=e=>{ if(e.target.id==='modal') fecharModal(); };
-$('#mPrev').onclick=()=>{ S.mes=mesAdd(S.mes,-1); render(); };
-$('#mNext').onclick=()=>{ if(S.mes<hoje().slice(0,7)){ S.mes=mesAdd(S.mes,1); render(); } };
-
-/* ===== Início ===== */
-if(FB_ON){ fbInit().catch(e=>{ console.error(e); mostrarLogin(); }); }
-else mostrarLogin();
-
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+/* ===== início ===== */
+(async()=>{
+  if('serviceWorker' in navigator&&!DEMO) navigator.serviceWorker.register('sw.js').catch(()=>{});
+  if(DEMO){ D.demoInit(); return mostrarLogin('Modo demonstração: CPF 529.982.247-25 (senha qualquer), 391.111.444-77 não existe, 390.533.447-05 é primeiro acesso (nascimento 15/01/2000). Gerente: GER-1, Dono: DON-1.'); }
+  try{ await fbInit(); }catch(e){ return mostrarLogin('Sem conexão. Confira a internet e recarregue.'); }
+  fb.au.onAuthStateChanged(fb.auth,async u=>{ if(!u) return mostrarLogin();
+    try{ const ac=await D.get('metasAcesso',u.uid).catch(()=>null); if(ac) return iniciarFunc(ac.cpf,ac);
+      let p=await D.get('users',u.uid).catch(()=>null); const dono=DONO_EMAIL&&String(u.email||'').toLowerCase()===DONO_EMAIL; if(dono) p={...(p||{}),uid:u.uid,nome:p?.nome||'Wevellen',role:'DONO'};
+      if(!p||!['DONO','GERENTE'].includes(p.role)||p.ativo===false&&!dono){ await fb.au.signOut(fb.auth); return mostrarLogin('Este app é para funcionários (entrada pelo CPF), gerentes e o dono.'); }
+      await iniciarGestor({uid:u.uid,nome:p.nome,role:p.role,lojaId:p.lojaId||''}); }
+    catch(e){ mostrarLogin('Não foi possível entrar: '+e.message); } });
+})();
 </script>
 </body>
 </html>
