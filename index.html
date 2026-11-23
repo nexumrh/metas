@@ -296,10 +296,10 @@ function abrirApp(){ $('#login').hidden=true; $('#app').hidden=false; $('#euNome
 /* ===== cálculo ===== */
 let C={};   // cache do mês
 async function carregar(){ const m=S.mes, pm=prevMes(m), e=S.escopo;
-  const [plano,planoAnt,pessoas,lanc,lancAnt]=await Promise.all([D.get('metasPlano',e+'_'+m),D.get('metasPlano',e+'_'+pm),
+  const [plano,planoAnt,pessoas,lanc,lancAnt]=await Promise.all([D.get('metasPlano',e+'_'+m).catch(()=>null),D.get('metasPlano',e+'_'+pm).catch(()=>null),
     S.modo==='gestor'||S.ger?D.list('metasPessoas',[['escopo','==',e]]):Promise.resolve([{cpf:S.cpf,nome:S.me.nome,ativo:true}]),
     D.list('metasLanc',S.modo==='gestor'||S.ger?[['escopo','==',e],['mes','==',m]]:[['escopo','==',e],['mes','==',m],['cpf','==',S.cpf]]),
-    D.list('metasLanc',S.modo==='gestor'||S.ger?[['escopo','==',e],['mes','==',pm]]:[['escopo','==',e],['mes','==',pm],['cpf','==',S.cpf]])]);
+    D.list('metasLanc',S.modo==='gestor'||S.ger?[['escopo','==',e],['mes','==',pm]]:[['escopo','==',e],['mes','==',pm],['cpf','==',S.cpf]]).catch(()=>[])]);
   const cats=(plano?.categorias?.length?plano.categorias:planoAnt?.categorias?.length?planoAnt.categorias:(e==='nexum'?PADRAO_NEXUM:PADRAO_LOJA)).map((c,i)=>({bonus:[],...c,cor:c.cor||CORES[i%CORES.length]}));
   C={plano:plano||{},planoAnt:planoAnt||{},cats,pessoas:pessoas.filter(p=>p.ativo!==false).sort((a,b)=>String(a.nome).localeCompare(b.nome)),lanc,lancAnt,du:diasUteis(m,plano?.sabado??planoAnt?.sabado??.5),metas:plano?.metas||{},extra:plano?.extra||planoAnt?.extra||{}}; }
 const ehGer=cpf=>S.escopo!=='nexum'&&C.pessoas.find(p=>p.cpf===cpf)?.cargo==='GERENTE';
@@ -325,7 +325,7 @@ async function render(){ const abas=S.modo==='gestor'?ABAS_G:ABAS_F;
   $('#nav').innerHTML=abas.map(([k,n])=>`<button data-tab="${k}" class="${S.tab===k?'on':''}">${n}</button>`).join(''); $$('#nav [data-tab]').forEach(b=>b.onclick=()=>{ S.tab=b.dataset.tab; render(); });
   $('#view').innerHTML='<div class="vazio"><span class="spin" style="border-color:#C9D4EE;border-top-color:var(--pri)"></span></div>';
   try{ await carregar(); ({painel:vPainel,bonus:vBonus,lanc:vLanc,equipe:vEquipe,config:vConfig,link:vLink})[S.tab](); }
-  catch(e){ console.error(e); $('#view').innerHTML=`<div class="card vazio">Não foi possível carregar: ${esc(e.message)}</div>`; } }
+  catch(e){ console.error(e); const perm=/permission|insufficient/i.test(e.message||''); $('#view').innerHTML=`<div class="card vazio">${perm?'Sem permissão para ler as metas. As regras do Firestore precisam ser publicadas (firestore.rules) no Firebase.':'Não foi possível carregar: '+esc(e.message)}</div>`; } }
 function cab(t,s){ return `<div class="hd"><div><h1>${t}</h1><p>${s}</p><div class="chips"><span class="chip">Dia <b>${C.du.dia}</b> / ${C.du.n}</span><span class="chip du">D.U. <b>${num(C.du.pas)}</b> / ${num(C.du.tot)}</span><span class="chip">${esc(mesNome(S.mes))}</span></div></div></div>`; }
 function filtros(comPessoa=true){ const ehG=S.modo==='gestor';
   return `<div class="filtros"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#667085" stroke-width="2"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
