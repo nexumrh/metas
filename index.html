@@ -89,8 +89,8 @@ td.cat{font-weight:700}td .ok{color:var(--pri);font-weight:700}td .bad{color:var
   <div class="lg-r"><div class="lg-box">
     <h2>Entrar</h2><p class="sub">Funcionário entra com o CPF. Gerente e dono entram com o ID do sistema.</p>
     <div class="lg-tabs"><button data-lt="cpf" class="on">Funcionário (CPF)</button><button data-lt="sis">Gerente ou dono</button></div>
-    <form id="fCpf" autocomplete="on">
-      <div id="pCpf"><label>CPF<input id="lCpf" inputmode="numeric" autocomplete="username" maxlength="14" placeholder="000.000.000-00"></label><button class="btn pri" id="bCpf">Continuar</button></div>
+    <form id="fCpf" autocomplete="off">
+      <div id="pCpf"><label>CPF<input id="lCpf" name="nx-cpf-metas" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="14" placeholder="000.000.000-00"></label><button class="btn pri" id="bCpf">Continuar</button></div>
       <div id="pSenha" hidden><div class="lg-ok" id="lOla"></div><label>Senha<input id="lSenha" type="password" autocomplete="current-password"></label><button class="btn pri" id="bEntrarCpf">Entrar</button>
         <p style="font-size:13px;color:var(--mut);margin:14px 0 0">Esqueceu a senha? Peça ao seu gerente para <b>liberar um novo primeiro acesso</b>. <a href="#" data-voltar>Trocar CPF</a></p></div>
       <div id="pPrim" hidden><div class="lg-ok" id="lOla2"></div><label>Data de nascimento<input id="lNasc" type="date"></label><label>Crie a sua senha (mínimo 6 caracteres)<input id="lN1" type="password" autocomplete="new-password"></label><label>Repita a senha<input id="lN2" type="password" autocomplete="new-password"></label><button class="btn pri" id="bAtivar">Criar senha e entrar</button><p style="font-size:13px;margin:12px 0 0"><a href="#" data-voltar>Trocar CPF</a></p></div>
@@ -160,7 +160,12 @@ function diasUteis(m,sab){ const [y,mm]=m.split('-').map(Number), n=new Date(y,m
 let lgCpf='';
 function mostrarLogin(msg){ $('#app').hidden=true; $('#login').hidden=false; $('#lMsg').textContent=msg||''; }
 $$('[data-lt]').forEach(b=>b.onclick=()=>{ $$('[data-lt]').forEach(x=>x.classList.toggle('on',x===b)); $('#fCpf').hidden=b.dataset.lt!=='cpf'; $('#fSis').hidden=b.dataset.lt!=='sis'; $('#lMsg').textContent=''; });
-$('#lCpf').addEventListener('input',e=>{ const d=soD(e.target.value).slice(0,11); e.target.value=d.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2'); });
+const fmtCpfIn=v=>{ const d=soD(v).slice(0,11); return d.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2'); };
+$('#lCpf').addEventListener('input',e=>{ e.target.value=fmtCpfIn(e.target.value); });
+// se o Chrome preencher o campo com e-mail/texto salvo, limpa (CPF é só número)
+const limpaCpf=()=>{ const el=$('#lCpf'); if(el&&/[^\d.\-\s]/.test(el.value)) el.value=''; else if(el) el.value=fmtCpfIn(el.value); };
+$('#lCpf').addEventListener('focus',limpaCpf);
+[150,400,900,1600].forEach(t=>setTimeout(limpaCpf,t));
 $$('[data-voltar]').forEach(a=>a.onclick=e=>{ e.preventDefault(); $('#pCpf').hidden=false; $('#pSenha').hidden=true; $('#pPrim').hidden=true; $('#lMsg').textContent=''; });
 $('#fCpf').onsubmit=e=>e.preventDefault();
 $('#bCpf').onclick=async()=>{ const c=soD($('#lCpf').value); $('#lMsg').textContent=''; if(!cpfOk(c)) return $('#lMsg').textContent='CPF inválido.'; const b=$('#bCpf'); b.disabled=true;
