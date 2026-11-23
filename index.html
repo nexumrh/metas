@@ -81,24 +81,66 @@ td.cat{font-weight:700}td .ok{color:var(--pri);font-weight:700}td .bad{color:var
 #inst{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:40;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 34px rgba(10,23,51,.18);padding:12px 12px 12px 14px;display:flex;align-items:center;gap:12px;width:calc(100% - 24px);max-width:440px}
 #inst img{width:42px;height:42px;border-radius:11px}#inst div{flex:1;font-size:13px;color:var(--mut);line-height:1.35}#inst div b{display:block;color:var(--txt);font-size:14.5px}#inst .x{border:0;background:none;color:#98A2B3;font-size:22px;cursor:pointer;padding:0 4px}
 .top .inst{background:var(--pri)!important}
+
+/* ===== login novo (NEXUM Metas) ===== */
+#login{background:radial-gradient(1200px 700px at 12% 20%,#15306B 0%,#0A1733 55%,#060E22 100%)}
+.lg-l{background:none;padding:52px 48px;justify-content:center;gap:26px}
+.lg-brand .logo{height:120px;max-width:min(460px,70vw);width:auto;object-fit:contain;object-position:left center;filter:drop-shadow(0 8px 30px rgba(0,40,120,.45))}
+.lg-slogan{display:flex;align-items:center;gap:14px;color:#D7E3FF;font-weight:700;letter-spacing:.14em;font-size:15px;flex-wrap:wrap}
+.lg-slogan i{width:7px;height:7px;border-radius:50%;background:#2E6BF0;box-shadow:0 0 10px #3E7BFF}
+.lg-l .alvo{right:-20px;bottom:-10px;width:380px;opacity:.95;-webkit-mask-image:none;mask-image:none;filter:drop-shadow(0 10px 40px rgba(0,60,180,.35))}
+.lg-r{padding:30px;background:none}
+.lg-box{background:linear-gradient(180deg,#FFFFFF,#F2F6FF);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:34px 30px 26px;box-shadow:0 30px 80px rgba(3,12,34,.5);text-align:center;max-width:430px}
+.lg-logo-top{height:66px;width:auto;max-width:280px;object-fit:contain;margin:0 auto 10px;display:block}
+.lg-box h2{font-size:27px;margin:4px 0 2px;color:#0C1C3C;letter-spacing:-.01em}
+.lg-box .sub{color:#5B6B86;margin:0 0 20px;font-size:15px}
+.inp{position:relative;margin-top:13px}
+.inp .ic-l{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:22px;height:22px;color:#0C1C3C}
+.inp .ic-l svg{width:22px;height:22px}
+.inp input{height:56px;border:1.5px solid #D9E2F2;border-radius:16px;background:#F7FAFF;padding-left:48px;padding-right:46px;font-size:16px;color:#0C1C3C}
+.inp input::placeholder{color:#8A99B5}
+.inp input:focus{background:#fff;border-color:var(--pri);outline:4px solid #E7F0FF}
+.ic-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:none;color:#64748B;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;border-radius:9px}
+.ic-eye svg{width:22px;height:22px}.ic-eye:hover{background:#EEF3FC}
+.lg-entrar{width:100%;margin-top:18px;height:56px;border-radius:16px;font-size:17px;font-weight:700;background:linear-gradient(180deg,#2E6BF0,#124BC9);border:0;box-shadow:0 12px 26px rgba(18,75,201,.35)}
+.lg-entrar:hover{background:linear-gradient(180deg,#2A62DD,#0F43B6)}
+.lg-entrar svg{width:21px;height:21px}
+.lg-rodape{display:flex;align-items:center;gap:12px;margin:18px 2px 0;color:#7C8AA6;font-weight:600;font-size:13px}
+.lg-rodape i{flex:1;height:1px;background:linear-gradient(90deg,transparent,#C9D6EC,transparent)}
+.lg-dica{color:#60708C;font-size:12.5px;margin:12px 4px 0;line-height:1.5}
+.lg-dica b{color:#0C1C3C}
+#login .lg-msg{color:var(--bad);text-align:center;font-size:13.5px;min-height:18px;margin-top:10px}
+#login .lg-ok,#trocar label{text-align:left}
+@media(max-width:860px){.lg-l{display:none}.lg-r{padding:18px}.lg-box{max-width:460px;border-radius:22px;padding:28px 22px 22px}}
 </style>
 </head>
 <body>
 <div id="login" hidden>
-  <div class="lg-l"><img class="logo" src="login-logo.webp" alt="NexumCell"><div><h1>Suas metas, seu bônus, <em>em tempo real.</em></h1><p class="desk">Acompanhe quanto já vendeu, quanto falta e quanto vai ganhar de bônus no mês. Tudo no celular.</p></div><div class="desk" style="font-size:12.5px;color:#8FA3CC">NexumCell · Metas & Bônus</div><img class="alvo" src="login-alvo.webp" alt=""></div>
+  <div class="lg-l">
+    <div class="lg-brand"><img class="logo" src="login-logo.webp" alt="NEXUM Metas"></div>
+    <div class="lg-slogan"><span>PLANEJE</span><i></i><span>ACOMPANHE</span><i></i><span>CONQUISTE</span></div>
+    <img class="alvo" src="login-alvo.webp" alt="">
+  </div>
   <div class="lg-r"><div class="lg-box">
-    <h2>Entrar</h2><p class="sub">Funcionário entra com o CPF. Gerente e dono entram com o ID do sistema.</p>
-    <div class="lg-tabs"><button data-lt="cpf" class="on">Funcionário (CPF)</button><button data-lt="sis">Gerente ou dono</button></div>
-    <form id="fCpf" autocomplete="off">
-      <div id="pCpf"><label>CPF<input id="lCpf" name="nx-cpf-metas" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="14" placeholder="000.000.000-00"></label><button class="btn pri" id="bCpf">Continuar</button></div>
-      <div id="pSenha" hidden><div class="lg-ok" id="lOla"></div><label>Senha<input id="lSenha" type="password" autocomplete="current-password"></label><button class="btn pri" id="bEntrarCpf">Entrar</button>
-        <p style="font-size:13px;color:var(--mut);margin:14px 0 0">Esqueceu a senha? Peça ao seu gerente para <b>liberar um novo primeiro acesso</b>. <a href="#" data-voltar>Trocar CPF</a></p></div>
-      <div id="pPrim" hidden><div class="lg-ok" id="lOla2"></div><label>Data de nascimento<input id="lNasc" type="date"></label><label>Crie a sua senha (mínimo 6 caracteres)<input id="lN1" type="password" autocomplete="new-password"></label><label>Repita a senha<input id="lN2" type="password" autocomplete="new-password"></label><button class="btn pri" id="bAtivar">Criar senha e entrar</button><p style="font-size:13px;margin:12px 0 0"><a href="#" data-voltar>Trocar CPF</a></p></div>
+    <img class="lg-logo-top" src="login-logo.webp" alt="NEXUM Metas">
+    <h2>Bem-vindo(a)!</h2><p class="sub">Acesse sua conta para continuar</p>
+    <form id="fLogin" autocomplete="off" novalidate>
+      <div class="inp"><span class="ic-l"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span><input id="lUser" name="nx-user-metas" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="CPF ou e-mail"></div>
+      <div class="inp"><span class="ic-l"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></span><input id="lPass" type="password" autocomplete="current-password" placeholder="Senha"><button type="button" class="ic-eye" id="bEye" aria-label="Ver a senha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.4 5.2A9.5 9.5 0 0 1 12 5c6 0 9 7 9 7a15 15 0 0 1-2.6 3.5M6.1 6.1A15 15 0 0 0 3 12s3 7 9 7a9.3 9.3 0 0 0 3.3-.6"/></svg></button></div>
+      <button class="btn pri lg-entrar" id="bEntrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg><span>Entrar</span></button>
     </form>
-    <form id="fSis" hidden><label>ID ou e-mail<input id="sId" autocomplete="username" placeholder="Ex.: GER-1234"></label><label>Senha<input id="sSenha" type="password" autocomplete="current-password"></label><button class="btn pri" id="bSis">Entrar</button></form>
     <div class="lg-msg" id="lMsg"></div>
+    <div class="lg-rodape"><i></i><span>NEXUM Metas</span><i></i></div>
+    <p class="lg-dica" id="lDica">Funcionário entra com o <b>CPF</b> (senha inicial <b>123456</b>). Gerente e dono entram com o <b>e-mail</b> do sistema.</p>
   </div></div>
 </div>
+<!-- trocar senha (1º acesso do funcionário) -->
+<div id="trocar" class="modal" hidden><div class="mb" style="max-width:420px"><div class="mh"><h3>Crie a sua senha</h3></div>
+  <div class="mc"><p class="muted" style="margin:0 0 14px;color:var(--mut)">Este é o seu primeiro acesso. Troque a senha <b>123456</b> por uma só sua. Você vai usar essa senha nas próximas vezes.</p>
+    <label>Nova senha (mínimo 6 caracteres)<input id="tN1" type="password" autocomplete="new-password"></label>
+    <label style="margin-top:10px">Repita a nova senha<input id="tN2" type="password" autocomplete="new-password"></label>
+    <div class="lg-msg" id="tMsg"></div></div>
+  <div class="mf"><button class="btn" id="tSair">Sair</button><button class="btn pri" id="tOk">Salvar e entrar</button></div></div></div>
 <div id="app" hidden>
   <header class="top"><img src="login-logo.webp" alt="NexumCell"><span class="div"></span><span class="nm">METAS & BÔNUS</span><nav id="nav"></nav><div class="eu"><span id="euNome"></span><button class="inst" id="bInst" hidden>Instalar app</button><button id="bSair">Sair</button></div></header>
   <main id="view"></main>
@@ -107,6 +149,8 @@ td.cat{font-weight:700}td .ok{color:var(--pri);font-weight:700}td .bad{color:var
 <div id="toast"></div>
 <script>
 'use strict';
+const SVG_EYE_ON='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z\'/><circle cx=\'12\' cy=\'12\' r=\'3\'/></svg>';
+const SVG_EYE_OFF2='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M3 3l18 18\'/><path d=\'M10.6 10.6a2 2 0 0 0 2.8 2.8\'/><path d=\'M9.4 5.2A9.5 9.5 0 0 1 12 5c6 0 9 7 9 7a15 15 0 0 1-2.6 3.5M6.1 6.1A15 15 0 0 0 3 12s3 7 9 7a9.3 9.3 0 0 0 3.3-.6\'/></svg>';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const soD=s=>String(s||'').replace(/\D/g,''), fmtCpf=c=>{c=soD(c);return c.length===11?`${c.slice(0,3)}.${c.slice(3,6)}.${c.slice(6,9)}-${c.slice(9)}`:c;};
@@ -128,8 +172,8 @@ const ICONE={sair:'',alvo:'<svg class="ico" viewBox="0 0 24 24" fill="none" stro
 let fb=null;
 const D={ store:null,
   demoInit(){ const ag=Date.now(), m=hojeISO().slice(0,7), pm=prevMes(m);
-    const P=(cpf,nome,cargo,nasc,extra={})=>({id:'l1_'+cpf,escopo:'l1',cpf,nome,cargo,nasc,ativo:true,ativado:true,uid:'u'+cpf.slice(0,3),...extra});
-    const pes=[P('15350946056','Isabela Moura','GERENTE','1990-03-03'),P('52998224725','Adriana da Silva','VENDEDOR','1995-04-10',{vendedorUid:'v1'}),P('11144477735','Nádia Mohamed','VENDEDOR','1998-08-21',{vendedorUid:'v2'}),P('39053344705','Bruno Lins','VENDEDOR','2000-01-15',{ativado:false,uid:''})];
+    const P=(cpf,nome,cargo,nasc,extra={})=>({id:'l1_'+cpf,escopo:'l1',cpf,nome,cargo,nasc,ativo:true,ativado:true,uid:'u'+cpf.slice(0,3),senhaTrocada:true,...extra});
+    const pes=[P('15350946056','Isabela Moura','GERENTE','1990-03-03'),P('52998224725','Adriana da Silva','VENDEDOR','1995-04-10',{vendedorUid:'v1'}),P('11144477735','Nádia Mohamed','VENDEDOR','1998-08-21',{vendedorUid:'v2'}),P('39053344705','Bruno Lins','VENDEDOR','2000-01-15',{ativado:false,uid:'',senhaTrocada:false})];
     const cats=PADRAO_LOJA.map((c,i)=>({...c,bonus:[{pct:80,valor:20},{pct:100,valor:60},{pct:120,valor:100}].map(x=>({...x,valor:x.valor*(i<2?2:1)}))}));
     const metas={}; pes.slice(1).forEach((p,i)=>metas[p.cpf]={aparelhos_rs:8000-i*500,aparelhos:6,peliculas:15,capas:10,acessorios:500,seguros:600});
     const lanc=[]; let k=0; const add=(cpf,cat,q,v,d)=>lanc.push({id:'x'+(k++),escopo:'l1',mes:m,cpf,cat,qtd:q,valor:v,data:m+'-'+String(d).padStart(2,'0'),por:'Demo',porUid:'',em:ag});
@@ -145,8 +189,12 @@ const D={ store:null,
 };
 async function fbInit(){ const base='https://www.gstatic.com/firebasejs/10.12.2/'; const [a,au,m]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);
   const app=a.initializeApp(CFGFB,'nexumcell-metas2'); fb={a,au,m,app,auth:au.getAuth(app),db:m.getFirestore(app)}; }
-async function api(corpo){ if(DEMO){ if(corpo.acao==='status'){ const p=Object.values(D.store.metasPessoas).find(x=>x.cpf===soD(corpo.cpf)); return p?{existe:true,ativado:!!(p.ativado&&p.uid),nome:p.nome.split(' ')[0]}:{existe:false}; } if(corpo.acao==='ativar'){ const p=Object.values(D.store.metasPessoas).find(x=>x.cpf===soD(corpo.cpf)); if(p.nasc!==corpo.nasc) throw new Error('A data de nascimento não confere com o cadastro feito pelo seu gerente.'); p.ativado=true; p.uid='u'+p.cpf.slice(0,3); return {ok:true}; } }
-  if(!SERV) throw new Error('Servidor não configurado.'); const r=await fetch(SERV+'/api/metas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(corpo)}); const j=await r.json().catch(()=>({})); if(!r.ok) throw new Error(j.erro||'Erro '+r.status); return j; }
+async function api(corpo){ if(DEMO){ const p=Object.values(D.store.metasPessoas).find(x=>x.cpf===soD(corpo.cpf));
+    if(corpo.acao==='status') return p?{existe:true,ativado:!!(p.ativado&&p.uid),precisaTrocar:!p.senhaTrocada,nome:p.nome.split(' ')[0]}:{existe:false};
+    if(corpo.acao==='preparar'){ if(!p) throw new Error('CPF não cadastrado.'); p.ativado=true; p.uid=p.uid||'u'+p.cpf.slice(0,3); p.precisaTrocar=true; return {ok:true,senhaInicial:'123456'}; }
+    if(corpo.acao==='trocar'){ if(corpo.senha==='123456') throw new Error('Escolha uma senha diferente de 123456.'); p.senhaTrocada=true; p.precisaTrocar=false; return {ok:true}; } }
+  if(!SERV) throw new Error('Servidor não configurado.'); const hd={'Content-Type':'application/json'}; if(corpo.token){ hd.Authorization='Bearer '+corpo.token; delete corpo.token; }
+  const r=await fetch(SERV+'/api/metas',{method:'POST',headers:hd,body:JSON.stringify(corpo)}); const j=await r.json().catch(()=>({})); if(!r.ok) throw new Error(j.erro||'Erro '+r.status); return j; }
 
 /* ===== sessão ===== */
 const S={modo:'',me:null,escopo:'',escopos:[],cpf:'',mes:hojeISO().slice(0,7),tab:'painel',pessoa:'',filtroCat:''};
@@ -156,35 +204,51 @@ function diasUteis(m,sab){ const [y,mm]=m.split('-').map(Number), n=new Date(y,m
   for(let d=1;d<=n;d++){ const dt=new Date(y,mm-1,d), w=dt.getDay(), v=w===0?0:w===6?sab:1, iso=m+'-'+String(d).padStart(2,'0'); tot+=v; if(iso<=hj) pas+=v; }
   const diaAt=hj<ini?0:hj>fim?n:+hj.slice(8,10); return {tot,pas:Math.min(pas,tot),n,dia:diaAt}; }
 
-/* ===== login ===== */
+/* ===== login (um campo: CPF do funcionário ou e-mail do gerente/dono) ===== */
 let lgCpf='';
-function mostrarLogin(msg){ $('#app').hidden=true; $('#login').hidden=false; $('#lMsg').textContent=msg||''; }
-$$('[data-lt]').forEach(b=>b.onclick=()=>{ $$('[data-lt]').forEach(x=>x.classList.toggle('on',x===b)); $('#fCpf').hidden=b.dataset.lt!=='cpf'; $('#fSis').hidden=b.dataset.lt!=='sis'; $('#lMsg').textContent=''; });
-const fmtCpfIn=v=>{ const d=soD(v).slice(0,11); return d.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2'); };
-$('#lCpf').addEventListener('input',e=>{ e.target.value=fmtCpfIn(e.target.value); });
-// se o Chrome preencher o campo com e-mail/texto salvo, limpa (CPF é só número)
-const limpaCpf=()=>{ const el=$('#lCpf'); if(el&&/[^\d.\-\s]/.test(el.value)) el.value=''; else if(el) el.value=fmtCpfIn(el.value); };
-$('#lCpf').addEventListener('focus',limpaCpf);
-[150,400,900,1600].forEach(t=>setTimeout(limpaCpf,t));
-$$('[data-voltar]').forEach(a=>a.onclick=e=>{ e.preventDefault(); $('#pCpf').hidden=false; $('#pSenha').hidden=true; $('#pPrim').hidden=true; $('#lMsg').textContent=''; });
-$('#fCpf').onsubmit=e=>e.preventDefault();
-$('#bCpf').onclick=async()=>{ const c=soD($('#lCpf').value); $('#lMsg').textContent=''; if(!cpfOk(c)) return $('#lMsg').textContent='CPF inválido.'; const b=$('#bCpf'); b.disabled=true;
-  try{ const r=await api({acao:'status',cpf:c}); lgCpf=c;
-    if(!r.existe) $('#lMsg').textContent='Este CPF não está cadastrado nas metas. Peça ao seu gerente (ou à NexumCell) para cadastrar você.';
-    else if(r.ativado){ $('#lOla').innerHTML=`Olá, <b>${esc(r.nome)}</b>! Digite a sua senha.`; $('#pCpf').hidden=true; $('#pSenha').hidden=false; $('#lSenha').focus(); }
-    else { $('#lOla2').innerHTML=`Olá, <b>${esc(r.nome)}</b>! É o seu primeiro acesso: confirme a data de nascimento e crie uma senha. Nas próximas vezes, entre com o CPF e essa senha.`; $('#pCpf').hidden=true; $('#pPrim').hidden=false; } }
-  catch(er){ $('#lMsg').textContent=er.message; } b.disabled=false; };
-$('#bEntrarCpf').onclick=async()=>{ const s=$('#lSenha').value; if(!s) return; const b=$('#bEntrarCpf'); b.disabled=true;
-  try{ if(DEMO){ await iniciarFunc(lgCpf); } else { await fb.au.signInWithEmailAndPassword(fb.auth,`${lgCpf}@metas.nexumcell.app`,s); } }
-  catch(er){ $('#lMsg').textContent=/invalid|wrong|credential/i.test(er.code||er.message)?'Senha errada. Esqueceu? Peça ao gerente para liberar um novo primeiro acesso.':er.message; } b.disabled=false; };
-$('#bAtivar').onclick=async()=>{ const n1=$('#lN1').value, n2=$('#lN2').value, nasc=$('#lNasc').value; $('#lMsg').textContent='';
-  if(!nasc) return $('#lMsg').textContent='Informe a data de nascimento.'; if(n1.length<6) return $('#lMsg').textContent='A senha precisa ter pelo menos 6 caracteres.'; if(n1!==n2) return $('#lMsg').textContent='As senhas não são iguais.';
-  const b=$('#bAtivar'); b.disabled=true; try{ await api({acao:'ativar',cpf:lgCpf,nasc,senha:n1}); toast('Senha criada! Nas próximas vezes, entre com o CPF e essa senha.'); if(DEMO) await iniciarFunc(lgCpf); else await fb.au.signInWithEmailAndPassword(fb.auth,`${lgCpf}@metas.nexumcell.app`,n1); }
-  catch(er){ $('#lMsg').textContent=er.message; } b.disabled=false; };
-$('#fSis').onsubmit=async e=>{ e.preventDefault(); const id=$('#sId').value.trim(), se=$('#sSenha').value; $('#lMsg').textContent=''; if(!id||!se) return $('#lMsg').textContent='Informe o ID e a senha.';
-  const b=$('#bSis'); b.disabled=true; try{ if(DEMO){ await iniciarGestor({uid:'g1',nome:id.toUpperCase().startsWith('DON')?'Wevellen':'Isabela Moura',role:id.toUpperCase().startsWith('DON')?'DONO':'GERENTE',lojaId:'l1'}); }
-    else { let email=id.includes('@')?id.toLowerCase():(await D.get('logins',id.toUpperCase().replace(/\s+/g,'')).catch(()=>null))?.email; if(!email) throw new Error('ID não encontrado.'); await fb.au.signInWithEmailAndPassword(fb.auth,email,se.length<6?'nx-'+se:se); } }
-  catch(er){ $('#lMsg').textContent=/invalid|wrong|credential/i.test(er.code||er.message)?'ID ou senha errados.':er.message; } b.disabled=false; };
+function mostrarLogin(msg){ $('#app').hidden=true; $('#trocar').hidden=true; $('#login').hidden=false; $('#lMsg').textContent=msg||''; const be=$('#bEntrar'); if(be) be.disabled=false; const lp=$('#lPass'); if(lp) lp.value=''; }
+const emailLike=v=>/@/.test(v);
+// olho da senha
+$('#bEye').onclick=()=>{ const i=$('#lPass'), v=i.type==='password'; i.type=v?'text':'password'; $('#bEye').innerHTML=v?SVG_EYE_ON:SVG_EYE_OFF2; i.focus(); };
+// o campo usuário aceita CPF (formata) ou e-mail (deixa como está)
+$('#lUser').addEventListener('input',e=>{ const v=e.target.value; if(emailLike(v)||/[a-zA-Z@]/.test(v)) return; const d=soD(v).slice(0,11); e.target.value=d.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2'); });
+$('#fLogin').onsubmit=e=>{ e.preventDefault(); $('#bEntrar').click(); };
+$('#bEntrar').onclick=async()=>{ const raw=$('#lUser').value.trim(), senha=$('#lPass').value; $('#lMsg').textContent='';
+  if(!raw||!senha) return $('#lMsg').textContent='Preencha usuário e senha.';
+  const b=$('#bEntrar'); b.disabled=true;
+  try{
+    if(emailLike(raw)){ // gerente ou dono, pelo e-mail do sistema
+      if(DEMO){ const dono=/dono|wevellen/i.test(raw); await iniciarGestor({uid:'g1',nome:dono?'Wevellen':'Isabela Moura',role:dono?'DONO':'GERENTE',lojaId:'l1'}); }
+      else await fb.au.signInWithEmailAndPassword(fb.auth,raw.toLowerCase(),senha);
+    } else { // funcionário, pelo CPF
+      const c=soD(raw); if(!cpfOk(c)) throw new Error('Digite um CPF válido ou o seu e-mail.');
+      lgCpf=c; const r=await api({acao:'status',cpf:c});
+      if(!r.existe) throw new Error('Este CPF não está cadastrado nas metas. Peça ao seu gerente para cadastrar você.');
+      if(!r.ativado){ // 1º acesso: garante o login com a senha inicial e entra
+        if(senha!=='123456'){ b.disabled=false; return $('#lMsg').textContent='Primeiro acesso: a senha é 123456. Depois o app pede para você trocar.'; }
+        await api({acao:'preparar',cpf:c});
+        if(DEMO){ return abrirTrocaSenha(c); }
+        await fb.au.signInWithEmailAndPassword(fb.auth,`${c}@metas.nexumcell.app`,'123456');
+      } else {
+        if(DEMO){ if(r.precisaTrocar&&senha==='123456') return abrirTrocaSenha(c); return iniciarFunc(c); }
+        await fb.au.signInWithEmailAndPassword(fb.auth,`${c}@metas.nexumcell.app`,senha);
+      }
+    }
+  }catch(er){ const m=er.code||er.message||''; $('#lMsg').textContent=/invalid|wrong|credential|password/i.test(m)?'Usuário ou senha incorretos. No primeiro acesso a senha é 123456.':er.message; }
+  b.disabled=false; };
+// limpa autofill de texto estranho no primeiro campo (não some com o e-mail digitado)
+setTimeout(()=>{ const el=$('#lUser'); if(el&&!el.value) el.value=''; },300);
+
+/* ===== trocar senha (1º acesso) ===== */
+function abrirTrocaSenha(cpf){ lgCpf=cpf; $('#login').hidden=true; $('#app').hidden=true; $('#trocar').hidden=false; $('#tN1').value=''; $('#tN2').value=''; $('#tMsg').textContent=''; setTimeout(()=>$('#tN1').focus(),50); }
+$('#tSair').onclick=async()=>{ if(!DEMO){ try{ await fb.au.signOut(fb.auth); }catch(e){} } $('#trocar').hidden=true; mostrarLogin(); };
+$('#tOk').onclick=async()=>{ const n1=$('#tN1').value, n2=$('#tN2').value; $('#tMsg').textContent='';
+  if(n1.length<6) return $('#tMsg').textContent='A senha precisa ter pelo menos 6 caracteres.'; if(n1!==n2) return $('#tMsg').textContent='As senhas não são iguais.'; if(n1==='123456') return $('#tMsg').textContent='Escolha uma senha diferente de 123456.';
+  const b=$('#tOk'); b.disabled=true;
+  try{ if(DEMO){ await api({acao:'trocar',cpf:lgCpf,senha:n1}); $('#trocar').hidden=true; toast('Senha criada! Use ela nas próximas vezes.'); return iniciarFunc(lgCpf); }
+    const token=await fb.auth.currentUser.getIdToken(); await api({acao:'trocar',cpf:lgCpf,senha:n1,token});
+    await fb.au.signInWithEmailAndPassword(fb.auth,`${lgCpf}@metas.nexumcell.app`,n1); $('#trocar').hidden=true; toast('Senha criada! Use ela nas próximas vezes.'); }
+  catch(er){ $('#tMsg').textContent=er.message; b.disabled=false; } };
 $('#bSair').onclick=async()=>{ if(DEMO){ S.modo=''; return mostrarLogin(); } await fb.au.signOut(fb.auth); };
 
 async function iniciarFunc(cpf,ac){ const p=DEMO?Object.values(D.store.metasPessoas).find(x=>x.cpf===cpf):await D.get('metasPessoas',ac.pessoaId);
@@ -249,7 +313,7 @@ function vPainel(){ const cpfs=cpfsSel(), ind=C.cats.map(c=>indicador(c,cpfs)), 
    <div class="sec"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#1F5FE8" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Matriz de Performance por Categoria</div>
    <div class="tw"><table><tr><th>Categoria</th><th>Realizado</th><th>Meta</th><th>% Ating.</th><th>Tend. %</th><th>Tend. real.</th><th>MoM</th><th>Gap</th><th>Nec. diária</th><th>Lançamentos</th></tr>
    ${ind.map(x=>`<tr><td class="cat">${esc(x.cat.nome)}</td><td><b>${valFmt(x.cat,x.real)}</b></td><td style="color:#98A2B3">${valFmt(x.cat,x.meta)}</td><td><span class="${x.at>=100?'ok':x.at>=80?'w':'bad'}">${pct(x.at)}</span></td><td><span class="${x.tp>=100?'ok':x.tp>=80?'w':'bad'}">${pct(x.tp)}</span></td><td><b>${valFmt(x.cat,x.tend)}</b></td><td>${x.mom==null?'—':`<span class="${x.mom>=0?'ok':'bad'}">${x.mom>=0?'+':''}${num(x.mom)}%</span>`}</td><td>${x.gap>0?valFmt(x.cat,x.gap):'<span class="ok">✓</span>'}</td><td>${x.gap>0?valFmt(x.cat,x.nec):'<span class="ok">✓</span>'}</td><td>${x.cat.fonte==='manual'?x.qtd:'—'}</td></tr>`).join('')}</table></div>`
-   :`<div class="card vazio">Ninguém cadastrado ainda. Vá em <b>Equipe</b> e cadastre os funcionários com CPF e data de nascimento.</div>`);
+   :`<div class="card vazio">Ninguém cadastrado ainda. Vá em <b>Equipe</b> e cadastre os funcionários com nome e CPF.</div>`);
   ligarFiltros(); }
 
 function vBonus(){ const lista=S.modo==='func'?[{cpf:S.cpf,nome:S.me.nome}]:(S.pessoa?C.pessoas.filter(p=>p.cpf===S.pessoa):C.pessoas);
@@ -287,23 +351,23 @@ function vLanc(){ const ehG=S.modo==='gestor', man=C.cats.filter(c=>c.fonte==='m
 
 function vEquipe(){ const todas=null;
   D.list('metasPessoas',[['escopo','==',S.escopo]]).then(ps=>{ ps.sort((a,b)=>(a.ativo===false)-(b.ativo===false)||String(a.nome).localeCompare(b.nome));
-    $('#view').innerHTML=`<div class="hd"><div><h1>Equipe</h1><p>Quem tem metas ${S.escopo==='nexum'?'na equipe NexumCell (financeiro, suporte, vendedores internos e gerentes)':'nesta loja'}. Cada pessoa entra no app com o CPF e cria a própria senha no primeiro acesso.</p></div><button class="btn pri" id="eNovo">+ Cadastrar pessoa</button></div>${filtros(false)}
+    $('#view').innerHTML=`<div class="hd"><div><h1>Equipe</h1><p>Quem tem metas ${S.escopo==='nexum'?'na equipe NexumCell (financeiro, suporte, vendedores internos e gerentes)':'nesta loja'}. Cada pessoa entra com o CPF e a senha inicial <b>123456</b>, e no primeiro acesso o app pede para trocar a senha.</p></div><button class="btn pri" id="eNovo">+ Cadastrar pessoa</button></div>${filtros(false)}
      <div class="tw"><table><tr><th>Nome</th><th>CPF</th><th>Cargo</th><th>Nascimento</th><th>Acesso</th><th></th></tr>
      ${ps.map(p=>`<tr style="${p.ativo===false?'opacity:.55':''}"><td><b>${esc(p.nome)}</b>${p.vendedorUid?'<br><span style="font-size:11.5px;color:var(--mut)">vendas do sistema contam sozinhas</span>':''}</td><td>${fmtCpf(p.cpf)}</td><td style="text-align:left">${esc(CARGOS[p.cargo]||p.cargo||'')}</td><td>${p.nasc?p.nasc.split('-').reverse().join('/'):'—'}</td>
        <td>${p.ativo===false?'<span class="pill p-g">Desativado</span>':p.ativado&&p.uid?'<span class="pill p-ok">Senha criada</span>':'<span class="pill p-w">Aguardando 1º acesso</span>'}</td>
-       <td><div class="row" style="justify-content:flex-end;gap:6px"><button class="btn sm" data-ed="${p.id}">Editar</button>${p.ativo!==false&&p.ativado?`<button class="btn sm" data-reset="${p.id}">Novo 1º acesso</button>`:''}<button class="btn sm" data-tg="${p.id}">${p.ativo===false?'Reativar':'Desativar'}</button>${p.ativo!==false?`<a class="btn sm pri" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(`Olá, ${String(p.nome).split(' ')[0]}! As suas metas e o seu bônus estão no app Metas & Bônus da NexumCell: ${URL_APP}\nEntre com o seu CPF. No primeiro acesso, confirme a data de nascimento e crie a sua senha.`)}">Enviar link</a>`:''}</div></td></tr>`).join('')||'<tr><td colspan="6" class="vazio">Ninguém cadastrado ainda.</td></tr>'}</table></div>`;
+       <td><div class="row" style="justify-content:flex-end;gap:6px"><button class="btn sm" data-ed="${p.id}">Editar</button>${p.ativo!==false&&p.ativado?`<button class="btn sm" data-reset="${p.id}">Novo 1º acesso</button>`:''}<button class="btn sm" data-tg="${p.id}">${p.ativo===false?'Reativar':'Desativar'}</button>${p.ativo!==false?`<a class="btn sm pri" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(`Olá, ${String(p.nome).split(' ')[0]}! As suas metas e o seu bônus estão no app Metas & Bônus da NexumCell: ${URL_APP}\nEntre com o seu CPF. No primeiro acesso, use a senha 123456 e o app pede para você criar a sua senha.`)}">Enviar link</a>`:''}</div></td></tr>`).join('')||'<tr><td colspan="6" class="vazio">Ninguém cadastrado ainda.</td></tr>'}</table></div>`;
     ligarFiltros(); $('#eNovo').onclick=()=>editarPessoa(null);
     $$('[data-ed]').forEach(b=>b.onclick=()=>editarPessoa(ps.find(p=>p.id===b.dataset.ed)));
     $$('[data-tg]').forEach(b=>b.onclick=async()=>{ const p=ps.find(x=>x.id===b.dataset.tg); await D.set('metasPessoas',p.id,{ativo:p.ativo===false,atualizadoEm:Date.now()}); toast(p.ativo===false?'Reativado':'Desativado: não entra mais no app'); render(); });
-    $$('[data-reset]').forEach(b=>b.onclick=async()=>{ const p=ps.find(x=>x.id===b.dataset.reset); if(!confirm(`Liberar um novo primeiro acesso para ${p.nome}? Ele vai confirmar a data de nascimento e criar uma senha nova.`)) return; await D.set('metasPessoas',p.id,{ativado:false,atualizadoEm:Date.now()}); toast('Pronto: na próxima entrada ele cria uma senha nova'); render(); });
+    $$('[data-reset]').forEach(b=>b.onclick=async()=>{ const p=ps.find(x=>x.id===b.dataset.reset); if(!confirm(`Liberar um novo primeiro acesso para ${p.nome}? A senha volta a ser 123456 e ele cria uma senha nova ao entrar.`)) return; await D.set('metasPessoas',p.id,{ativado:false,atualizadoEm:Date.now()}); toast('Pronto: a senha voltou a ser 123456. Ele cria uma nova ao entrar.'); render(); });
   }).catch(e=>$('#view').innerHTML=`<div class="card vazio">${esc(e.message)}</div>`); }
 async function editarPessoa(p){ const novo=!p; let vend=[];
   if(S.escopo!=='nexum'&&!DEMO) vend=(await D.list('users',[['lojaId','==',S.escopo]]).catch(()=>[])).filter(u=>['VENDEDOR','GERENTE'].includes(u.role)); if(DEMO) vend=[{id:'v1',nome:'adriana da silva'},{id:'v2',nome:'nadia mohamed'},{id:'v3',nome:'bruno lins'}];
   modal(novo?'Cadastrar pessoa':'Editar pessoa',`<div class="g2"><label>Nome completo<input id="eNome" value="${esc(p?.nome||'')}" maxlength="80"></label><label>CPF<input id="eCpf" inputmode="numeric" value="${p?fmtCpf(p.cpf):''}" ${novo?'':'disabled'} maxlength="14"></label>
-    <label>Data de nascimento<input id="eNasc" type="date" value="${esc(p?.nasc||'')}"></label><label>Cargo<select id="eCargo">${Object.entries(CARGOS).filter(([k])=>S.escopo==='nexum'||['VENDEDOR','GERENTE','OUTRO'].includes(k)).map(([k,n])=>`<option value="${k}" ${p?.cargo===k?'selected':''}>${n}</option>`).join('')}</select></label>
+    <label>Data de nascimento (opcional)<input id="eNasc" type="date" value="${esc(p?.nasc||'')}"></label><label>Cargo<select id="eCargo">${Object.entries(CARGOS).filter(([k])=>S.escopo==='nexum'||['VENDEDOR','GERENTE','OUTRO'].includes(k)).map(([k,n])=>`<option value="${k}" ${p?.cargo===k?'selected':''}>${n}</option>`).join('')}</select></label>
     ${S.escopo!=='nexum'?`<label style="grid-column:1/-1">Vendas do sistema (opcional)<select id="eVend"><option value="">Não ligar</option>${vend.map(u=>`<option value="${u.id}" ${p?.vendedorUid===u.id?'selected':''}>${esc(u.nome)}</option>`).join('')}</select><span style="font-weight:400;font-size:12px">Ligando ao login do vendedor no sistema, os aparelhos vendidos e o faturamento contam sozinhos.</span></label>`:''}</div>
-    <p style="color:var(--mut);font-size:12.5px;margin:12px 0 0">A data de nascimento é a "chave" do primeiro acesso: só quem sabe consegue criar a senha.</p>`,
-    async()=>{ const nome=$('#eNome').value.trim(), cpf=soD($('#eCpf').value), nasc=$('#eNasc').value; if(nome.length<3) throw new Error('Informe o nome'); if(!cpfOk(cpf)) throw new Error('CPF inválido'); if(!nasc) throw new Error('Informe a data de nascimento');
+    <p style="color:var(--mut);font-size:12.5px;margin:12px 0 0">A pessoa entra com o CPF e a senha inicial <b>123456</b>; no primeiro acesso o app pede para ela trocar por uma senha só dela.</p>`,
+    async()=>{ const nome=$('#eNome').value.trim(), cpf=soD($('#eCpf').value), nasc=$('#eNasc').value; if(nome.length<3) throw new Error('Informe o nome'); if(!cpfOk(cpf)) throw new Error('CPF inválido');
       const id=S.escopo+'_'+cpf; if(novo&&await D.get('metasPessoas',id).catch(()=>null)) throw new Error('Este CPF já está cadastrado');
       const d={escopo:S.escopo,cpf,nome,nasc,cargo:$('#eCargo').value,vendedorUid:$('#eVend')?.value||'',ativo:true,atualizadoEm:Date.now(),...(novo?{criadoEm:Date.now(),criadoPor:S.me.nome,ativado:false,uid:''}:{})};
       await D.set('metasPessoas',id,d); toast(novo?'Cadastrado. Envie o link pelo botão "Enviar link".':'Salvo'); render(); }); }
@@ -333,10 +397,10 @@ function vConfig(){ const pl=C.plano, cats=JSON.parse(JSON.stringify(C.cats)), m
       catch(er){ toast(er.message,'err'); e.currentTarget.disabled=false; } }; };
   desenha(); }
 
-function vLink(){ const msg=`As suas metas e o seu bônus do mês estão no app Metas & Bônus da NexumCell: ${URL_APP}\nEntre com o seu CPF. No primeiro acesso, confirme a data de nascimento e crie a sua senha.`;
-  $('#view').innerHTML=`<div class="hd"><div><h1>Link da equipe</h1><p>Mande este link para a equipe. Cada pessoa entra com o CPF que você cadastrou e cria a própria senha no primeiro acesso.</p></div></div>
+function vLink(){ const msg=`As suas metas e o seu bônus do mês estão no app Metas & Bônus da NexumCell: ${URL_APP}\nEntre com o seu CPF. No primeiro acesso, use a senha 123456 e o app pede para você criar a sua senha.`;
+  $('#view').innerHTML=`<div class="hd"><div><h1>Link da equipe</h1><p>Mande este link para a equipe. Cada pessoa entra com o CPF que você cadastrou e a senha inicial <b>123456</b>, e troca a senha no primeiro acesso.</p></div></div>
    <div class="card"><div class="row" style="gap:10px"><input readonly value="${esc(URL_APP)}" style="flex:1;min-width:240px"><button class="btn" id="lkC">Copiar link</button><a class="btn pri" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">Mandar no WhatsApp</a></div>
-   <ol style="margin:18px 0 0;padding-left:20px;line-height:1.9;color:#344054"><li>Cadastre cada pessoa em <b>Equipe</b> com nome, CPF e data de nascimento.</li><li>Defina as categorias, as metas e o bônus em <b>Metas e bônus</b>.</li><li>Mande o link. A pessoa digita o CPF, confirma a data de nascimento e cria a senha.</li><li>As vendas entram pelo <b>Lançamentos</b> (o funcionário também pode lançar as dele). Aparelhos do sistema contam sozinhos para quem está ligado a um vendedor.</li><li>Esqueceu a senha? Em Equipe, clique em <b>Novo 1º acesso</b>.</li></ol></div>`;
+   <ol style="margin:18px 0 0;padding-left:20px;line-height:1.9;color:#344054"><li>Cadastre cada pessoa em <b>Equipe</b> com nome e CPF.</li><li>Defina as categorias, as metas e o bônus em <b>Metas e bônus</b>.</li><li>Mande o link. A pessoa entra com o CPF e a senha 123456, e cria a própria senha.</li><li>As vendas entram pelo <b>Lançamentos</b> (o funcionário também pode lançar as dele). Aparelhos do sistema contam sozinhos para quem está ligado a um vendedor.</li><li>Esqueceu a senha? Em Equipe, clique em <b>Novo 1º acesso</b>.</li></ol></div>`;
   $('#lkC').onclick=()=>navigator.clipboard?.writeText(URL_APP).then(()=>toast('Link copiado')); }
 
 function modal(t,corpo,salvar){ const d=document.createElement('div'); d.className='modal'; d.innerHTML=`<div class="mb"><div class="mh"><h3>${t}</h3><button aria-label="Fechar">×</button></div><div class="mc">${corpo}<div class="lg-msg" id="mMsg"></div></div><div class="mf"><button class="btn" data-x>Cancelar</button><button class="btn pri" data-ok>Salvar</button></div></div>`;
@@ -360,10 +424,11 @@ if(!instalado()&&(ehIOS||/android/i.test(navigator.userAgent))) setTimeout(mostr
 /* ===== início ===== */
 (async()=>{
   if('serviceWorker' in navigator&&!DEMO) navigator.serviceWorker.register('sw.js').catch(()=>{});
-  if(DEMO){ D.demoInit(); return mostrarLogin('Modo demonstração: CPF 529.982.247-25 (senha qualquer), 391.111.444-77 não existe, 390.533.447-05 é primeiro acesso (nascimento 15/01/2000). Gerente: GER-1, Dono: DON-1.'); }
+  if(DEMO){ D.demoInit(); return mostrarLogin('Demonstração — Funcionário: CPF 529.982.247-25 (senha 123456, pede troca no 1º acesso). Gerente/dono: digite um e-mail (ex.: dono@x.com ou gerente@x.com) e qualquer senha.'); }
   try{ await fbInit(); }catch(e){ return mostrarLogin('Sem conexão. Confira a internet e recarregue.'); }
   fb.au.onAuthStateChanged(fb.auth,async u=>{ if(!u) return mostrarLogin();
-    try{ const ac=await D.get('metasAcesso',u.uid).catch(()=>null); if(ac) return iniciarFunc(ac.cpf,ac);
+    try{ const ac=await D.get('metasAcesso',u.uid).catch(()=>null);
+      if(ac){ const pes=await D.get('metasPessoas',ac.pessoaId).catch(()=>null); if(pes&&pes.precisaTrocar&&!pes.senhaTrocada) return abrirTrocaSenha(ac.cpf); return iniciarFunc(ac.cpf,ac); }
       let p=await D.get('users',u.uid).catch(()=>null); const dono=DONO_EMAIL&&String(u.email||'').toLowerCase()===DONO_EMAIL; if(dono) p={...(p||{}),uid:u.uid,nome:p?.nome||'Wevellen',role:'DONO'};
       if(!p||!['DONO','GERENTE'].includes(p.role)||p.ativo===false&&!dono){ await fb.au.signOut(fb.auth); return mostrarLogin('Este app é para funcionários (entrada pelo CPF), gerentes e o dono.'); }
       await iniciarGestor({uid:u.uid,nome:p.nome,role:p.role,lojaId:p.lojaId||''}); }
